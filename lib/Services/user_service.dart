@@ -3,6 +3,10 @@ import 'package:flutter_application_1/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+
 //class INSERT DATA ------------------------------------------------------------------------------------------------------------------
 class HttpUserPost {
   late String? username, password, name, id, otoritas, noHp;
@@ -11,10 +15,12 @@ class HttpUserPost {
       {this.username, this.password, this.name, this.otoritas, this.noHp});
   static Future<HttpUserPost> connectAPIPost(String username, String password,
       String name, String otoritas, String noHp) async {
-    Uri url = Uri.parse("https://berlliyantoaji.onrender.com/api/register");
+        final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+        Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/register");
 
     var hasilResponsePost = await http.post(url,
-        headers: <String, String>{'Content-Type': 'application/json'},
+        headers: <String, String>{'Content-Type': 'application/json','Authorization': 'Basic $getToken'},
         body: jsonEncode({
           "username": username,
           "password": password,
@@ -46,9 +52,14 @@ class HttpUserGet {
       this.noHp});
 
   static Future<HttpUserGet> connectAPIGet(String id) async {
-    Uri urlpost = Uri.parse("https://berlliyantoaji.onrender.com/api/users/$id");
+    Uri urlpost = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/users/$id");
 
-    var hasilResponseGet = await http.get(urlpost);
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    var hasilResponseGet = await http.get(urlpost,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
     var dataGet =
         (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
     print(dataGet);
@@ -65,11 +76,15 @@ class HttpUserGet {
 }
 //class GET ALL DATA untuk di menu daftar akun--------------------------------------------------------------------------------------------------------------------
 class allUserGet{
-  final url = 'https://berlliyantoaji.onrender.com/api/users';
-
+  final url = 'https://aplikasi-pms-berli.onrender.com/api/users';
   Future connectAPIGetAll() async{
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
     try {
-      var responseGetAll = await http.get(Uri.parse(url));
+      var responseGetAll = await http.get(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
       if(responseGetAll.statusCode==200){
         Iterable it = (json.decode(responseGetAll.body)as Map<String, dynamic>)["data"];
         List<userModel> userList = it.map((e) => userModel.fromJSON(e)).toList();
@@ -95,10 +110,12 @@ class HttpUserPut {
 
   static Future<HttpUserPut> connectAPIPut(String id, String username,
       String name, String otoritas, String noHp) async {
-    Uri urlput = Uri.parse("https://berlliyantoaji.onrender.com/api/users/$id");
+        final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri urlput = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/users/$id");
 
     var hasilResponsePut = await http.put(urlput,
-        headers: <String, String>{'Content-Type': 'application/json'},
+        headers: <String, String>{'Content-Type': 'application/json','Authorization': 'Basic $getToken'},
         body: jsonEncode({
           "username": username,
           "name": name,
@@ -126,9 +143,14 @@ class HttpUserDelete {
   late Uri urlDel;
 
   static Future connectAPIDelete(String id) async {
-    Uri urlDel = Uri.parse("https://berlliyantoaji.onrender.com/api/users/$id");
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri urlDel = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/users/$id");
 
-    var hasilResponseDel = await http.delete(urlDel);
+    var hasilResponseDel = await http.delete(urlDel,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
     print(hasilResponseDel.statusCode);
     if(hasilResponseDel.statusCode == 200){
       print("Success delete");

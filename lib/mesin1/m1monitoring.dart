@@ -2,9 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
-import 'package:flutter_application_1/mesin1/additional/chart_production.dart';
 import 'package:flutter_application_1/mesin1/m1energy_usage.dart';
-import 'package:flutter_application_1/models/graphProM1_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class m1monitoring extends StatefulWidget {
@@ -367,6 +365,7 @@ class _m1monitoringState extends State<m1monitoring> {
                       ),
                     ],
                   ),
+                  SizedBox(height: blockVertical*5,)
                 ],
               ),
             ),

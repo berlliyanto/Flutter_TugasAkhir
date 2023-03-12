@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/user_service.dart';
@@ -334,7 +335,7 @@ class _MyakunState extends State<Myakun> {
                                                     color: Colors.amber,
                                                   )),
                                               // Delete User------------------------------------------------------------------------------
-                                              IconButton(
+                                              (e.otoritas!="Admin")?IconButton(
                                                   onPressed: () {                                              
                                                     AwesomeDialog(
                                                       context: context,
@@ -370,7 +371,8 @@ class _MyakunState extends State<Myakun> {
                                                   icon: Icon(
                                                     Icons.delete,
                                                     color: Colors.red,
-                                                  )),
+                                                  ),
+                                                ): SizedBox(height: 0.1,),
                                             ],
                                           ))
                                         ]);

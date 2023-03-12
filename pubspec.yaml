@@ -29,12 +29,12 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  api_cache_manager: ^1.0.2
   awesome_dialog: ^3.0.2
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
   dropdown_button2: ^1.0.0
   dropdown_search: ^5.0.5
+  fab_circular_menu: ^1.0.2
   fl_chart: ^0.60.0
   flutter:
     sdk: flutter
@@ -42,8 +42,6 @@ dependencies:
   google_fonts: ^3.0.1
   http: ^0.13.5
   liquid_pull_to_refresh: ^3.0.1
-  list_wheel_scroll_view_nls: ^0.0.3
-  loading_animation_widget: null
   lottie: ^2.2.0
   percent_indicator: ^4.2.2
   shared_preferences: ^2.0.17

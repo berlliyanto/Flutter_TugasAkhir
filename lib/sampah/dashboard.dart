@@ -5,7 +5,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/drawer.dart';
 import 'package:flutter_application_1/routes.dart';
-import 'package:flutter_application_1/status_mesin.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -89,7 +88,6 @@ class _dashboardState extends State<dashboard> {
                     Stack(
                       children: [
                         //Content Status Mesin-------------------------------------------------------------------
-                        statusMesin(),
                         // Header Status Mesin----------------------------------------------------------------------------------------------------------------
                         Padding(
                           padding: EdgeInsets.fromLTRB(

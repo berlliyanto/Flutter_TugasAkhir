@@ -33,22 +33,29 @@ class _fromLoginState extends State<fromLogin> {
 
   @override
   Widget build(BuildContext context) {
+     final MediaQuerywidth = MediaQuery.of(context).size.width;
+    double blockHorizontal = MediaQuerywidth / 100;
+
+    // UNTUK TINGGI TAMPILAN
+    final MediaQueryheight = MediaQuery.of(context).size.height;
+    double blockVertical = MediaQueryheight / 100;
     return Scaffold(
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
+        height: MediaQueryheight,
+        width: MediaQuerywidth,
         color: Colors.black.withOpacity(0.5),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Login Success!!!", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),),
-              SizedBox(height: 4,),
-              Text("Please Wait...",style: TextStyle(color: Colors.white, fontSize: 14)),
-              SizedBox(height: 8,),
+              Text("Login Success!!!", style: TextStyle(color: Colors.white, fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
+              SizedBox(height: blockVertical*0.2,),
+              Text("Please Wait...",style: TextStyle(color: Colors.white, fontSize: blockVertical*2)),
+              SizedBox(height: blockVertical*1,),
               LinearPercentIndicator(
-                lineHeight: 16,
-                barRadius: Radius.circular(20),
+                width: MediaQuerywidth,
+                lineHeight: blockVertical*2,
+                barRadius: Radius.circular(blockVertical*2),
                 percent: 1,
                 progressColor: Color.fromARGB(255, 0, 134, 243),
                 backgroundColor: Colors.blue.withOpacity(0.3),

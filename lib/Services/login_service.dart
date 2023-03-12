@@ -13,7 +13,7 @@ class LoginService{
       'Content-Type': 'application/json',
     };
 
-    var url = Uri.parse("https://berlliyantoaji.onrender.com/api/login");
+    var url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/login");
 
     var responseLogin  = await client.post(url,
      headers: requestHeaders, 
@@ -24,6 +24,8 @@ class LoginService{
       final SharedPreferences sharedData = await SharedPreferences.getInstance();
       sharedData.setString("name", data['name'] );
       sharedData.setString("otoritas", data['otoritas']);
+      sharedData.setString("token", data['token']);
+      print(sharedData);
       return true;
      }else{
       return false;
@@ -32,10 +34,10 @@ class LoginService{
   //Authorization------------------------------------------------------------
   // static Future<String> getProfile() async {
   //   var loginDetails = await SharedService.loginDetails();
-  //   Map<String, String> requestHeaders = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Basic ${loginDetails!.data?.token}'
-  //   };
+    // Map<String, String> requestHeaders = {
+    //   'Content-Type': 'application/json',
+    //   'Authorization': 'Basic ${loginDetails!.data?.token}'
+    // };
 
   //   var url = Uri.parse("http://192.168.1.13:5000/api/user-profile");
 

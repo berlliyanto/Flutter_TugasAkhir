@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 // ignore: implementation_imports
-import 'package:flutter_application_1/models/graphProM1_model.dart';
+import 'package:flutter_application_1/models/production_model.dart';
 
 class chartProduction extends StatefulWidget {
   const chartProduction({super.key, required this.points});

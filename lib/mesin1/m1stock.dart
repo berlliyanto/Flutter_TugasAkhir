@@ -179,7 +179,8 @@ class _m1stockState extends State<m1stock> {
                                             ),
                                             TextField(
                                               controller: jumlah,
-                                              keyboardType: TextInputType.number,
+                                              keyboardType:
+                                                  TextInputType.number,
                                               decoration: InputDecoration(
                                                   hintText:
                                                       "Isi Jumlah (unit)"),
@@ -189,12 +190,15 @@ class _m1stockState extends State<m1stock> {
                                         btnOkText: "Add",
                                         btnOkIcon: FontAwesomeIcons.plus,
                                         btnOkOnPress: () {
-                                          if(tipeValue=="A"){
-                                            addStockM1.putStockM1(int.parse(jumlah.text), 0, 0);
-                                          } else if(tipeValue=="B"){
-                                            addStockM1.putStockM1(0, int.parse(jumlah.text), 0);
-                                          } else if(tipeValue=="C"){
-                                            addStockM1.putStockM1(0, 0, int.parse(jumlah.text));
+                                          if (tipeValue == "A") {
+                                            addStockM1.putStockM1(
+                                                int.parse(jumlah.text), 0, 0);
+                                          } else if (tipeValue == "B") {
+                                            addStockM1.putStockM1(
+                                                0, int.parse(jumlah.text), 0);
+                                          } else if (tipeValue == "C") {
+                                            addStockM1.putStockM1(
+                                                0, 0, int.parse(jumlah.text));
                                           }
                                         },
                                         btnCancelIcon: FontAwesomeIcons.ban,
@@ -224,7 +228,8 @@ class _m1stockState extends State<m1stock> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: stockList.map((e) {
                                 return Row(
-                                  mainAxisAlignment:MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     Container(
                                       padding: EdgeInsets.all(8),
@@ -235,13 +240,16 @@ class _m1stockState extends State<m1stock> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Column(
-                                        mainAxisAlignment:MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Icon(
                                             FontAwesomeIcons.a,
                                             color: Colors.white,
                                           ),
-                                          Divider(thickness: 1,),
+                                          Divider(
+                                            thickness: 1,
+                                          ),
                                           Text("Jumlah : ",
                                               style: TextStyle(
                                                   color: Colors.white,
@@ -264,13 +272,16 @@ class _m1stockState extends State<m1stock> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Column(
-                                        mainAxisAlignment:MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           Icon(
                                             FontAwesomeIcons.b,
                                             color: Colors.white,
                                           ),
-                                          Divider(thickness: 1,),
+                                          Divider(
+                                            thickness: 1,
+                                          ),
                                           Text("Jumlah : ",
                                               style: TextStyle(
                                                   color: Colors.white,
@@ -293,17 +304,22 @@ class _m1stockState extends State<m1stock> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Column(
-                                        mainAxisAlignment:MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
-                                          Icon(FontAwesomeIcons.c,
+                                          Icon(
+                                            FontAwesomeIcons.c,
                                             color: Colors.white,
                                           ),
-                                          Divider(thickness: 1,),
+                                          Divider(
+                                            thickness: 1,
+                                          ),
                                           Text("Jumlah : ",
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 16)),
-                                          Text("${e.C} unit",
+                                          Text(
+                                            "${e.C} unit",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 16),
@@ -315,7 +331,8 @@ class _m1stockState extends State<m1stock> {
                                 );
                               }).toList(),
                             );
-                          } else if (snapshot.connectionState == ConnectionState.waiting) {
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return Center(
                               child: CircularProgressIndicator(),
                             );
@@ -498,6 +515,7 @@ class _m1stockState extends State<m1stock> {
       ),
     );
   }
+
   //LIST RIWAYAT BAHAN----------------------------------------------------------------------------------------------------------------
   Widget listHistoryA(BuildContext context) {
     final MediaQuerywidth = MediaQuery.of(context).size.width;
@@ -595,10 +613,7 @@ class _m1stockState extends State<m1stock> {
     );
   }
 
-  Widget chartStock(){
-    return Center(
-      
-    );
+  Widget chartStock() {
+    return Center();
   }
-
 }

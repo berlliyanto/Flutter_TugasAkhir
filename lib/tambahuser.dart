@@ -25,7 +25,6 @@ class _tambahuserState extends State<tambahuser> {
 
   //HTTP METHOD
   HttpUserPost dataResponse = HttpUserPost();
-  HttpUserGet dataResponseGet = HttpUserGet();
 
   // List Otoritas
   final List<String> otoritas = <String>[

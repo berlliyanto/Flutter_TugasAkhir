@@ -23,58 +23,25 @@ class dashboard extends StatefulWidget {
 
 class _dashboardState extends State<dashboard> {
   late Timer timer;
-  // STREAMCONTROLLER MESIN 1
-  StreamController<List> streamStatusM1 = StreamController();
+  // STREAMCONTROLLER MESIN 
+  StreamController<List> streamStatus = StreamController();
   List<statusModel> status = [];
-  getStatusM1 statusState = getStatusM1();
-  Future<void> getStatus() async {
-    status = await getStatusM1.readStatM1();
-    streamStatusM1.add(status);
-  }
-
-  // STREAMCONTROLLER MESIN 2
-  StreamController<List> streamStatusM2 = StreamController();
-  List<status2Model> status2 = [];
-  getStatusM2 statusState2 = getStatusM2();
-  Future<void> getStatus2() async {
-    status2 = await getStatusM2.readStatM2();
-    streamStatusM2.add(status);
-  }
-
-  // STREAMCONTROLLER MESIN 3
-  StreamController<List> streamStatusM3 = StreamController();
-  List<status3Model> status3 = [];
-  getStatusM3 statusState3 = getStatusM3();
-  Future<void> getStatus3() async {
-    status3 = await getStatusM3.readStatM3();
-    streamStatusM3.add(status);
-  }
-
-  // STREAMCONTROLLER MESIN 4
-  StreamController<List> streamStatusM4 = StreamController();
-  List<status4Model> status4 = [];
-  getStatusM4 statusState4 = getStatusM4();
-  Future<void> getStatus4() async {
-    status4 = await getStatusM4.readStatM4();
-    streamStatusM4.add(status);
+  getStatus statusState = getStatus();
+  Future<void> getStatusM() async {
+    status = await getStatus.readStat();
+    streamStatus.add(status);
   }
 
   @override
   void initState() {
     getValidUser();
-    getStatus();
-    getStatus2();
-    getStatus3();
-    getStatus4();
+    getStatusM();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      getStatus();
-      getStatus2();
-      getStatus3();
-      getStatus4();
+      getStatusM();
     });
     super.initState();
   }
-
+  bool slide = false;
   String? name, otoritas;
   Future<void> getValidUser() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
@@ -186,7 +153,8 @@ class _dashboardState extends State<dashboard> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         CircleAvatar(
-                          backgroundImage: (name=="Berlliyanto Aji Nugraha")? AssetImage('images/asset21.jpg'):AssetImage('images/asset12.1.png'),
+                          backgroundImage: (name=="Berlliyanto Aji Nugraha")? AssetImage('images/asset21.jpg'):AssetImage('images/asset4.png'),
+                          
                         ),
                         SizedBox(
                           width: blockHorizontal * 2,
@@ -217,7 +185,7 @@ class _dashboardState extends State<dashboard> {
                     padding:
                         EdgeInsets.symmetric(horizontal: blockHorizontal * 3),
                     child: Container(
-                      padding: EdgeInsets.only(left: 10, top: 10),
+                      padding: EdgeInsets.only(top: blockVertical*1.5),
                       height: blockVertical * 15,
                       width: MediaQuerywidth,
                       decoration: BoxDecoration(
@@ -230,21 +198,20 @@ class _dashboardState extends State<dashboard> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Konektivitas Mesin", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: blockVertical*2),),
+                          Padding(
+                            padding: EdgeInsets.only(left: blockHorizontal*3),
+                            child: Text("Konektivitas Mesin", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: blockVertical*2),),
+                          ),
                             Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                StreamBuilder<Object>(
-                                  stream: streamStatusM1.stream,
+                            child: StreamBuilder<Object>(
+                                  stream: streamStatus.stream,
                                   builder: (context, snapshot) {
                                     if(snapshot.hasData){
-                                      return Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: status.map((e) {
-                                          return Column(
+                                     return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: status.map((e) {
+                                        return Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             CircleAvatar(
                                             backgroundColor:(e.status==1)? Colors.green:Colors.red,
@@ -254,118 +221,20 @@ class _dashboardState extends State<dashboard> {
                                             height: blockVertical * 0.5,
                                           ),
                                           Text(
-                                            "Mesin 1",
+                                            "Mesin ${e.machine_id}",
                                             style: TextStyle(fontSize: blockVertical * 1.5, color: Colors.white),
                                           )
-                                            ],
-                                          );
-                                        }).toList(),
-                                      );
+                                          ],
+                                        );
+                                      }).toList(),
+                                     );
                                     }else if(snapshot.connectionState==ConnectionState.waiting){
                                       return CircularProgressIndicator();
                                     }
                                     return CircleAvatar();
                                   }
                                 ),
-                                StreamBuilder<Object>(
-                                  stream: streamStatusM2.stream,
-                                  builder: (context, snapshot) {
-                                    if(snapshot.hasData){
-                                      return Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: status2.map((e) {
-                                          return Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            CircleAvatar(
-                                            backgroundColor:(e.status==1)? Colors.green:Colors.red,
-                                            child: Icon((e.status==1)?FontAwesomeIcons.check:FontAwesomeIcons.x, color: Colors.white,)
-                                          ),
-                                          SizedBox(
-                                            height: blockVertical * 0.5,
-                                          ),
-                                          Text(
-                                            "Mesin 2",
-                                            style: TextStyle(fontSize: blockVertical * 1.5, color: Colors.white),
-                                          )
-                                            ],
-                                          );
-                                        }).toList(),
-                                      );
-                                    }else if(snapshot.connectionState==ConnectionState.waiting){
-                                      return CircularProgressIndicator();
-                                    }
-                                    return CircleAvatar();
-                                  }
-                                ),
-                                StreamBuilder<Object>(
-                                  stream: streamStatusM3.stream,
-                                  builder: (context, snapshot) {
-                                    if(snapshot.hasData){
-                                      return Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: status3.map((e) {
-                                          return Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            CircleAvatar(
-                                            backgroundColor:(e.status==1)? Colors.green:Colors.red,
-                                            child: Icon((e.status==1)?FontAwesomeIcons.check:FontAwesomeIcons.x, color: Colors.white,)
-                                          ),
-                                          SizedBox(
-                                            height: blockVertical * 0.5,
-                                          ),
-                                          Text(
-                                            "Mesin 3",
-                                            style: TextStyle(fontSize: blockVertical * 1.5, color: Colors.white),
-                                          )
-                                            ],
-                                          );
-                                        }).toList(),
-                                      );
-                                    }else if(snapshot.connectionState==ConnectionState.waiting){
-                                      return CircularProgressIndicator();
-                                    }
-                                    return CircleAvatar();
-                                  }
-                                ),
-                                StreamBuilder<Object>(
-                                  stream: streamStatusM4.stream,
-                                  builder: (context, snapshot) {
-                                    if(snapshot.hasData){
-                                      return Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: status4.map((e) {
-                                          return Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            CircleAvatar(
-                                            backgroundColor:(e.status==1)? Colors.green:Colors.red,
-                                            child: Icon((e.status==1)?FontAwesomeIcons.check:FontAwesomeIcons.x, color: Colors.white,)
-                                          ),
-                                          SizedBox(
-                                            height: blockVertical * 0.5,
-                                          ),
-                                          Text(
-                                            "Mesin 4",
-                                            style: TextStyle(fontSize: blockVertical * 1.5, color: Colors.white),
-                                          )
-                                            ],
-                                          );
-                                        }).toList(),
-                                      );
-                                    }else if(snapshot.connectionState==ConnectionState.waiting){
-                                      return CircularProgressIndicator();
-                                    }
-                                    return CircleAvatar();
-                                  }
-                                ),
-                              ],
-                            ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -374,418 +243,415 @@ class _dashboardState extends State<dashboard> {
                   Container(
                     padding: EdgeInsets.only(top: blockVertical * 1),
                     margin: EdgeInsets.only(top: blockVertical * 2),
-                    height: blockVertical * 66,
+                    height: blockVertical * 90,
                     width: MediaQuerywidth,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15))),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Container(
-                              height: blockVertical * 0.5,
-                              width: blockHorizontal * 10,
-                              decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(5)),
-                            ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Container(
+                            height: blockVertical * 0.5,
+                            width: blockHorizontal * 10,
+                            decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(5)),
                           ),
-                          SizedBox(
-                            height: blockVertical * 2,
+                        ),
+                        SizedBox(
+                          height: blockVertical * 2,
+                        ),
+                        //MENU MESIN--------------------------------------------------------------------------------------------------
+                        Container(
+                          height: blockVertical * 10,
+                          width: MediaQuerywidth,
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              menuMesin(
+                                  "Mesin 1",
+                                  FontAwesomeIcons.mobileButton,
+                                  Color.fromARGB(255, 0, 16, 247)
+                                      .withOpacity(0.5),
+                                  mym1home),
+                              menuMesin(
+                                  "Mesin 2",
+                                  FontAwesomeIcons.mobileButton,
+                                  Color.fromARGB(255, 123, 6, 190)
+                                      .withOpacity(0.5),
+                                  mym2home),
+                              menuMesin(
+                                  "Mesin 3",
+                                  FontAwesomeIcons.mobileButton,
+                                  Color.fromARGB(255, 71, 250, 0)
+                                      .withOpacity(0.5),
+                                  mym3home),
+                              menuMesin(
+                                  "Mesin 4",
+                                  FontAwesomeIcons.mobileButton,
+                                  Color.fromARGB(255, 42, 41, 77)
+                                      .withOpacity(0.5),
+                                  mym4home),
+                            ],
                           ),
-                          //MENU MESIN--------------------------------------------------------------------------------------------------
-                          Container(
-                            height: blockVertical * 10,
-                            width: MediaQuerywidth,
-                            color: Colors.transparent,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                menuMesin(
-                                    "Mesin 1",
-                                    FontAwesomeIcons.mobileButton,
-                                    Color.fromARGB(255, 0, 16, 247)
-                                        .withOpacity(0.5),
-                                    mym1home),
-                                menuMesin(
-                                    "Mesin 2",
-                                    FontAwesomeIcons.mobileButton,
-                                    Color.fromARGB(255, 123, 6, 190)
-                                        .withOpacity(0.5),
-                                    mym2home),
-                                menuMesin(
-                                    "Mesin 3",
-                                    FontAwesomeIcons.mobileButton,
-                                    Color.fromARGB(255, 71, 250, 0)
-                                        .withOpacity(0.5),
-                                    mym3home),
-                                menuMesin(
-                                    "Mesin 4",
-                                    FontAwesomeIcons.mobileButton,
-                                    Color.fromARGB(255, 42, 41, 77)
-                                        .withOpacity(0.5),
-                                    mym4home),
-                              ],
-                            ),
+                        ),
+                        Divider(
+                          thickness: blockVertical * 1,
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsets.only(top: 10, left: 20),
+                          child: Text(
+                            "Production",
+                            style: TextStyle(
+                                fontSize: blockVertical * 3,
+                                fontWeight: FontWeight.bold),
                           ),
-                          Divider(
-                            thickness: blockVertical * 1,
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(top: 10, left: 20),
-                            child: Text(
-                              "Production",
-                              style: TextStyle(
-                                  fontSize: blockVertical * 3,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          //SLIDER PRODCUTION-------------------------------------------------------------------------------------------
-                          Container(
-                            padding: EdgeInsets.only(left: 20),
-                            height: blockVertical * 30,
-                            width: MediaQuerywidth,
-                            color: Colors.transparent,
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                return CarouselSlider(
-                                    items: [
-                                      //Mesin 1----------------------------------------------------------
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                          height: constraints.maxHeight * 0.7,
-                                          width: constraints.maxWidth * 0.7,
-                                          decoration:
-                                              BoxDecoration(gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-                                                Color.fromARGB(255, 87, 89, 236), Color.fromARGB(255, 2, 18, 240)
+                        ),
+                        //SLIDER PRODCUTION-------------------------------------------------------------------------------------------
+                        Container(
+                          padding: EdgeInsets.only(left: 20),
+                          height: blockVertical * 30,
+                          width: MediaQuerywidth,
+                          color: Colors.transparent,
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              return CarouselSlider(
+                                  items: [
+                                    //Mesin 1----------------------------------------------------------
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                        height: constraints.maxHeight * 0.7,
+                                        width: constraints.maxWidth * 0.7,
+                                        decoration:
+                                            BoxDecoration(gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                                              Color.fromARGB(255, 87, 89, 236), Color.fromARGB(255, 2, 18, 240)
+                                            ],
+                                          ),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text("Mesin 1", style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.12, fontWeight: FontWeight.bold),),
+                                                Container(
+                                                  height: constraints.maxHeight*0.2,
+                                                  width: constraints.maxWidth*0.15,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromARGB(255, 110, 110, 110).withOpacity(0.4),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                  ),
+                                                  child: Center(
+                                                    child: IconButton(onPressed:(){
+                                                      Navigator.pushNamed(context, mym1monitoring, arguments: "from dashboard");
+                                                    },icon:Icon(FontAwesomeIcons.arrowRightLong, color: Colors.white,)),
+                                                  ),
+                                                ),
                                               ],
                                             ),
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text("Mesin 1", style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.12, fontWeight: FontWeight.bold),),
-                                                  Container(
-                                                    height: constraints.maxHeight*0.2,
-                                                    width: constraints.maxWidth*0.15,
-                                                    decoration: BoxDecoration(
-                                                      color: Color.fromARGB(255, 110, 110, 110).withOpacity(0.4),
-                                                      borderRadius: BorderRadius.circular(10),
+                                            SizedBox(height: constraints.maxHeight*0.05,),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: constraints.maxHeight*0.1,
+                                                      width: constraints.maxHeight*0.1,
+                                                      decoration: BoxDecoration(shape: BoxShape.circle, color: Color.fromARGB(255, 30, 255, 0)),
                                                     ),
-                                                    child: Center(
-                                                      child: IconButton(onPressed:(){
-                                                        Navigator.pushNamed(context, mym1monitoring, arguments: "from dashboard");
-                                                      },icon:Icon(FontAwesomeIcons.arrowRightLong, color: Colors.white,)),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(height: constraints.maxHeight*0.05,),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        height: constraints.maxHeight*0.1,
-                                                        width: constraints.maxHeight*0.1,
-                                                        decoration: BoxDecoration(shape: BoxShape.circle, color: Color.fromARGB(255, 30, 255, 0)),
-                                                      ),
-                                                      Text(" Running",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                                    ],
-                                                  ),
-                                                  Text("Tipe A",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
-                                                ],
-                                              ),
-                                              Divider(thickness: constraints.maxHeight*0.01,),
-                                              Text("Processed Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                              Text("Flawless Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                              Text("Defect Unit: ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      //Mesin 2----------------------------------------------------------
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                          height: constraints.maxHeight * 0.7,
-                                          width: constraints.maxWidth * 0.7,
-                                          decoration:
-                                              BoxDecoration(gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-                                                Color.fromARGB(255, 189, 87, 236), Color.fromARGB(255, 145, 2, 240)
+                                                    Text(" Running",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                                  ],
+                                                ),
+                                                Text("Tipe A",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
                                               ],
-                                            ),),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text("Mesin 2", style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.12, fontWeight: FontWeight.bold),),
-                                                  Container(
-                                                    height: constraints.maxHeight*0.2,
-                                                    width: constraints.maxWidth*0.15,
-                                                    decoration: BoxDecoration(
-                                                      color: Color.fromARGB(255, 110, 110, 110).withOpacity(0.4),
-                                                      borderRadius: BorderRadius.circular(10),
-                                                    ),
-                                                    child: Center(
-                                                      child: IconButton(onPressed:(){
-                                                        Navigator.pushNamed(context, mym2monitoring, arguments: "from dashboard");
-                                                      },icon:Icon(FontAwesomeIcons.arrowRightLong, color: Colors.white,)),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(height: constraints.maxHeight*0.05,),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        height: constraints.maxHeight*0.1,
-                                                        width: constraints.maxHeight*0.1,
-                                                        decoration: BoxDecoration(shape: BoxShape.circle, color: Color.fromARGB(255, 30, 255, 0)),
-                                                      ),
-                                                      Text(" Running",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                                    ],
-                                                  ),
-                                                  Text("Tipe A",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
-                                                ],
-                                              ),
-                                              Divider(thickness: constraints.maxHeight*0.01,),
-                                              Text("Processed Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                              Text("Flawless Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                              Text("Defect Unit: ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
-                                            ],
-                                          ),
+                                            ),
+                                            Divider(thickness: constraints.maxHeight*0.01,),
+                                            Text("Processed Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                            Text("Flawless Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                            Text("Defect Unit: ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
+                                          ],
                                         ),
                                       ),
-                                      //Mesin 3----------------------------------------------------------
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                          height: constraints.maxHeight * 0.7,
-                                          width: constraints.maxWidth * 0.7,
-                                          decoration:
-                                              BoxDecoration(gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-                                                Color.fromARGB(255, 92, 192, 97), Color.fromARGB(255, 0, 185, 15)
-                                              ],
-                                            ),),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text("Mesin 3", style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.12, fontWeight: FontWeight.bold),),
-                                                  Container(
-                                                    height: constraints.maxHeight*0.2,
-                                                    width: constraints.maxWidth*0.15,
-                                                    decoration: BoxDecoration(
-                                                      color: Color.fromARGB(255, 110, 110, 110).withOpacity(0.4),
-                                                      borderRadius: BorderRadius.circular(10),
-                                                    ),
-                                                    child: Center(
-                                                      child: IconButton(onPressed:(){
-                                                        Navigator.pushNamed(context, mym3monitoring, arguments: "from dashboard");
-                                                      },icon:Icon(FontAwesomeIcons.arrowRightLong, color: Colors.white,)),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(height: constraints.maxHeight*0.05,),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        height: constraints.maxHeight*0.1,
-                                                        width: constraints.maxHeight*0.1,
-                                                        decoration: BoxDecoration(shape: BoxShape.circle, color: Color.fromARGB(255, 30, 255, 0)),
-                                                      ),
-                                                      Text(" Running",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                                    ],
-                                                  ),
-                                                  Text("Tipe A",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
-                                                ],
-                                              ),
-                                              Divider(thickness: constraints.maxHeight*0.01,),
-                                              Text("Processed Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                              Text("Flawless Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                              Text("Defect Unit: ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      //Mesin 4----------------------------------------------------------
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                          height: constraints.maxHeight * 0.7,
-                                          width: constraints.maxWidth * 0.7,
-                                          decoration:
-                                              BoxDecoration(gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-                                                Color.fromARGB(255, 129, 118, 192),
-                                                Color.fromARGB(255, 40, 41, 56),
-                                              ],
-                                            ),),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text("Mesin 4", style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.12, fontWeight: FontWeight.bold),),
-                                                  Container(
-                                                    height: constraints.maxHeight*0.2,
-                                                    width: constraints.maxWidth*0.15,
-                                                    decoration: BoxDecoration(
-                                                      color: Color.fromARGB(255, 110, 110, 110).withOpacity(0.4),
-                                                      borderRadius: BorderRadius.circular(10),
-                                                    ),
-                                                    child: Center(
-                                                      child: IconButton(onPressed:(){
-                                                        Navigator.pushNamed(context, mym4monitoring, arguments: "from dashboard");
-                                                      },icon:Icon(FontAwesomeIcons.arrowRightLong, color: Colors.white,)),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(height: constraints.maxHeight*0.05,),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        height: constraints.maxHeight*0.1,
-                                                        width: constraints.maxHeight*0.1,
-                                                        decoration: BoxDecoration(shape: BoxShape.circle, color: Color.fromARGB(255, 30, 255, 0)),
-                                                      ),
-                                                      Text(" Running",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                                    ],
-                                                  ),
-                                                  Text("Tipe A",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
-                                                ],
-                                              ),
-                                              Divider(thickness: constraints.maxHeight*0.01,),
-                                              Text("Processed Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                              Text("Flawless Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
-                                              Text("Defect Unit: ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                    options: CarouselOptions(
-                                      autoPlay: true,
-                                      enlargeCenterPage: true,
-                                      enlargeFactor: 0.15
                                     ),
-                                  );
-                              },
+                                    //Mesin 2----------------------------------------------------------
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                        height: constraints.maxHeight * 0.7,
+                                        width: constraints.maxWidth * 0.7,
+                                        decoration:
+                                            BoxDecoration(gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                                              Color.fromARGB(255, 189, 87, 236), Color.fromARGB(255, 145, 2, 240)
+                                            ],
+                                          ),),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text("Mesin 2", style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.12, fontWeight: FontWeight.bold),),
+                                                Container(
+                                                  height: constraints.maxHeight*0.2,
+                                                  width: constraints.maxWidth*0.15,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromARGB(255, 110, 110, 110).withOpacity(0.4),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                  ),
+                                                  child: Center(
+                                                    child: IconButton(onPressed:(){
+                                                      Navigator.pushNamed(context, mym2monitoring, arguments: "from dashboard");
+                                                    },icon:Icon(FontAwesomeIcons.arrowRightLong, color: Colors.white,)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: constraints.maxHeight*0.05,),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: constraints.maxHeight*0.1,
+                                                      width: constraints.maxHeight*0.1,
+                                                      decoration: BoxDecoration(shape: BoxShape.circle, color: Color.fromARGB(255, 30, 255, 0)),
+                                                    ),
+                                                    Text(" Running",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                                  ],
+                                                ),
+                                                Text("Tipe A",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
+                                              ],
+                                            ),
+                                            Divider(thickness: constraints.maxHeight*0.01,),
+                                            Text("Processed Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                            Text("Flawless Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                            Text("Defect Unit: ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    //Mesin 3----------------------------------------------------------
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                        height: constraints.maxHeight * 0.7,
+                                        width: constraints.maxWidth * 0.7,
+                                        decoration:
+                                            BoxDecoration(gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                                              Color.fromARGB(255, 92, 192, 97), Color.fromARGB(255, 0, 185, 15)
+                                            ],
+                                          ),),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text("Mesin 3", style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.12, fontWeight: FontWeight.bold),),
+                                                Container(
+                                                  height: constraints.maxHeight*0.2,
+                                                  width: constraints.maxWidth*0.15,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromARGB(255, 110, 110, 110).withOpacity(0.4),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                  ),
+                                                  child: Center(
+                                                    child: IconButton(onPressed:(){
+                                                      Navigator.pushNamed(context, mym3monitoring, arguments: "from dashboard");
+                                                    },icon:Icon(FontAwesomeIcons.arrowRightLong, color: Colors.white,)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: constraints.maxHeight*0.05,),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: constraints.maxHeight*0.1,
+                                                      width: constraints.maxHeight*0.1,
+                                                      decoration: BoxDecoration(shape: BoxShape.circle, color: Color.fromARGB(255, 30, 255, 0)),
+                                                    ),
+                                                    Text(" Running",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                                  ],
+                                                ),
+                                                Text("Tipe A",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
+                                              ],
+                                            ),
+                                            Divider(thickness: constraints.maxHeight*0.01,),
+                                            Text("Processed Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                            Text("Flawless Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                            Text("Defect Unit: ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    //Mesin 4----------------------------------------------------------
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                        height: constraints.maxHeight * 0.7,
+                                        width: constraints.maxWidth * 0.7,
+                                        decoration:
+                                            BoxDecoration(gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                                              Color.fromARGB(255, 129, 118, 192),
+                                              Color.fromARGB(255, 40, 41, 56),
+                                            ],
+                                          ),),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text("Mesin 4", style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.12, fontWeight: FontWeight.bold),),
+                                                Container(
+                                                  height: constraints.maxHeight*0.2,
+                                                  width: constraints.maxWidth*0.15,
+                                                  decoration: BoxDecoration(
+                                                    color: Color.fromARGB(255, 110, 110, 110).withOpacity(0.4),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                  ),
+                                                  child: Center(
+                                                    child: IconButton(onPressed:(){
+                                                      Navigator.pushNamed(context, mym4monitoring, arguments: "from dashboard");
+                                                    },icon:Icon(FontAwesomeIcons.arrowRightLong, color: Colors.white,)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: constraints.maxHeight*0.05,),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: constraints.maxHeight*0.1,
+                                                      width: constraints.maxHeight*0.1,
+                                                      decoration: BoxDecoration(shape: BoxShape.circle, color: Color.fromARGB(255, 30, 255, 0)),
+                                                    ),
+                                                    Text(" Running",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                                  ],
+                                                ),
+                                                Text("Tipe A",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
+                                              ],
+                                            ),
+                                            Divider(thickness: constraints.maxHeight*0.01,),
+                                            Text("Processed Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                            Text("Flawless Unit : ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08)),
+                                            Text("Defect Unit: ",style: TextStyle(color: Colors.white, fontSize: constraints.maxHeight*0.08))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                  options: CarouselOptions(
+                                    autoPlay: true,
+                                    enlargeCenterPage: true,
+                                    enlargeFactor: 0.15
+                                  ),
+                                );
+                            },
+                          ),
+                        ),
+                        Divider(
+                          thickness: blockVertical * 1,
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsets.only(top: 10, left: 20),
+                          child: Text(
+                            "Overall Equipment Effectiveness",
+                            style: TextStyle(
+                                fontSize: blockVertical * 3,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        //OEE---------------------------------------------------------------------------------------------------------------
+                        CarouselSlider(items: [
+                            //MESIN 1-------------------------------------------
+                            CircularPercentIndicator(
+                              progressColor: Color.fromARGB(255, 8, 4, 240),
+                              circularStrokeCap: CircularStrokeCap.round,
+                              animation: true,
+                              animationDuration: 2,
+                              percent: 0.8,
+                              radius: blockVertical*8,
+                              lineWidth: blockVertical*2,
+                              header: Text("Mesin 1", style: TextStyle(fontSize: blockVertical*2.5,),),
+                              center: Text("80 %", style: TextStyle(fontSize: blockVertical*2),),
                             ),
-                          ),
-                          Divider(
-                            thickness: blockVertical * 1,
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(top: 10, left: 20),
-                            child: Text(
-                              "Overall Equipment Effectiveness",
-                              style: TextStyle(
-                                  fontSize: blockVertical * 3,
-                                  fontWeight: FontWeight.bold),
+                            CircularPercentIndicator(
+                              progressColor: Color.fromARGB(255, 165, 4, 240),
+                              circularStrokeCap: CircularStrokeCap.round,
+                              animation: true,
+                              animationDuration: 2,
+                              percent: 0.8,
+                              radius: blockVertical*8,
+                              lineWidth: blockVertical*2,
+                              header: Text("Mesin 2", style: TextStyle(fontSize: blockVertical*2.5,),),
+                              center: Text("80 %", style: TextStyle(fontSize: blockVertical*2),),
                             ),
-                          ),
-                          //OEE---------------------------------------------------------------------------------------------------------------
-                          CarouselSlider(items: [
-                              //MESIN 1-------------------------------------------
-                              CircularPercentIndicator(
-                                progressColor: Color.fromARGB(255, 8, 4, 240),
-                                circularStrokeCap: CircularStrokeCap.round,
-                                animation: true,
-                                animationDuration: 2,
-                                percent: 0.8,
-                                radius: blockVertical*8,
-                                lineWidth: blockVertical*2,
-                                header: Text("Mesin 1", style: TextStyle(fontSize: blockVertical*2.5,),),
-                                center: Text("80 %", style: TextStyle(fontSize: blockVertical*2),),
-                              ),
-                              CircularPercentIndicator(
-                                progressColor: Color.fromARGB(255, 165, 4, 240),
-                                circularStrokeCap: CircularStrokeCap.round,
-                                animation: true,
-                                animationDuration: 2,
-                                percent: 0.8,
-                                radius: blockVertical*8,
-                                lineWidth: blockVertical*2,
-                                header: Text("Mesin 2", style: TextStyle(fontSize: blockVertical*2.5,),),
-                                center: Text("80 %", style: TextStyle(fontSize: blockVertical*2),),
-                              ),
-                              CircularPercentIndicator(
-                                progressColor: Color.fromARGB(255, 24, 240, 4),
-                                circularStrokeCap: CircularStrokeCap.round,
-                                animation: true,
-                                animationDuration: 2,
-                                percent: 0.8,
-                                radius: blockVertical*8,
-                                lineWidth: blockVertical*2,
-                                header: Text("Mesin 3", style: TextStyle(fontSize: blockVertical*2.5,),),
-                                center: Text("80 %", style: TextStyle(fontSize: blockVertical*2),),
-                              ),
-                              CircularPercentIndicator(
-                                progressColor: Color.fromARGB(255, 49, 49, 83),
-                                circularStrokeCap: CircularStrokeCap.round,
-                                animation: true,
-                                animationDuration: 2,
-                                percent: 0.8,
-                                radius: blockVertical*8,
-                                lineWidth: blockVertical*2,
-                                header: Text("Mesin 4", style: TextStyle(fontSize: blockVertical*2.5,),),
-                                center: Text("80 %", style: TextStyle(fontSize: blockVertical*2),),
-                              ),
-                                
-                            
-                            ], options: CarouselOptions(
-                              autoPlay: true,
+                            CircularPercentIndicator(
+                              progressColor: Color.fromARGB(255, 24, 240, 4),
+                              circularStrokeCap: CircularStrokeCap.round,
+                              animation: true,
+                              animationDuration: 2,
+                              percent: 0.8,
+                              radius: blockVertical*8,
+                              lineWidth: blockVertical*2,
+                              header: Text("Mesin 3", style: TextStyle(fontSize: blockVertical*2.5,),),
+                              center: Text("80 %", style: TextStyle(fontSize: blockVertical*2),),
+                            ),
+                            CircularPercentIndicator(
+                              progressColor: Color.fromARGB(255, 49, 49, 83),
+                              circularStrokeCap: CircularStrokeCap.round,
+                              animation: true,
+                              animationDuration: 2,
+                              percent: 0.8,
+                              radius: blockVertical*8,
+                              lineWidth: blockVertical*2,
+                              header: Text("Mesin 4", style: TextStyle(fontSize: blockVertical*2.5,),),
+                              center: Text("80 %", style: TextStyle(fontSize: blockVertical*2),),
+                            ),
+                              
+                          
+                          ], options: CarouselOptions(
+                            autoPlay: true,
 
-                            )),
-                          SizedBox(height: blockVertical*3,)
-                        ],
-                      ),
+                          )),
+                        SizedBox(height: blockVertical*3,)
+                      ],
                     ),
                   )
                 ],

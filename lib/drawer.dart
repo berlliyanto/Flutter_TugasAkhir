@@ -73,7 +73,8 @@ class _drawerState extends State<drawer> {
                       shape: BoxShape.circle,
                     ),
                     child: CircleAvatar(
-                      backgroundImage: (name=="Berlliyanto Aji Nugraha")? AssetImage('images/asset21.jpg'):AssetImage('images/asset12.1.png'),
+                      backgroundColor: Colors.white,
+                      backgroundImage:AssetImage('images/asset21.jpg'),
                       radius: blockVertical * 4,
                     ),
                   ),
@@ -278,7 +279,7 @@ class _drawerState extends State<drawer> {
                       shape: BoxShape.circle,
                     ),
                     child: CircleAvatar(
-                      backgroundImage: (name=="Berlliyanto Aji Nugraha")? AssetImage('images/asset21.jpg'):AssetImage('images/asset12.1.png'),
+                      backgroundImage:AssetImage('images/asset4.png'),
                       radius: blockVertical * 4,
                     ),
                   ),

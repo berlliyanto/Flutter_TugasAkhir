@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_application_1/models/param_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 //INPUT PARAMETER
 class inputParameter {
@@ -24,10 +25,12 @@ class inputParameter {
       String harga_perUnit,
       String tipe_benda,
       int state) async {
-    Uri url = Uri.parse("https://berlliyantoaji.onrender.com/api/inputParam");
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
 
     var hasilResponsePost = await http.post(url,
-        headers: <String, String>{'Content-Type': 'application/json'},
+        headers: <String, String>{'Content-Type': 'application/json', 'Authorization': 'Basic $getToken' },
         body: jsonEncode({
           "machine_id": machine_id,
           "loading_time": loading_time,
@@ -57,11 +60,13 @@ class resetParam {
   resetParam({this.state});
 
   static Future<resetParam> putParam(int state) async {
-    Uri urlput = Uri.parse("https://berlliyantoaji.onrender.com/api/resetParamM1");
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri urlput = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/resetParamM1");
 
     var hasilResponsePut = await http.put(
       urlput,
-      headers: <String, String>{'Content-Type': 'application/json'},
+      headers: <String, String>{'Content-Type': 'application/json','Authorization': 'Basic $getToken'},
       body: jsonEncode(
         {
           "state": state,
@@ -78,8 +83,13 @@ class resetParam {
 //READ LATEST INPUT PARAMETER M1
 class readLatestParamM1 {
   Future getParamM1() async {
-    Uri url = Uri.parse("https://berlliyantoaji.onrender.com/api/latestParamM1");
-    var hasilResponseGet = await http.get(url);
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM1");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
     Iterable it =
         (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
     List<ParamModel> paramList = it.map((e) => ParamModel.fromJSON(e)).toList();
@@ -91,8 +101,13 @@ class readLatestParamM1 {
 //READ LATEST INPUT PARAMETER M2
 class readLatestParamM2 {
   Future getParamM2() async {
-    Uri url = Uri.parse("https://berlliyantoaji.onrender.com/api/latestParamM2");
-    var hasilResponseGet = await http.get(url);
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM2");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
     Iterable it =
         (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
     List<ParamModel2> paramList =

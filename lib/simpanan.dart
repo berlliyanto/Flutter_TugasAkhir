@@ -486,3 +486,214 @@
   //     },
   //   );
   // }
+
+  //STATUS MESIN--------------------------------------------------------------------------------------------------------------
+   // STREAMCONTROLLER MESIN 1
+  // StreamController<List> streamStatusM1 = StreamController();
+  // List<statusModel> status = [];
+  // getStatusM1 statusState = getStatusM1();
+  // Future<void> getStatus() async {
+  //   status = await getStatusM1.readStatM1();
+  //   streamStatusM1.add(status);
+  // }
+
+  // // STREAMCONTROLLER MESIN 2
+  // StreamController<List> streamStatusM2 = StreamController();
+  // List<status2Model> status2 = [];
+  // getStatusM2 statusState2 = getStatusM2();
+  // Future<void> getStatus2() async {
+  //   status2 = await getStatusM2.readStatM2();
+  //   streamStatusM2.add(status);
+  // }
+
+  // // STREAMCONTROLLER MESIN 3
+  // StreamController<List> streamStatusM3 = StreamController();
+  // List<status3Model> status3 = [];
+  // getStatusM3 statusState3 = getStatusM3();
+  // Future<void> getStatus3() async {
+  //   status3 = await getStatusM3.readStatM3();
+  //   streamStatusM3.add(status);
+  // }
+
+  // // STREAMCONTROLLER MESIN 4
+  // StreamController<List> streamStatusM4 = StreamController();
+  // List<status4Model> status4 = [];
+  // getStatusM4 statusState4 = getStatusM4();
+  // Future<void> getStatus4() async {
+  //   status4 = await getStatusM4.readStatM4();
+  //   streamStatusM4.add(status);
+  // }
+
+  // @override
+  // void initState() {
+  //   getValidUser();
+  //   getStatus();
+  //   getStatus2();
+  //   getStatus3();
+  //   getStatus4();
+  //   timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     getStatus();
+  //     getStatus2();
+  //     getStatus3();
+  //     getStatus4();
+  //   });
+  //   super.initState();
+  // }
+
+                  // Padding(
+                  //   padding:
+                  //       EdgeInsets.symmetric(horizontal: blockHorizontal * 3),
+                  //   child: Container(
+                  //     padding: EdgeInsets.only(left: 10, top: 10),
+                  //     height: blockVertical * 15,
+                  //     width: MediaQuerywidth,
+                  //     decoration: BoxDecoration(
+                  //         color: Color.fromARGB(255, 0, 25, 134),
+                  //         borderRadius: BorderRadius.circular(15),
+                  //         image: DecorationImage(
+                  //             image: AssetImage('images/asset10.png'),
+                  //             fit: BoxFit.cover)),
+                  //     child: Column(
+                  //       mainAxisAlignment: MainAxisAlignment.start,
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Text("Konektivitas Mesin", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: blockVertical*2),),
+                  //           Expanded(
+                  //           child: Row(
+                  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //             children: [
+                  //               StreamBuilder<Object>(
+                  //                 stream: streamStatusM1.stream,
+                  //                 builder: (context, snapshot) {
+                  //                   if(snapshot.hasData){
+                  //                     return Column(
+                  //                       mainAxisAlignment: MainAxisAlignment.center,
+                  //                       children: status.map((e) {
+                  //                         return Column(
+                  //                         mainAxisAlignment: MainAxisAlignment.center,
+                  //                         crossAxisAlignment: CrossAxisAlignment.center,
+                  //                         children: [
+                                          //   CircleAvatar(
+                                          //   backgroundColor:(e.status==1)? Colors.green:Colors.red,
+                                          //   child: Icon((e.status==1)?FontAwesomeIcons.check:FontAwesomeIcons.x, color: Colors.white,)
+                                          // ),
+                                          // SizedBox(
+                                          //   height: blockVertical * 0.5,
+                                          // ),
+                                          // Text(
+                                          //   "Mesin 1",
+                                          //   style: TextStyle(fontSize: blockVertical * 1.5, color: Colors.white),
+                                          // )
+                  //                           ],
+                  //                         );
+                  //                       }).toList(),
+                  //                     );
+                  //                   }else if(snapshot.connectionState==ConnectionState.waiting){
+                  //                     return CircularProgressIndicator();
+                  //                   }
+                  //                   return CircleAvatar();
+                  //                 }
+                  //               ),
+                  //               StreamBuilder<Object>(
+                  //                 stream: streamStatusM2.stream,
+                  //                 builder: (context, snapshot) {
+                  //                   if(snapshot.hasData){
+                  //                     return Column(
+                  //                       mainAxisAlignment: MainAxisAlignment.center,
+                  //                       children: status2.map((e) {
+                  //                         return Column(
+                  //                         mainAxisAlignment: MainAxisAlignment.center,
+                  //                         crossAxisAlignment: CrossAxisAlignment.center,
+                  //                         children: [
+                  //                           CircleAvatar(
+                  //                           backgroundColor:(e.status==1)? Colors.green:Colors.red,
+                  //                           child: Icon((e.status==1)?FontAwesomeIcons.check:FontAwesomeIcons.x, color: Colors.white,)
+                  //                         ),
+                  //                         SizedBox(
+                  //                           height: blockVertical * 0.5,
+                  //                         ),
+                  //                         Text(
+                  //                           "Mesin 2",
+                  //                           style: TextStyle(fontSize: blockVertical * 1.5, color: Colors.white),
+                  //                         )
+                  //                           ],
+                  //                         );
+                  //                       }).toList(),
+                  //                     );
+                  //                   }else if(snapshot.connectionState==ConnectionState.waiting){
+                  //                     return CircularProgressIndicator();
+                  //                   }
+                  //                   return CircleAvatar();
+                  //                 }
+                  //               ),
+                  //               StreamBuilder<Object>(
+                  //                 stream: streamStatusM3.stream,
+                  //                 builder: (context, snapshot) {
+                  //                   if(snapshot.hasData){
+                  //                     return Column(
+                  //                       mainAxisAlignment: MainAxisAlignment.center,
+                  //                       children: status3.map((e) {
+                  //                         return Column(
+                  //                         mainAxisAlignment: MainAxisAlignment.center,
+                  //                         crossAxisAlignment: CrossAxisAlignment.center,
+                  //                         children: [
+                  //                           CircleAvatar(
+                  //                           backgroundColor:(e.status==1)? Colors.green:Colors.red,
+                  //                           child: Icon((e.status==1)?FontAwesomeIcons.check:FontAwesomeIcons.x, color: Colors.white,)
+                  //                         ),
+                  //                         SizedBox(
+                  //                           height: blockVertical * 0.5,
+                  //                         ),
+                  //                         Text(
+                  //                           "Mesin 3",
+                  //                           style: TextStyle(fontSize: blockVertical * 1.5, color: Colors.white),
+                  //                         )
+                  //                           ],
+                  //                         );
+                  //                       }).toList(),
+                  //                     );
+                  //                   }else if(snapshot.connectionState==ConnectionState.waiting){
+                  //                     return CircularProgressIndicator();
+                  //                   }
+                  //                   return CircleAvatar();
+                  //                 }
+                  //               ),
+                  //               StreamBuilder<Object>(
+                  //                 stream: streamStatusM4.stream,
+                  //                 builder: (context, snapshot) {
+                  //                   if(snapshot.hasData){
+                  //                     return Column(
+                  //                       mainAxisAlignment: MainAxisAlignment.center,
+                  //                       children: status4.map((e) {
+                  //                         return Column(
+                  //                         mainAxisAlignment: MainAxisAlignment.center,
+                  //                         crossAxisAlignment: CrossAxisAlignment.center,
+                  //                         children: [
+                  //                           CircleAvatar(
+                  //                           backgroundColor:(e.status==1)? Colors.green:Colors.red,
+                  //                           child: Icon((e.status==1)?FontAwesomeIcons.check:FontAwesomeIcons.x, color: Colors.white,)
+                  //                         ),
+                  //                         SizedBox(
+                  //                           height: blockVertical * 0.5,
+                  //                         ),
+                  //                         Text(
+                  //                           "Mesin 4",
+                  //                           style: TextStyle(fontSize: blockVertical * 1.5, color: Colors.white),
+                  //                         )
+                  //                           ],
+                  //                         );
+                  //                       }).toList(),
+                  //                     );
+                  //                   }else if(snapshot.connectionState==ConnectionState.waiting){
+                  //                     return CircularProgressIndicator();
+                  //                   }
+                  //                   return CircleAvatar();
+                  //                 }
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         )
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),

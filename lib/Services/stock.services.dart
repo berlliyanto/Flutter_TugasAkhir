@@ -2,11 +2,18 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_application_1/models/stock_model.dart';
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 //Read Data Stock M1
 class readStockM1{
     Future getStockM1() async {
-    Uri url = Uri.parse("https://berlliyantoaji.onrender.com/api/stockM1");
-    var hasilResponseGet = await http.get(url);
+      final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/stockM1");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
    Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
         List<stockModel> StockList = it.map((e) =>  stockModel.fromJSON(e)).toList();
         return StockList;
@@ -21,10 +28,14 @@ class addStockM1{
   addStockM1({this.A,this.B,this.C,this.id,this.machine_id});
 
   static Future<addStockM1> putStockM1(int A, int B, int C) async{
-    Uri url = Uri.parse("https://berlliyantoaji.onrender.com/api/addstockM1");
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/addstockM1");
 
-    var hasilResponsePut = await http.put(url,
-    headers: <String, String>{"Content-Type": "application/json"},
+    var hasilResponsePut = await http.put(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    },
     body: jsonEncode({
       "A": A,
       "B": B,

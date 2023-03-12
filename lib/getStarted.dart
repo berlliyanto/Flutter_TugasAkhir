@@ -1,6 +1,7 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constant.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 
 class getStarted extends StatefulWidget {
@@ -22,8 +23,6 @@ class _getStartedState extends State<getStarted> {
     double blockVertical = MediaQueryheight / 100;
 
     // Mengetahui Orientasi Device
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -152,6 +151,7 @@ class myClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) {
+    // ignore: todo
     //TODO: implement shouldReclip
     return true;
   }
@@ -172,6 +172,7 @@ class myClipper2 extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) {
+    // ignore: todo
     //TODO: implement shouldReclip
     return true;
   }
@@ -193,6 +194,7 @@ class myClipper3 extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) {
+    // ignore: todo
     //TODO: implement shouldReclip
     return true;
   }
@@ -214,6 +216,7 @@ class myClipper4 extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) {
+    // ignore: todo
     //TODO: implement shouldReclip
     return true;
   }

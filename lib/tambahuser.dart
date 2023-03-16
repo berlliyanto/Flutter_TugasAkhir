@@ -14,8 +14,6 @@ class tambahuser extends StatefulWidget {
 }
 
 class _tambahuserState extends State<tambahuser> {
-  String tes = "masih";
-
   // Input Textfield Controller
   TextEditingController username = TextEditingController();
   TextEditingController pass = TextEditingController();

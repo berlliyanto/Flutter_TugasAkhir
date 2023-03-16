@@ -20,13 +20,22 @@ class m1stock extends StatefulWidget {
 
 class _m1stockState extends State<m1stock> {
   //KONTROLER REALTIME DATA (STREAMBUILDER)
-  StreamController<List> streamStock = StreamController();
+  StreamController<List> streamStock = StreamController.broadcast();
   late Timer timer;
   List<stockModel> stockList = [];
   readStockM1 getstockM1 = readStockM1();
   Future<void> stockData() async {
     stockList = await getstockM1.getStockM1();
     streamStock.add(stockList);
+  }
+
+  //RIWAYAT STOCK
+  StreamController<List> streamRiwayatStock = StreamController.broadcast();
+  List<historiM1model> riwayatStockList = [];
+  getriwayatM1 getriwayatstockM1 = getriwayatM1();
+  Future<void> riwayatstockData() async {
+    riwayatStockList = await getriwayatstockM1.gethistoriM1();
+    streamRiwayatStock.add(riwayatStockList);
   }
 
   TextEditingController jumlah = TextEditingController();
@@ -42,8 +51,10 @@ class _m1stockState extends State<m1stock> {
 
   @override
   void initState() {
+    riwayatstockData();
     stockData();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      riwayatstockData();
       stockData();
     });
     super.initState();
@@ -190,15 +201,32 @@ class _m1stockState extends State<m1stock> {
                                         btnOkText: "Add",
                                         btnOkIcon: FontAwesomeIcons.plus,
                                         btnOkOnPress: () {
+                                          //addStockM1 untuk menambah jumlah
+                                          //riwayatStock untuk menambah riwayat
                                           if (tipeValue == "A") {
                                             addStockM1.putStockM1(
                                                 int.parse(jumlah.text), 0, 0);
+                                            addriwayatStock.connectAPIPost(
+                                              1,
+                                              tipeValue.toString(),
+                                              int.parse(jumlah.text),
+                                            );
                                           } else if (tipeValue == "B") {
                                             addStockM1.putStockM1(
                                                 0, int.parse(jumlah.text), 0);
+                                            addriwayatStock.connectAPIPost(
+                                              1,
+                                              tipeValue.toString(),
+                                              int.parse(jumlah.text),
+                                            );
                                           } else if (tipeValue == "C") {
                                             addStockM1.putStockM1(
                                                 0, 0, int.parse(jumlah.text));
+                                            addriwayatStock.connectAPIPost(
+                                              1,
+                                              tipeValue.toString(),
+                                              int.parse(jumlah.text),
+                                            );
                                           }
                                         },
                                         btnCancelIcon: FontAwesomeIcons.ban,
@@ -231,102 +259,21 @@ class _m1stockState extends State<m1stock> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
-                                    Container(
-                                      padding: EdgeInsets.all(8),
-                                      height: constraints.maxHeight * 0.9,
-                                      width: constraints.maxWidth * 0.3,
-                                      decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 255, 77, 7),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Icon(
-                                            FontAwesomeIcons.a,
-                                            color: Colors.white,
-                                          ),
-                                          Divider(
-                                            thickness: 1,
-                                          ),
-                                          Text("Jumlah : ",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16)),
-                                          Text(
-                                            "${e.A} unit",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(8),
-                                      height: constraints.maxHeight * 0.9,
-                                      width: constraints.maxWidth * 0.3,
-                                      decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 253, 173, 0),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Icon(
-                                            FontAwesomeIcons.b,
-                                            color: Colors.white,
-                                          ),
-                                          Divider(
-                                            thickness: 1,
-                                          ),
-                                          Text("Jumlah : ",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16)),
-                                          Text(
-                                            "${e.B} unit",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(8),
-                                      height: constraints.maxHeight * 0.9,
-                                      width: constraints.maxWidth * 0.3,
-                                      decoration: BoxDecoration(
-                                        color: Color.fromARGB(255, 7, 32, 255),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Icon(
-                                            FontAwesomeIcons.c,
-                                            color: Colors.white,
-                                          ),
-                                          Divider(
-                                            thickness: 1,
-                                          ),
-                                          Text("Jumlah : ",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16)),
-                                          Text(
-                                            "${e.C} unit",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16),
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                    Stock(
+                                        constraints,
+                                        Color.fromARGB(255, 255, 77, 7),
+                                        "${e.A}",
+                                        FontAwesomeIcons.a),
+                                    Stock(
+                                        constraints,
+                                        Color.fromARGB(255, 253, 173, 0),
+                                        "${e.B}",
+                                        FontAwesomeIcons.b),
+                                    Stock(
+                                        constraints,
+                                        Color.fromARGB(255, 7, 32, 255),
+                                        "${e.C}",
+                                        FontAwesomeIcons.c),
                                   ],
                                 );
                               }).toList(),
@@ -353,7 +300,7 @@ class _m1stockState extends State<m1stock> {
                     "Riwayat Penggunaan Bahan",
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 26,
+                        fontSize: blockVertical * 3.2,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -469,43 +416,65 @@ class _m1stockState extends State<m1stock> {
                 //LIST RIWAYAT BAHAN------------------------------------------------------------------------------------------------------
                 Container(
                   color: Colors.transparent,
-                  height: 300,
+                  height: blockVertical * 45,
                   width: MediaQuerywidth,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    child: Column(
-                      children: [
-                        (stateC)
-                            ? Column(
-                                children: [
-                                  listHistoryC(context),
-                                  listHistoryC(context),
-                                  listHistoryC(context),
-                                  listHistoryC(context),
-                                  listHistoryC(context),
-                                ],
-                              )
-                            : (stateB)
-                                ? Column(
-                                    children: [
-                                      listHistoryB(context),
-                                      listHistoryB(context),
-                                      listHistoryB(context),
-                                      listHistoryB(context),
-                                      listHistoryB(context),
-                                    ],
-                                  )
-                                : Column(
-                                    children: [
-                                      listHistoryA(context),
-                                      listHistoryA(context),
-                                      listHistoryA(context),
-                                      listHistoryA(context),
-                                      listHistoryA(context),
-                                    ],
-                                  ),
-                      ],
-                    ),
+                    child: StreamBuilder<Object>(
+                        stream: streamRiwayatStock.stream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Column(
+                              children: riwayatStockList.map((e) {
+                                if (stateC) {
+                                  if (e.tipe == "C") {
+                                    return Column(
+                                      children: [
+                                        listHistory(
+                                            context,
+                                            e.dibuat!.split(' ')[0],
+                                            e.jumlah!,
+                                            Color.fromARGB(255, 23, 42, 211),
+                                            Colors.greenAccent,
+                                            FontAwesomeIcons.c),
+                                      ],
+                                    );
+                                  }
+                                } else if (stateB) {
+                                  if (e.tipe == "B") {
+                                    return Column(
+                                      children: [
+                                        listHistory(
+                                            context,
+                                            e.dibuat!.split(' ')[0],
+                                            e.jumlah!,
+                                            Color.fromARGB(255, 253, 216, 5),
+                                            Colors.greenAccent,
+                                            FontAwesomeIcons.b),
+                                      ],
+                                    );
+                                  }
+                                } else if (stateA) {
+                                  if (e.tipe == "A") {
+                                    return Column(
+                                      children: [
+                                        listHistory(
+                                            context,
+                                            e.dibuat!.split(' ')[0],
+                                            e.jumlah!,
+                                            Color.fromARGB(255, 241, 100, 6),
+                                            Color.fromARGB(255, 226, 125, 42),
+                                            FontAwesomeIcons.a),
+                                      ],
+                                    );
+                                  }
+                                }
+                                return Column();
+                              }).toList(),
+                            );
+                          }
+                          return Center();
+                        }),
                   ),
                 ),
               ],
@@ -517,7 +486,8 @@ class _m1stockState extends State<m1stock> {
   }
 
   //LIST RIWAYAT BAHAN----------------------------------------------------------------------------------------------------------------
-  Widget listHistoryA(BuildContext context) {
+  Widget listHistory(BuildContext context, String tanggal, int jumlah,
+      Color color1, Color color2, IconData icon) {
     final MediaQuerywidth = MediaQuery.of(context).size.width;
     double blockHorizontal = MediaQuerywidth / 100;
     final MediaQueryheight = MediaQuery.of(context).size.height;
@@ -526,94 +496,58 @@ class _m1stockState extends State<m1stock> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       child: Container(
-        height: 75,
+        height: blockVertical*10,
         decoration: BoxDecoration(
-            color: Color.fromARGB(255, 241, 100, 6).withOpacity(0.5),
+            color: color1.withOpacity(0.5),
             borderRadius: BorderRadius.circular(10)),
         width: MediaQuerywidth,
         child: ListTile(
           title: Text(
-            "Processed Unit : 50",
-            style: TextStyle(fontSize: 16, color: Colors.white),
+            "Tambah Unit : $jumlah",
+            style: TextStyle(fontSize: blockVertical*2.3, color: Colors.white),
           ),
-          subtitle: Text("17 Juli 2023", style: TextStyle(color: Colors.white)),
+          subtitle: Text(tanggal, style: TextStyle(color: Colors.white, fontSize: blockVertical*2)),
           leading: Icon(
-            FontAwesomeIcons.a,
+            icon,
             color: Colors.white,
+            size: blockVertical*4.5,
           ),
-          tileColor: Color.fromARGB(255, 226, 125, 42),
-          trailing: Text("-50", style: TextStyle(color: Colors.white)),
+          tileColor: color2,
+          trailing: Text("+$jumlah", style: TextStyle(color: Colors.white, fontSize: blockVertical*3)),
         ),
       ),
     );
   }
 
-  Widget listHistoryB(BuildContext context) {
-    final MediaQuerywidth = MediaQuery.of(context).size.width;
-    double blockHorizontal = MediaQuerywidth / 100;
-    final MediaQueryheight = MediaQuery.of(context).size.height;
-    double blockVertical = MediaQueryheight / 100;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-      child: Container(
-        height: 75,
-        decoration: BoxDecoration(
-            color: Color.fromARGB(255, 253, 216, 5).withOpacity(0.5),
-            borderRadius: BorderRadius.circular(10)),
-        width: MediaQuerywidth,
-        child: ListTile(
-          title: Text(
-            "Processed Unit : 100",
-            style: TextStyle(fontSize: 16, color: Colors.white),
-          ),
-          subtitle: Text("17 Juli 2023", style: TextStyle(color: Colors.white)),
-          leading: Icon(
-            FontAwesomeIcons.b,
+// JUMLAH STOCK-------------------------------------------------------------------------------------------
+  Widget Stock(
+      BoxConstraints constraints, Color color, String unit, IconData icon) {
+    return Container(
+      padding: EdgeInsets.all(8),
+      height: constraints.maxHeight * 0.9,
+      width: constraints.maxWidth * 0.3,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
             color: Colors.white,
           ),
-          tileColor: Colors.greenAccent,
-          trailing: Text("-100", style: TextStyle(color: Colors.white)),
-        ),
+          Divider(
+            thickness: 1,
+          ),
+          Text("Jumlah : ",
+              style: TextStyle(color: Colors.white, fontSize: 16)),
+          Text(
+            "$unit unit",
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          )
+        ],
       ),
     );
-  }
-
-  Widget listHistoryC(BuildContext context) {
-    final MediaQuerywidth = MediaQuery.of(context).size.width;
-    double blockHorizontal = MediaQuerywidth / 100;
-    final MediaQueryheight = MediaQuery.of(context).size.height;
-    double blockVertical = MediaQueryheight / 100;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-      child: Container(
-        height: 75,
-        decoration: BoxDecoration(
-            color: Color.fromARGB(255, 23, 42, 211).withOpacity(0.5),
-            borderRadius: BorderRadius.circular(10)),
-        width: MediaQuerywidth,
-        child: ListTile(
-          title: Text(
-            "Processed Unit : 34",
-            style: TextStyle(fontSize: 16, color: Colors.white),
-          ),
-          subtitle: Text(
-            "17 Juli 2023",
-            style: TextStyle(color: Colors.white),
-          ),
-          leading: Icon(
-            FontAwesomeIcons.c,
-            color: Colors.white,
-          ),
-          tileColor: Colors.greenAccent,
-          trailing: Text("-34", style: TextStyle(color: Colors.white)),
-        ),
-      ),
-    );
-  }
-
-  Widget chartStock() {
-    return Center();
   }
 }

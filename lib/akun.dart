@@ -1,6 +1,10 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/user_service.dart';
@@ -11,6 +15,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'constant.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+
 
 class akun extends StatefulWidget {
   static const nameRoute = '/akun';
@@ -41,6 +48,8 @@ class Myakun extends StatefulWidget {
 }
 
 class _MyakunState extends State<Myakun> {
+  final pdf = pw.Document();
+
   TextEditingController username = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController nohp = TextEditingController();
@@ -76,20 +85,9 @@ class _MyakunState extends State<Myakun> {
     // UNTUK LEBAR TAMPILAN
     final MediaQuerywidth = MediaQuery.of(context).size.width;
     double blockHorizontal = MediaQuerywidth / 100;
-
     // UNTUK TINGGI TAMPILAN
     final MediaQueryheight = MediaQuery.of(context).size.height;
     double blockVertical = MediaQueryheight / 100;
-    final myappbar = AppBar(
-      title: Text("Media Query"),
-    );
-    final bodyheight = MediaQueryheight -
-        myappbar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
-
-    // Mengetahui Orientasi Device
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
     return Scaffold(
       extendBodyBehindAppBar: true,
       //APPBAR----------------------------------------------------------------------------------------------------------------
@@ -102,7 +100,7 @@ class _MyakunState extends State<Myakun> {
           shadowColor: Colors.transparent,
           title: Text(
             "Kelola Akun",
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: blockVertical*2.5),
           ),
           centerTitle: true,
           backgroundColor: Color.fromARGB(255, 0, 49, 65).withOpacity(0.5),
@@ -118,13 +116,16 @@ class _MyakunState extends State<Myakun> {
             ),
           ),
           actions: [
-            IconButton(
+                IconButton(onPressed: (){
+                  getPDF();
+                }, icon: Icon(FontAwesomeIcons.filePdf)),
+                IconButton(
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, mydashboard,
                       arguments: 'dari mesin 1');
                   // ignore: deprecated_member_use
                 },
-                icon: Icon(FontAwesomeIcons.house))
+                icon: Icon(FontAwesomeIcons.house)),
           ],
         ),
       drawer: drawer(),
@@ -244,10 +245,14 @@ class _MyakunState extends State<Myakun> {
                                       //BODY TABLE----------------------------------------------------------------------------------------------------------------
                                       rows: userList.map((e) {
                                         return DataRow(cells: [
-                                          DataCell(SelectableText("${e.username}")),
-                                          DataCell(SelectableText("${e.name}")),
-                                          DataCell(SelectableText("${e.otoritas}")),
-                                          DataCell(SelectableText("${e.noHp}")),
+                                          DataCell(SelectableText("${e.username}",style: TextStyle(color: Colors.black,
+                                              fontSize: blockVertical * 2),)),
+                                          DataCell(SelectableText("${e.name}",style: TextStyle(color: Colors.black,
+                                              fontSize: blockVertical * 2))),
+                                          DataCell(SelectableText("${e.otoritas}",style: TextStyle(color: Colors.black,
+                                              fontSize: blockVertical * 2))),
+                                          DataCell(SelectableText("${e.noHp}",style: TextStyle(color: Colors.black,
+                                              fontSize: blockVertical * 2))),
                                           DataCell(Row(
                                             children: [
                                               // Update User-------------------------------------------------------------------------------
@@ -442,4 +447,42 @@ class _MyakunState extends State<Myakun> {
       ),
     );
   }
+
+  //----------------------------------MEMBUAT PAGE PDF------------------------------------//
+  void getPDF() async {
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return [
+            pw.Center(
+              child: pw.Text("DATA AKUN PENGGUNA APLIKASI PRODUCTION MONITORING SYSTEM",softWrap: true, style: pw.TextStyle(fontBold: pw.Font.courierBold()))
+            ),
+            pw.SizedBox(height: 10),
+            pw.Table.fromTextArray(
+                headers: [
+                  'Username',
+                  'Nama Lengkap',
+                  'Otoritas',
+                  'No Handphone'
+                ],
+                data: userList.map((e) => [e.username, e.name, e.otoritas, e.noHp]).toList())
+          ];
+        },
+      ),
+    ); // Page
+    // SIMPAN
+    Uint8List bytes = await pdf.save();
+
+    // buat file kosong di directory
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/Daftar_User.pdf');
+
+    // timpa file kosong dengan file pdf
+    await file.writeAsBytes(bytes);
+
+    //open pdf
+    await OpenFile.open(file.path);
+  }
+
 }

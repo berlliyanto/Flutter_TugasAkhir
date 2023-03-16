@@ -38,16 +38,6 @@ class _splashState extends State<splash> {
 
     // UNTUK TINGGI TAMPILAN
     final MediaQueryheight = MediaQuery.of(context).size.height;
-    final myappbar = AppBar(
-      title: Text("Media Query"),
-    );
-    final bodyheight = MediaQueryheight -
-        myappbar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
-
-    // Mengetahui Orientasi Device
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
     return Scaffold(
       backgroundColor: Colors.transparent,
       //CONTENT SPLASHSCREEN----------------------------------------------------------------------------------------------------------------

@@ -14,9 +14,25 @@ class readStockM1{
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
     });
-   Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
-        List<stockModel> StockList = it.map((e) =>  stockModel.fromJSON(e)).toList();
-        return StockList;
+    
+    Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
+    List<stockModel> StockList = it.map((e) =>  stockModel.fromJSON(e)).toList();
+    return StockList;
+  }
+  static Future<readStockM1> getStockforShared() async {
+    Uri urlpost = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/stockM1");
+
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    var hasilResponseGet = await http.get(urlpost,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    var dataGet = (jsonDecode(hasilResponseGet.body)as Map<String, dynamic>)['data'];
+    shared.setInt("A", dataGet[0]["A"]);
+    shared.setInt("B", dataGet[0]["B"]);
+    shared.setInt("C", dataGet[0]["C"]);
+    return readStockM1();
   }
 }
 
@@ -57,4 +73,48 @@ class addStockM1{
     );
   }
   
+}
+//RIWAYAT STOCK------------------------------------------------------------------------
+class addriwayatStock {
+  late int? jumlah,machine_id;
+  late String? id,tipe;
+
+  addriwayatStock(
+      {this.jumlah,this.machine_id, this.id, this.tipe});
+  static Future<addriwayatStock> connectAPIPost(int machine_id,String tipe, int jumlah) async {
+        final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+        Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputStock");
+
+    var hasilResponsePost = await http.post(url,
+        headers: <String, String>{'Content-Type': 'application/json','Authorization': 'Basic $getToken'},
+        body: jsonEncode({
+          "machine_id": machine_id,
+          "tipe": tipe,
+          "jumlah": jumlah,
+        }));
+    print(hasilResponsePost.statusCode);
+    var data = (json.decode(hasilResponsePost.body) as Map<String, dynamic>);
+    return addriwayatStock(
+        machine_id: data["machine_id"],
+        tipe: data["tipe"],
+        jumlah: data["jumlah"],
+        id: data["_id"]
+    );
+  }
+}
+
+class getriwayatM1{
+    Future gethistoriM1() async {
+      final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/historiM1");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+   Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
+        List<historiM1model> historiM1List = it.map((e) =>  historiM1model.fromJSON(e)).toList();
+        return historiM1List;
+  }
 }

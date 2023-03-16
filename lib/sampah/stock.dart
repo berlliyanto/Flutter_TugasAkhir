@@ -6,7 +6,6 @@ Widget buildCard(BuildContext context ,IconData icon, String title, String A, St
       String routeName) {
     // UNTUK LEBAR TAMPILAN
     final MediaQuerywidth = MediaQuery.of(context).size.width;
-    double blockHorizontal = MediaQuerywidth / 100;
 
     // UNTUK TINGGI TAMPILAN
     final MediaQueryheight = MediaQuery.of(context).size.height;

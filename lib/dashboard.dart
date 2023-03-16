@@ -2,9 +2,11 @@
 
 import 'dart:async';
 
+import 'package:shimmer/shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/status_service.dart';
+import 'package:flutter_application_1/Services/stock.services.dart';
 import 'package:flutter_application_1/constant.dart';
 import 'package:flutter_application_1/drawer.dart';
 import 'package:flutter_application_1/models/status_model.dart';
@@ -24,7 +26,7 @@ class dashboard extends StatefulWidget {
 class _dashboardState extends State<dashboard> {
   late Timer timer;
   // STREAMCONTROLLER MESIN 
-  StreamController<List> streamStatus = StreamController();
+  StreamController<List> streamStatus = StreamController.broadcast();
   List<statusModel> status = [];
   getStatus statusState = getStatus();
   Future<void> getStatusM() async {
@@ -34,6 +36,7 @@ class _dashboardState extends State<dashboard> {
 
   @override
   void initState() {
+    readStockM1.getStockforShared();
     getValidUser();
     getStatusM();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -110,11 +113,7 @@ class _dashboardState extends State<dashboard> {
         drawer: drawer(),
         //LANDSCAPE-------------------------------------------------------------------------------------------------------------------
         //BODY---------------------------------------------------------------------------------------------------------------------------
-        body: (isLandscape)?
-        Center(
-          child: Text("JANGAN MODE LANDSCAPE PLIS"),
-        )
-        :
+        body: 
         //POTRAIT------------------------------------------------------------------------------------------------------------------
         Container(
           height: double.infinity,
@@ -153,8 +152,7 @@ class _dashboardState extends State<dashboard> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         CircleAvatar(
-                          backgroundImage: (name=="Berlliyanto Aji Nugraha")? AssetImage('images/asset21.jpg'):AssetImage('images/asset4.png'),
-                          
+                          backgroundImage: (name=="Berlliyanto Aji Nugraha")? AssetImage('images/asset21.jpg'):AssetImage('images/asset4.png'), 
                         ),
                         SizedBox(
                           width: blockHorizontal * 2,
@@ -229,7 +227,36 @@ class _dashboardState extends State<dashboard> {
                                       }).toList(),
                                      );
                                     }else if(snapshot.connectionState==ConnectionState.waiting){
-                                      return CircularProgressIndicator();
+                                      return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: status.map((e) {
+                                        return Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Shimmer.fromColors(
+                                              baseColor: Colors.white,
+                                              highlightColor: Colors.grey,
+                                              child: CircleAvatar(
+                                              ),
+                                            ),
+                                          SizedBox(
+                                            height: blockVertical * 0.5,
+                                          ),
+                                          Shimmer.fromColors(
+                                            baseColor: Colors.white,
+                                            highlightColor: Colors.grey,
+                                            child: Container(
+                                              width: blockHorizontal*10,
+                                              height: blockVertical*1.5,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(blockVertical*2)
+                                              ),
+                                            ),
+                                          )
+                                          ],
+                                        );
+                                      }).toList(),
+                                     );
                                     }
                                     return CircleAvatar();
                                   }

@@ -7,6 +7,7 @@ import 'package:flutter_application_1/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_application_1/Services/param_service.dart';
 
 class drawer extends StatefulWidget {
   const drawer({super.key});
@@ -16,6 +17,7 @@ class drawer extends StatefulWidget {
 }
 
 class _drawerState extends State<drawer> {
+  int state0 = 0;
   //SAVE DATA LOGIN TO LOCAL MEMORY--------------------------------------------------------------------------------------------
   String? name,otoritas;
   Future<void> getValidUser() async{
@@ -23,8 +25,8 @@ class _drawerState extends State<drawer> {
     var getName = shared.getString("name");
     var getOtoritas = shared.getString("otoritas");
     setState(() {
-      name = getName!;
-      otoritas = getOtoritas!;
+      name = getName;
+      otoritas = getOtoritas;
     });
   }
   @override
@@ -228,11 +230,17 @@ class _drawerState extends State<drawer> {
                     final SharedPreferences shared = await SharedPreferences.getInstance();
                     shared.remove("name");
                     shared.remove("otoritas");
+                    shared.remove("A");
+                    shared.remove("B");
+                    shared.remove("C");
+                    shared.remove("stateParamM1");
+                    shared.remove("tipeParamM1");          
                     // ignore: use_build_context_synchronously
                     Navigator.pushNamedAndRemoveUntil(
                         context, mylogin, (route) => false,
                         arguments: "from drawer");
                   }).show();
+                  resetParam.putParam(state0);
             },
           ),
           ListTile(
@@ -418,6 +426,11 @@ class _drawerState extends State<drawer> {
                     final SharedPreferences shared = await SharedPreferences.getInstance();
                     shared.remove("name");
                     shared.remove("otoritas");
+                    shared.remove("A");
+                    shared.remove("B");
+                    shared.remove("C");
+                    shared.remove("stateParamM1");
+                    shared.remove("tipeParamM1"); 
                     // ignore: use_build_context_synchronously
                     Navigator.pushNamedAndRemoveUntil(
                         context, mylogin, (route) => false,

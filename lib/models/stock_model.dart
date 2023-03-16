@@ -11,13 +11,21 @@ class stockModel{
       C: json["C"],
     );
   }
+}
 
-    Map<String, dynamic> toJson() {
-    final dataStock = <String, dynamic>{};
-    dataStock['machine_id'] = machine_id;
-    dataStock['A'] = A;
-    dataStock['B'] = B;
-    dataStock['C'] = C;
-    return dataStock;
+class historiM1model{
+  late String? id, tipe, dibuat;
+  late int? jumlah,machine_id;
+
+  historiM1model({this.id, this.machine_id, this.dibuat, this.jumlah, this.tipe});
+
+  factory historiM1model.fromJSON(Map<String, dynamic> json){
+    return historiM1model(
+      id: json["_id"],
+      machine_id: json["machine_id"],
+      tipe: json["tipe"],
+      dibuat: json["dibuat"],
+      jumlah: json["jumlah"]
+    );
   }
 }

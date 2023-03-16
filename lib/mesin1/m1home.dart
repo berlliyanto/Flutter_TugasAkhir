@@ -22,7 +22,7 @@ class m1home extends StatefulWidget {
 
 class _m1homeState extends State<m1home> {
   //STREAMCONTROLLER STATUS MESIN 
-  StreamController<List> streamStatusM1 = StreamController();
+  StreamController<List> streamStatusM1 = StreamController.broadcast();
   List<status1Model> status = [];
   getStatusM1 statusState = getStatusM1();
   Future<void> getStatus() async {

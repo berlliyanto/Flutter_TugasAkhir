@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_application_1/models/energy_model.dart';

@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
 import 'package:flutter_application_1/mesin1/m1energy_usage.dart';
+import 'package:flutter_application_1/mesin1/m1pressure.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class m1monitoring extends StatefulWidget {
   static const nameRoute = '/m1monitoring ';
@@ -30,8 +32,30 @@ class m1monitoring extends StatefulWidget {
   @override
   State<m1monitoring> createState() => _m1monitoringState();
 }
-
 class _m1monitoringState extends State<m1monitoring> {
+  int? StockA,StockB,StockC,state;
+  String? tipeBenda;
+  void sharedpref()async{
+  final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getStockA = shared.getInt("A");
+    var getStockB = shared.getInt("B");
+    var getStockC = shared.getInt("C");
+    var tipeParamM1 = shared.getString('tipeParamM1');
+    var stateM1 = shared.getInt('stateParamM1');
+    setState(() {
+      StockA = getStockA;
+      StockB = getStockB;
+      StockC = getStockC;
+      state = stateM1;
+      tipeBenda = tipeParamM1;
+    });
+  }
+
+  @override
+  void initState(){
+    sharedpref();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final MediaQuerywidth = MediaQuery.of(context).size.width;
@@ -76,7 +100,7 @@ class _m1monitoringState extends State<m1monitoring> {
                   ]),
             ),
             child: TabBarView(
-                children: [Production(context), Pressure(), m1energy()]),
+                children: [Production(context), m1pressure(), m1energy()]),
           ),
         ),
       ),
@@ -121,24 +145,24 @@ class _m1monitoringState extends State<m1monitoring> {
                     Text(
                       "Status Mesin",
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: blockVertical*2,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(
-                      height: 5,
+                      height: blockVertical*0.5,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          height: 10,
-                          width: 10,
+                          height: blockVertical*1,
+                          width: blockVertical*1,
                           color: Color.fromARGB(255, 0, 255, 8),
                         ),
                         Text("  Running",
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: blockVertical*1.8,
                             )),
                       ],
                     )
@@ -150,29 +174,29 @@ class _m1monitoringState extends State<m1monitoring> {
                     Text(
                       "Tipe Benda",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: blockVertical*2, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: 5,
+                      height: blockVertical*0.5,
                     ),
-                    Text("A",
+                    Text((state==1)?"$tipeBenda":"-",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: blockVertical*2,
                         )),
                     SizedBox(
-                      height: 15,
+                      height: blockVertical*2,
                     ),
-                    Text(
-                      "Stock Bahan A",
+                    Text((state==1)?
+                      "Stock Bahan $tipeBenda":"Stock Bahan -",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: blockVertical*2, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: 5,
+                      height: blockVertical*0.5,
                     ),
-                    Text("50",
+                    Text((state==1)?(tipeBenda=="A")?"$StockA":(tipeBenda=="B")?"$StockB":(tipeBenda=="C")?"$StockC":"0":"Belum Input Parameter",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: blockVertical*2,
                         )),
                   ],
                 ),
@@ -182,12 +206,12 @@ class _m1monitoringState extends State<m1monitoring> {
                     Text(
                       "Life Time",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: blockVertical*2, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: blockVertical*0.5),
                     Text("91281",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: blockVertical*2,
                         )),
                   ],
                 )

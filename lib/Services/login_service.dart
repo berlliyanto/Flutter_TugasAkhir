@@ -25,7 +25,6 @@ class LoginService{
       sharedData.setString("name", data['name'] );
       sharedData.setString("otoritas", data['otoritas']);
       sharedData.setString("token", data['token']);
-      print(sharedData);
       return true;
      }else{
       return false;

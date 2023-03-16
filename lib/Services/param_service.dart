@@ -41,15 +41,11 @@ class inputParameter {
           "state": state
         }));
     print(hasilResponsePost.statusCode);
-    var dataParameter =
-        (json.decode(hasilResponsePost.body) as Map<String, dynamic>);
-    return inputParameter(
-        machine_id: dataParameter['machine_id'],
-        loading_time: dataParameter['loading_time'],
-        cycle_time: dataParameter['cycle_time'],
-        oee_target: dataParameter['oee_target'],
-        harga_perUnit: dataParameter['harga_perUnit'],
-        tipe_benda: dataParameter['tipe_benda']);
+    var dataParameter =(json.decode(hasilResponsePost.body) as Map<String, dynamic>)['data'];
+    shared.setString('tipeParamM1', dataParameter['tipe_benda']);
+    shared.setInt('stateParamM1', dataParameter['state']);
+    print(dataParameter);
+    return inputParameter();
   }
 }
 
@@ -62,6 +58,7 @@ class resetParam {
   static Future<resetParam> putParam(int state) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
+        shared.setInt('stateParamM1',state);
     Uri urlput = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/resetParamM1");
 
     var hasilResponsePut = await http.put(
@@ -74,6 +71,7 @@ class resetParam {
       ),
     );
     var dataPut = (jsonDecode(hasilResponsePut.body) as Map<String, dynamic>)['data'];
+    
     return resetParam(
       state: dataPut['state']
     );

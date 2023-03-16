@@ -19,7 +19,7 @@ class getStatus{
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
     });
-    Iterable it = (jsonDecode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
+    Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
     List<statusModel> statusList = it.map((e) =>  statusModel.fromJSON(e)).toList();
     return statusList;
   }

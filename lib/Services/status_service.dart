@@ -44,45 +44,58 @@ class getStatusM1{
     return statusList;
   }
 }
-// class getStatusM2{
-//   late int? machine_id,status;
 
-//   getStatusM2({this.machine_id, this.status});
+class getStatusM2{
+  late int? machine_id,status;
 
-//   static Future readStatM2() async {
-//     Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStatusM2");
+  getStatusM2({this.machine_id, this.status});
 
-//     var hasilResponseGet = await http.get(url);
-//     Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
-//         List<status2Model> statusList = it.map((e) =>  status2Model.fromJSON(e)).toList();
-//         return statusList;
-//   }
-// }
-// class getStatusM3{
-//   late int? machine_id,status;
+  static Future readStatM2() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStatusM2");
 
-//   getStatusM3({this.machine_id, this.status});
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'});
+    Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
+        List<status2Model> statusList = it.map((e) =>  status2Model.fromJSON(e)).toList();
+        return statusList;
+  }
+}
+class getStatusM3{
+  late int? machine_id,status;
 
-//   static Future readStatM3() async {
-//     Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStatusM3");
+  getStatusM3({this.machine_id, this.status});
 
-//     var hasilResponseGet = await http.get(url);
-//     Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
-//         List<status3Model> statusList = it.map((e) =>  status3Model.fromJSON(e)).toList();
-//         return statusList;
-//   }
-// }
-// class getStatusM4{
-//   late int? machine_id,status;
+  static Future readStatM3() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStatusM3");
 
-//   getStatusM4({this.machine_id, this.status});
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'});
+    Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
+        List<status3Model> statusList = it.map((e) =>  status3Model.fromJSON(e)).toList();
+        return statusList;
+  }
+}
+class getStatusM4{
+  late int? machine_id,status;
 
-//   static Future readStatM4() async {
-//     Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStatusM4");
+  getStatusM4({this.machine_id, this.status});
 
-//     var hasilResponseGet = await http.get(url);
-//     Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
-//         List<status4Model> statusList = it.map((e) =>  status4Model.fromJSON(e)).toList();
-//         return statusList;
-//   }
-// }
+  static Future readStatM4() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStatusM4");
+
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'});
+    Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
+        List<status4Model> statusList = it.map((e) =>  status4Model.fromJSON(e)).toList();
+        return statusList;
+  }
+}

@@ -10,14 +10,19 @@ class pressureGauge{
   }
 }
 
-class pressureChart{
+class pressurePoint{
+  late final double x;
+  late final double y;
+  pressurePoint({required this.x, required this.y});
+}
+class pressureModel{
   late dynamic value;
 
-  pressureChart({this.value});
+  pressureModel({this.value,});
 
-  factory pressureChart.fromJSON(Map<String, dynamic> json){
-    return pressureChart(
-      value: json['value']
+  factory pressureModel.fromJSON(Map<String,  dynamic> json){
+    return pressureModel(
+      value: json['value'],
     );
   }
 }

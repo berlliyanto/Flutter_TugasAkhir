@@ -1,10 +1,14 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:async';
 import 'dart:ui';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Services/param_service.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
+import 'package:flutter_application_1/models/param_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class m3param extends StatefulWidget {
@@ -16,12 +20,43 @@ class m3param extends StatefulWidget {
 }
 
 class _m3paramState extends State<m3param> {
+  //KONTROLER REALTIME DATA (STREAMBUILDER)
+  StreamController<List> streamParam = StreamController();
+  late Timer timer;
+  List<ParamModel3> paramList = [];
+  readLatestParamM3 getLatestParamM3 = readLatestParamM3();
+  Future<void> latestParam() async {
+    paramList = await getLatestParamM3.getParamM3();
+    streamParam.add(paramList);
+  }
+  int state0 = 0;
+  int state = 1;
+  String machine_id = "3";
+  TextEditingController loading = TextEditingController();
+  TextEditingController cycle = TextEditingController();
+  TextEditingController oee = TextEditingController();
+  TextEditingController harga = TextEditingController();
   final List<String> tipeBenda = [
     "A",
     "B",
     "C",
   ];
   late String? tipeValue;
+
+  @override
+  void initState() {
+    latestParam();
+    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+      latestParam();
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (timer.isActive) timer.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -31,18 +66,8 @@ class _m3paramState extends State<m3param> {
     // UNTUK TINGGI TAMPILAN
     final MediaQueryheight = MediaQuery.of(context).size.height;
     double blockVertical = MediaQueryheight / 100;
-    final myappbar = AppBar(
-      title: Text("Media Query"),
-    );
-    final bodyheight = MediaQueryheight -
-        myappbar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
-
-    // Mengetahui Orientasi Device
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text("Mesin 3 Input Parameter",style: TextStyle(fontSize: blockVertical * 2.5),),
@@ -140,68 +165,104 @@ class _m3paramState extends State<m3param> {
                               ],
                             ),
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Loading Time",
-                                style: TextStyle(
-                                    fontSize: blockVertical * 1.5,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("5"),
-                                  Text(
-                                    "  Menit",
-                                    style: TextStyle(
-                                        fontSize: blockVertical * 1.5),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: blockVertical * 2,
-                              ),
-                              Text(
-                                "Cycle Time",
-                                style: TextStyle(
-                                    fontSize: blockVertical * 1.5,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("5"),
-                                  Text(
-                                    "  Menit",
-                                    style: TextStyle(
-                                        fontSize: blockVertical * 1.5),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: blockVertical * 2,
-                              ),
-                              Text(
-                                "OEE Target",
-                                style: TextStyle(
-                                    fontSize: blockVertical * 1.5,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("5"),
-                                  Text(
-                                    "  %",
-                                    style: TextStyle(
-                                        fontSize: blockVertical * 1.5),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
+                          child: StreamBuilder<Object>(
+                              stream: streamParam.stream,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: paramList.map((e) {
+                                      return Column(
+                                        children: [
+                                          Text(
+                                            "Loading Time",
+                                            style: TextStyle(
+                                                fontSize: blockVertical * 1.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text((e.state==1)?"${e.loading_time} Menit" : "0.0 Menit",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          blockVertical * 1.5)),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: blockVertical * 1,
+                                          ),
+                                          Text(
+                                            "Cycle Time",
+                                            style: TextStyle(
+                                                fontSize: blockVertical * 1.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text((e.state==1)?"${e.cycle_time} Menit" : "0.0 Menit",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          blockVertical * 1.5)),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: blockVertical * 1,
+                                          ),
+                                          Text(
+                                            "OEE Target",
+                                            style: TextStyle(
+                                                fontSize: blockVertical * 1.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text((e.state==1)?"${e.oee_target} %":"0.0 %",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          blockVertical * 1.5)),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: blockVertical * 1,
+                                          ),
+                                          Text(
+                                            "Tipe Benda",
+                                            style: TextStyle(
+                                                fontSize: blockVertical * 1.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text((e.state==1)?"Bentuk ${e.tipe_benda}":"Tipe Belum Ditentukan",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          blockVertical * 1.5)),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    }).toList(),
+                                  );
+                                } else {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                }
+                                return Center(
+                                  child: Text("No data"),
+                                );
+                              }),
                         ),
                       ]),
                     ),
@@ -210,6 +271,7 @@ class _m3paramState extends State<m3param> {
                 InputParam(
                   context,
                 ),
+                //BUTTON INPUT--------------------------------------------------------------------
                 Padding(
                         padding:  EdgeInsets.symmetric(horizontal: blockHorizontal * 2, vertical: blockVertical * 1),
                         child: Material(
@@ -236,7 +298,50 @@ class _m3paramState extends State<m3param> {
                                 radius: 100,
                                 borderRadius: BorderRadius.circular(20),
                                 onTap: () {
-                                  
+                                  if (loading.text.isNotEmpty &&
+                                cycle.text.isNotEmpty &&
+                                oee.text.isNotEmpty &&
+                                harga.text.isNotEmpty &&
+                                tipeValue!.isNotEmpty) {
+                              inputParameter
+                                  .insertParam(
+                                      machine_id,
+                                      loading.text,
+                                      cycle.text,
+                                      oee.text,
+                                      harga.text,
+                                      tipeValue.toString(),
+                                      state)
+                                  .then(
+                                    (value) => {
+                                      // ignore: unnecessary_null_comparison
+                                      if (value != null)
+                                        {
+                                          AwesomeDialog(
+                                            context: context,
+                                            dialogType: DialogType.success,
+                                            animType: AnimType.leftSlide,
+                                            title: "Sukses",
+                                            desc: "Sukses Input Parameter",
+                                            btnOkOnPress: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ).show()
+                                        },
+                                    },
+                                  );
+                            } else {
+                              AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.warning,
+                                      animType: AnimType.leftSlide,
+                                      title: "Gagal",
+                                      desc:
+                                          "Parameter Tidak Boleh Ada Yang Kosong",
+                                      autoHide: Duration(seconds: 2))
+                                  .show();
+                              print("ok");
+                            }
                                 },
                                 child: Center(
                                   child: Text(
@@ -252,6 +357,7 @@ class _m3paramState extends State<m3param> {
                           ),
                         ),
                       ),
+                      //BUTTON RESET---------------------------------------------------------
                       Padding(
                         padding:  EdgeInsets.symmetric(horizontal: blockHorizontal * 2,),
                         child: Material(
@@ -278,7 +384,32 @@ class _m3paramState extends State<m3param> {
                                 radius: 100,
                                 borderRadius: BorderRadius.circular(20),
                                 onTap: () {
-                                  
+                                  AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.question,
+                              animType: AnimType.leftSlide,
+                              title: "Reset",
+                              desc: "Anda Yakin Mau Menghapus Data Parameter Saat Ini?",
+                              useRootNavigator: true,
+                              btnOkIcon: FontAwesomeIcons.check,
+                              btnOkOnPress: (){
+                                resetParamM3.putParam(state0).then((value) {
+                                  if(value.state==0){
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.success,
+                                      animType: AnimType.leftSlide,
+                                      title: "Success",
+                                      desc: "Berhasil Reset Parameter",
+                                      useRootNavigator: true,
+                                      autoHide: Duration(seconds: 2),
+                                    );
+                                  }
+                                });
+                              },
+                              btnCancelIcon: FontAwesomeIcons.x,
+                              btnCancelOnPress: (){}
+                            ).show();
                                 },
                                 child: Center(
                                   child: Text(
@@ -378,6 +509,7 @@ class _m3paramState extends State<m3param> {
                         horizontal: blockHorizontal * 2,
                         vertical: blockVertical * 1),
                     child: TextFormField(
+                      controller: loading,
                       keyboardType: TextInputType.numberWithOptions(),
                       style: TextStyle(),
                       decoration: InputDecoration(
@@ -397,6 +529,7 @@ class _m3paramState extends State<m3param> {
                         horizontal: blockHorizontal * 2,
                         vertical: blockVertical * 1),
                     child: TextFormField(
+                      controller: cycle,
                       keyboardType: TextInputType.numberWithOptions(),
                       style: TextStyle(),
                       decoration: InputDecoration(
@@ -416,6 +549,7 @@ class _m3paramState extends State<m3param> {
                         horizontal: blockHorizontal * 2,
                         vertical: blockVertical * 1),
                     child: TextFormField(
+                      controller: oee,
                       keyboardType: TextInputType.numberWithOptions(),
                       style: TextStyle(),
                       decoration: InputDecoration(
@@ -435,6 +569,7 @@ class _m3paramState extends State<m3param> {
                           horizontal: blockHorizontal * 2,
                           vertical: blockVertical * 1),
                       child: TextFormField(
+                        controller: harga,
                         keyboardType: TextInputType.numberWithOptions(),
                         style: TextStyle(),
                         decoration: InputDecoration(
@@ -464,7 +599,7 @@ class _m3paramState extends State<m3param> {
                                 clearButtonProps: ClearButtonProps(
                                   isVisible: true,
                                 ),
-                                popupProps: PopupProps.dialog(
+                                popupProps: PopupProps.bottomSheet(
                                   constraints: BoxConstraints(maxHeight: blockVertical * 21.5),
                                   showSelectedItems: true,
                                   

@@ -269,7 +269,7 @@ class _MyakunState extends State<Myakun> {
                                         DataCell(Row(
                                           children: [
                                             // Update User-------------------------------------------------------------------------------
-                                            IconButton(
+                                            (e.otoritas!="Admin")?IconButton(
                                                 onPressed: () {
                                                   AwesomeDialog(
                                                     context: context,
@@ -351,7 +351,7 @@ class _MyakunState extends State<Myakun> {
                                                 icon: Icon(
                                                   Icons.edit,
                                                   color: Colors.amber,
-                                                )),
+                                                )):SizedBox(),
                                             // Delete User------------------------------------------------------------------------------
                                             (e.otoritas!="Admin")?IconButton(
                                                 onPressed: () {                                              

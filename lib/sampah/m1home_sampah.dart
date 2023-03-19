@@ -301,7 +301,7 @@ class _m1homeState extends State<m1home> {
                 Listmenu1((context), "Energy Usage", mym1energy, "from mesin 1",
                     FontAwesomeIcons.bolt),
                 SizedBox(height: sizedheight),
-                Listmenu1((context), "Alarm Event", mym1alarm, "from mesin 1",
+                Listmenu1((context), "Troubleshoot", mym1alarm, "from mesin 1",
                     FontAwesomeIcons.solidBell),
                 SizedBox(height: sizedheight),
                 Listmenu1((context), "Report", mym1pdf, "from mesin 1",

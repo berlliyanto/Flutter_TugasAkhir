@@ -32,6 +32,7 @@ class _m2paramState extends State<m2param> {
   }
 
   //KONTROLER PARAMETER YANG DI INPUTKAN
+  int state0 = 0;
   int state = 1;
   String machine_id = "2";
   TextEditingController loading = TextEditingController();
@@ -68,16 +69,6 @@ class _m2paramState extends State<m2param> {
     // UNTUK TINGGI TAMPILAN
     final MediaQueryheight = MediaQuery.of(context).size.height;
     double blockVertical = MediaQueryheight / 100;
-    final myappbar = AppBar(
-      title: Text("Media Query"),
-    );
-    final bodyheight = MediaQueryheight -
-        myappbar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
-
-    // Mengetahui Orientasi Device
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -201,7 +192,7 @@ class _m2paramState extends State<m2param> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text("${e.loading_time} Menit",
+                                              Text((e.state==1)?"${e.loading_time} Menit" : "0.0 Menit",
                                                   style: TextStyle(
                                                       fontSize:
                                                           blockVertical * 1.5)),
@@ -220,7 +211,7 @@ class _m2paramState extends State<m2param> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text("${e.cycle_time} Menit",
+                                              Text((e.state==1)?"${e.cycle_time} Menit" : "0.0 Menit",
                                                   style: TextStyle(
                                                       fontSize:
                                                           blockVertical * 1.5)),
@@ -239,7 +230,7 @@ class _m2paramState extends State<m2param> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text("${e.oee_target} %",
+                                              Text((e.state==1)?"${e.oee_target} %":"0.0 %",
                                                   style: TextStyle(
                                                       fontSize:
                                                           blockVertical * 1.5)),
@@ -258,7 +249,7 @@ class _m2paramState extends State<m2param> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text("Bentuk ${e.tipe_benda}",
+                                              Text((e.state==1)?"Bentuk ${e.tipe_benda}":"Tipe Belum Ditentukan",
                                                   style: TextStyle(
                                                       fontSize:
                                                           blockVertical * 1.5)),
@@ -405,7 +396,34 @@ class _m2paramState extends State<m2param> {
                           splashColor: Color.fromARGB(19, 3, 191, 233),
                           radius: 100,
                           borderRadius: BorderRadius.circular(20),
-                          onTap: () {},
+                          onTap: () {
+                             AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.question,
+                              animType: AnimType.leftSlide,
+                              title: "Reset",
+                              desc: "Anda Yakin Mau Menghapus Data Parameter Saat Ini?",
+                              useRootNavigator: true,
+                              btnOkIcon: FontAwesomeIcons.check,
+                              btnOkOnPress: (){
+                                resetParamM2.putParam(state0).then((value) {
+                                  if(value.state==0){
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.success,
+                                      animType: AnimType.leftSlide,
+                                      title: "Success",
+                                      desc: "Berhasil Reset Parameter",
+                                      useRootNavigator: true,
+                                      autoHide: Duration(seconds: 2),
+                                    );
+                                  }
+                                });
+                              },
+                              btnCancelIcon: FontAwesomeIcons.x,
+                              btnCancelOnPress: (){}
+                            ).show();
+                          },
                           child: Center(
                             child: Text(
                               "RESET DATA",

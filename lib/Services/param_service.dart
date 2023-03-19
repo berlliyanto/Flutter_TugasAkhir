@@ -49,7 +49,7 @@ class inputParameter {
   }
 }
 
-// RESET PARAMATER
+// RESET PARAMATER M1
 class resetParam {
   late int? state;
 
@@ -73,6 +73,92 @@ class resetParam {
     var dataPut = (jsonDecode(hasilResponsePut.body) as Map<String, dynamic>)['data'];
     
     return resetParam(
+      state: dataPut['state']
+    );
+  }
+}
+
+// RESET PARAMATER M2
+class resetParamM2 {
+  late int? state;
+
+  resetParamM2({this.state});
+
+  static Future<resetParamM2> putParam(int state) async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+        shared.setInt('stateParamM2',state);
+    Uri urlput = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/resetParamM2");
+
+    var hasilResponsePut = await http.put(
+      urlput,
+      headers: <String, String>{'Content-Type': 'application/json','Authorization': 'Basic $getToken'},
+      body: jsonEncode(
+        {
+          "state": state,
+        },
+      ),
+    );
+    var dataPut = (jsonDecode(hasilResponsePut.body) as Map<String, dynamic>)['data'];
+    
+    return resetParamM2(
+      state: dataPut['state']
+    );
+  }
+}
+
+// RESET PARAMATER M3
+class resetParamM3 {
+  late int? state;
+
+  resetParamM3({this.state});
+
+  static Future<resetParamM3> putParam(int state) async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+        shared.setInt('stateParamM3',state);
+    Uri urlput = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/resetParamM3");
+
+    var hasilResponsePut = await http.put(
+      urlput,
+      headers: <String, String>{'Content-Type': 'application/json','Authorization': 'Basic $getToken'},
+      body: jsonEncode(
+        {
+          "state": state,
+        },
+      ),
+    );
+    var dataPut = (jsonDecode(hasilResponsePut.body) as Map<String, dynamic>)['data'];
+    
+    return resetParamM3(
+      state: dataPut['state']
+    );
+  }
+}
+// RESET PARAMATER M4
+class resetParamM4 {
+  late int? state;
+
+  resetParamM4({this.state});
+
+  static Future<resetParamM4> putParam(int state) async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+        shared.setInt('stateParamM4',state);
+    Uri urlput = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/resetParamM4");
+
+    var hasilResponsePut = await http.put(
+      urlput,
+      headers: <String, String>{'Content-Type': 'application/json','Authorization': 'Basic $getToken'},
+      body: jsonEncode(
+        {
+          "state": state,
+        },
+      ),
+    );
+    var dataPut = (jsonDecode(hasilResponsePut.body) as Map<String, dynamic>)['data'];
+    
+    return resetParamM4(
       state: dataPut['state']
     );
   }
@@ -110,6 +196,44 @@ class readLatestParamM2 {
         (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
     List<ParamModel2> paramList =
         it.map((e) => ParamModel2.fromJSON(e)).toList();
+    print(paramList);
+    return paramList;
+  }
+}
+
+//READ LATEST INPUT PARAMETER M3
+class readLatestParamM3 {
+  Future getParamM3() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM3");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    Iterable it =
+        (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
+    List<ParamModel3> paramList =
+        it.map((e) => ParamModel3.fromJSON(e)).toList();
+    print(paramList);
+    return paramList;
+  }
+}
+
+//READ LATEST INPUT PARAMETER M2
+class readLatestParamM4 {
+  Future getParamM4() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM4");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    Iterable it =
+        (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
+    List<ParamModel4> paramList =
+        it.map((e) => ParamModel4.fromJSON(e)).toList();
     print(paramList);
     return paramList;
   }

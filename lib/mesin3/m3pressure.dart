@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/additional/chart_pressure.dart';
 import 'package:flutter_application_1/models/pressure_model.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter_application_1/Services/pressure_service.dart';
@@ -109,6 +110,8 @@ class _m3pressureState extends State<m3pressure> {
             }
           ),
         ),
+        SizedBox(height: blockVertical*2,),
+        chartPressure(),
       ],
     );
   }

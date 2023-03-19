@@ -30,7 +30,7 @@ class m2alarm extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Mesin 2 Alarm",style: TextStyle(fontSize: blockVertical * 2.5),),
+          title: Text("Mesin 2 Troubleshoot",style: TextStyle(fontSize: blockVertical * 2.5),),
           centerTitle: true,
           backgroundColor: Color.fromARGB(255, 3, 131, 167),
           toolbarHeight: blockVertical * 8,

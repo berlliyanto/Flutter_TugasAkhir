@@ -296,7 +296,7 @@ class m2home extends StatelessWidget {
                 Listmenu2((context), "Energy Usage", mym2energy, "from mesin 2",
                     FontAwesomeIcons.bolt),
                 SizedBox(height: sizedheight),
-                Listmenu2((context), "Alarm Event", mym2alarm, "from mesin 2",
+                Listmenu2((context), "Troubleshoot", mym2alarm, "from mesin 2",
                     FontAwesomeIcons.solidBell),
                 SizedBox(height: sizedheight),
                 Listmenu2((context), "Report", mym2pdf, "from mesin 2",

@@ -15,3 +15,21 @@ class getPressureGauge{
     return GaugeData;
   }
 }
+
+class getPressureChart{
+  Future getPressure() async {
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/pressureChart");
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    var responseGetAll = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    if (responseGetAll.statusCode == 200) {
+      Iterable it =
+          (json.decode(responseGetAll.body) as Map<String, dynamic>)["data"];
+      List<pressureModel> voltlist = it.map((e) => pressureModel.fromJSON(e)).toList();
+      return voltlist;
+    }
+  }
+}

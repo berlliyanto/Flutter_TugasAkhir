@@ -296,7 +296,7 @@ class m3home extends StatelessWidget {
                 Listmenu3((context), "Energy Usage", mym3energy, "from mesin 3",
                     FontAwesomeIcons.bolt),
                 SizedBox(height: sizedheight),
-                Listmenu3((context), "Alarm Event", mym3alarm, "from mesin 3",
+                Listmenu3((context), "Troubleshoot", mym3alarm, "from mesin 3",
                     FontAwesomeIcons.solidBell),
                 SizedBox(height: sizedheight),
                 Listmenu3((context), "Report", mym3pdf, "from mesin 3",

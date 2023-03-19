@@ -60,7 +60,6 @@ class HttpUserGet {
       'Authorization': 'Basic $getToken'
     });
     var dataGet = (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
-    print(dataGet);
     return HttpUserGet(
         id: dataGet["id"],
         username: dataGet["username"],
@@ -84,7 +83,6 @@ class allUserGet{
       if(responseGetAll.statusCode==200){
         Iterable it = (json.decode(responseGetAll.body)as Map<String, dynamic>)["data"];
         List<userModel> userList = it.map((e) => userModel.fromJSON(e)).toList();
-        print(userList);
         return userList;
       }
     } catch (e) {

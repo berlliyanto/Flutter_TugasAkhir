@@ -1,10 +1,14 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:async';
 import 'dart:ui';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Services/param_service.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
+import 'package:flutter_application_1/models/param_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class m4param extends StatefulWidget {
@@ -16,8 +20,19 @@ class m4param extends StatefulWidget {
 }
 
 class _m4paramState extends State<m4param> {
+  //KONTROLER REALTIME DATA (STREAMBUILDER)
+  StreamController<List> streamParam = StreamController();
+  late Timer timer;
+  List<ParamModel4> paramList = [];
+  readLatestParamM4 getLatestParamM4 = readLatestParamM4();
+  Future<void> latestParam() async {
+    paramList = await getLatestParamM4.getParamM4();
+    streamParam.add(paramList);
+  }
+  int state0 = 0;
+  int state = 1;
   String machine_id = "4";
-  TextEditingController loading= TextEditingController();
+  TextEditingController loading = TextEditingController();
   TextEditingController cycle = TextEditingController();
   TextEditingController oee = TextEditingController();
   TextEditingController harga = TextEditingController();
@@ -27,6 +42,21 @@ class _m4paramState extends State<m4param> {
     "C",
   ];
   late String? tipeValue;
+
+  @override
+  void initState() {
+    latestParam();
+    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+      latestParam();
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (timer.isActive) timer.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -48,6 +78,7 @@ class _m4paramState extends State<m4param> {
         MediaQuery.of(context).orientation == Orientation.landscape;
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text("Mesin 4 Input Parameter",style: TextStyle(fontSize: blockVertical * 2.5),),
@@ -146,68 +177,104 @@ class _m4paramState extends State<m4param> {
                               ],
                             ),
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Loading Time",
-                                style: TextStyle(
-                                    fontSize: blockVertical * 1.5,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("5"),
-                                  Text(
-                                    "  Menit",
-                                    style: TextStyle(
-                                        fontSize: blockVertical * 1.5),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: blockVertical * 2,
-                              ),
-                              Text(
-                                "Cycle Time",
-                                style: TextStyle(
-                                    fontSize: blockVertical * 1.5,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("5"),
-                                  Text(
-                                    "  Menit",
-                                    style: TextStyle(
-                                        fontSize: blockVertical * 1.5),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: blockVertical * 2,
-                              ),
-                              Text(
-                                "OEE Target",
-                                style: TextStyle(
-                                    fontSize: blockVertical * 1.5,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text("5"),
-                                  Text(
-                                    "  %",
-                                    style: TextStyle(
-                                        fontSize: blockVertical * 1.5),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
+                          child: StreamBuilder<Object>(
+                              stream: streamParam.stream,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: paramList.map((e) {
+                                      return Column(
+                                        children: [
+                                          Text(
+                                            "Loading Time",
+                                            style: TextStyle(
+                                                fontSize: blockVertical * 1.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text((e.state==1)?"${e.loading_time} Menit" : "0.0 Menit",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          blockVertical * 1.5)),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: blockVertical * 1,
+                                          ),
+                                          Text(
+                                            "Cycle Time",
+                                            style: TextStyle(
+                                                fontSize: blockVertical * 1.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text((e.state==1)?"${e.cycle_time} Menit" : "0.0 Menit",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          blockVertical * 1.5)),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: blockVertical * 1,
+                                          ),
+                                          Text(
+                                            "OEE Target",
+                                            style: TextStyle(
+                                                fontSize: blockVertical * 1.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text((e.state==1)?"${e.oee_target} %":"0.0 %",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          blockVertical * 1.5)),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: blockVertical * 1,
+                                          ),
+                                          Text(
+                                            "Tipe Benda",
+                                            style: TextStyle(
+                                                fontSize: blockVertical * 1.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text((e.state==1)?"Bentuk ${e.tipe_benda}":"Tipe Belum Ditentukan",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          blockVertical * 1.5)),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    }).toList(),
+                                  );
+                                } else {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                }
+                                return Center(
+                                  child: Text("No data"),
+                                );
+                              }),
                         ),
                       ]),
                     ),
@@ -242,7 +309,50 @@ class _m4paramState extends State<m4param> {
                                 radius: 100,
                                 borderRadius: BorderRadius.circular(20),
                                 onTap: () {
-                                  
+                                  if (loading.text.isNotEmpty &&
+                                cycle.text.isNotEmpty &&
+                                oee.text.isNotEmpty &&
+                                harga.text.isNotEmpty &&
+                                tipeValue!.isNotEmpty) {
+                              inputParameter
+                                  .insertParam(
+                                      machine_id,
+                                      loading.text,
+                                      cycle.text,
+                                      oee.text,
+                                      harga.text,
+                                      tipeValue.toString(),
+                                      state)
+                                  .then(
+                                    (value) => {
+                                      // ignore: unnecessary_null_comparison
+                                      if (value != null)
+                                        {
+                                          AwesomeDialog(
+                                            context: context,
+                                            dialogType: DialogType.success,
+                                            animType: AnimType.leftSlide,
+                                            title: "Sukses",
+                                            desc: "Sukses Input Parameter",
+                                            btnOkOnPress: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ).show()
+                                        },
+                                    },
+                                  );
+                            } else {
+                              AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.warning,
+                                      animType: AnimType.leftSlide,
+                                      title: "Gagal",
+                                      desc:
+                                          "Parameter Tidak Boleh Ada Yang Kosong",
+                                      autoHide: Duration(seconds: 2))
+                                  .show();
+                              print("ok");
+                            }
                                 },
                                 child: Center(
                                   child: Text(
@@ -284,7 +394,32 @@ class _m4paramState extends State<m4param> {
                                 radius: 100,
                                 borderRadius: BorderRadius.circular(20),
                                 onTap: () {
-                                  
+                                  AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.question,
+                              animType: AnimType.leftSlide,
+                              title: "Reset",
+                              desc: "Anda Yakin Mau Menghapus Data Parameter Saat Ini?",
+                              useRootNavigator: true,
+                              btnOkIcon: FontAwesomeIcons.check,
+                              btnOkOnPress: (){
+                                resetParamM4.putParam(state0).then((value) {
+                                  if(value.state==0){
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.success,
+                                      animType: AnimType.leftSlide,
+                                      title: "Success",
+                                      desc: "Berhasil Reset Parameter",
+                                      useRootNavigator: true,
+                                      autoHide: Duration(seconds: 2),
+                                    );
+                                  }
+                                });
+                              },
+                              btnCancelIcon: FontAwesomeIcons.x,
+                              btnCancelOnPress: (){}
+                            ).show();
                                 },
                                 child: Center(
                                   child: Text(
@@ -384,6 +519,7 @@ class _m4paramState extends State<m4param> {
                         horizontal: blockHorizontal * 2,
                         vertical: blockVertical * 1),
                     child: TextFormField(
+                      controller: loading,
                       keyboardType: TextInputType.numberWithOptions(),
                       style: TextStyle(),
                       decoration: InputDecoration(
@@ -403,6 +539,7 @@ class _m4paramState extends State<m4param> {
                         horizontal: blockHorizontal * 2,
                         vertical: blockVertical * 1),
                     child: TextFormField(
+                      controller: cycle,
                       keyboardType: TextInputType.numberWithOptions(),
                       style: TextStyle(),
                       decoration: InputDecoration(
@@ -422,6 +559,7 @@ class _m4paramState extends State<m4param> {
                         horizontal: blockHorizontal * 2,
                         vertical: blockVertical * 1),
                     child: TextFormField(
+                      controller: oee,
                       keyboardType: TextInputType.numberWithOptions(),
                       style: TextStyle(),
                       decoration: InputDecoration(
@@ -441,6 +579,7 @@ class _m4paramState extends State<m4param> {
                           horizontal: blockHorizontal * 2,
                           vertical: blockVertical * 1),
                       child: TextFormField(
+                        controller: harga,
                         keyboardType: TextInputType.numberWithOptions(),
                         style: TextStyle(),
                         decoration: InputDecoration(

@@ -296,7 +296,7 @@ class m4home extends StatelessWidget {
                 Listmenu4((context), "Energy Usage", mym4energy, "from mesin 4",
                     FontAwesomeIcons.bolt),
                 SizedBox(height: sizedheight),
-                Listmenu4((context), "Alarm Event", mym4alarm, "from mesin 4",
+                Listmenu4((context), "Troubleshoot", mym4alarm, "from mesin 4",
                     FontAwesomeIcons.solidBell),
                 SizedBox(height: sizedheight),
                 Listmenu4((context), "Report", mym4pdf, "from mesin 4",

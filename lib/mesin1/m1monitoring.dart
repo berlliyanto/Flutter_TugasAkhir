@@ -32,11 +32,12 @@ class m1monitoring extends StatefulWidget {
   @override
   State<m1monitoring> createState() => _m1monitoringState();
 }
+
 class _m1monitoringState extends State<m1monitoring> {
-  int? StockA,StockB,StockC,state;
+  int? StockA, StockB, StockC, state;
   String? tipeBenda;
-  void sharedpref()async{
-  final SharedPreferences shared = await SharedPreferences.getInstance();
+  void sharedpref() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
     var getStockA = shared.getInt("A");
     var getStockB = shared.getInt("B");
     var getStockC = shared.getInt("C");
@@ -52,10 +53,11 @@ class _m1monitoringState extends State<m1monitoring> {
   }
 
   @override
-  void initState(){
+  void initState() {
     sharedpref();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final MediaQuerywidth = MediaQuery.of(context).size.width;
@@ -122,19 +124,17 @@ class _m1monitoringState extends State<m1monitoring> {
           ),
           Container(
             margin: EdgeInsets.symmetric(
-                vertical: blockVertical * 3, horizontal: blockHorizontal * 3),
+                vertical: blockVertical * 1, horizontal: blockHorizontal * 3),
             height: blockVertical * 14,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    Color.fromARGB(255, 190, 203, 245).withOpacity(0.2),
-                    Color.fromARGB(255, 24, 161, 224).withOpacity(0.5),
-                  ]),
-              border: Border.all(
-                  color: Color.fromARGB(0, 17, 0, 255).withOpacity(0.5)),
+              color: Colors.white,
+              image: DecorationImage(image: AssetImage("images/asset6.png"), fit: BoxFit.cover ),
               borderRadius: BorderRadius.circular(10),
+              boxShadow: [BoxShadow(
+                color: Colors.black.withOpacity(0.5),
+                offset: Offset(5, 5),
+                blurRadius: 5
+              )]
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -145,24 +145,24 @@ class _m1monitoringState extends State<m1monitoring> {
                     Text(
                       "Status Mesin",
                       style: TextStyle(
-                        fontSize: blockVertical*2,
+                        fontSize: blockVertical * 2,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     SizedBox(
-                      height: blockVertical*0.5,
+                      height: blockVertical * 0.5,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
-                          height: blockVertical*1,
-                          width: blockVertical*1,
+                          height: blockVertical * 1,
+                          width: blockVertical * 1,
                           color: Color.fromARGB(255, 0, 255, 8),
                         ),
                         Text("  Running",
                             style: TextStyle(
-                              fontSize: blockVertical*1.8,
+                              fontSize: blockVertical * 1.8,
                             )),
                       ],
                     )
@@ -173,30 +173,41 @@ class _m1monitoringState extends State<m1monitoring> {
                   children: [
                     Text(
                       "Tipe Benda",
-                      style:
-                          TextStyle(fontSize: blockVertical*2, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: blockVertical * 2,
+                          fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: blockVertical*0.5,
+                      height: blockVertical * 0.5,
                     ),
-                    Text((state==1)?"$tipeBenda":"-",
+                    Text((state == 1) ? "$tipeBenda" : "-",
                         style: TextStyle(
-                          fontSize: blockVertical*2,
+                          fontSize: blockVertical * 2,
                         )),
                     SizedBox(
-                      height: blockVertical*2,
+                      height: blockVertical * 2,
                     ),
-                    Text((state==1)?
-                      "Stock Bahan $tipeBenda":"Stock Bahan -",
-                      style:
-                          TextStyle(fontSize: blockVertical*2, fontWeight: FontWeight.bold),
+                    Text(
+                      (state == 1) ? "Stock Bahan $tipeBenda" : "Stock Bahan -",
+                      style: TextStyle(
+                          fontSize: blockVertical * 2,
+                          fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
-                      height: blockVertical*0.5,
+                      height: blockVertical * 0.5,
                     ),
-                    Text((state==1)?(tipeBenda=="A")?"$StockA":(tipeBenda=="B")?"$StockB":(tipeBenda=="C")?"$StockC":"0":"Belum Input Parameter",
+                    Text(
+                        (state == 1)
+                            ? (tipeBenda == "A")
+                                ? "$StockA"
+                                : (tipeBenda == "B")
+                                    ? "$StockB"
+                                    : (tipeBenda == "C")
+                                        ? "$StockC"
+                                        : "0"
+                            : "Belum Input Parameter",
                         style: TextStyle(
-                          fontSize: blockVertical*2,
+                          fontSize: blockVertical * 2,
                         )),
                   ],
                 ),
@@ -205,13 +216,14 @@ class _m1monitoringState extends State<m1monitoring> {
                   children: [
                     Text(
                       "Life Time",
-                      style:
-                          TextStyle(fontSize: blockVertical*2, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: blockVertical * 2,
+                          fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: blockVertical*0.5),
+                    SizedBox(height: blockVertical * 0.5),
                     Text("91281",
                         style: TextStyle(
-                          fontSize: blockVertical*2,
+                          fontSize: blockVertical * 2,
                         )),
                   ],
                 )
@@ -219,7 +231,7 @@ class _m1monitoringState extends State<m1monitoring> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(bottom: blockVertical*1),
+            padding: EdgeInsets.only(bottom: blockVertical * 1),
             height: blockVertical * 63,
             width: MediaQuerywidth,
             decoration: BoxDecoration(
@@ -234,7 +246,7 @@ class _m1monitoringState extends State<m1monitoring> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: blockVertical * 2,
+                    height: blockVertical * 1.5,
                   ),
                   //Production
                   Center(
@@ -245,151 +257,93 @@ class _m1monitoringState extends State<m1monitoring> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Divider(thickness: 2),
+                  SizedBox(
+                    height: blockVertical * 1,
+                  ),
+                  Divider(thickness: blockVertical*1),
                   SizedBox(
                     height: blockVertical * 1,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("Production", style: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
-                      Container(
-                        height: blockVertical * 20,
-                        width: blockHorizontal * 40,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                end: Alignment.bottomRight,
-                                begin: Alignment.topLeft,
-                                colors: [
-                                  Color.fromARGB(255, 180, 179, 179)
-                                      .withOpacity(0.5),
-                                  Color.fromARGB(255, 182, 182, 182)
-                                      .withOpacity(0.2),
-                                ]),
-                            border: Border.all(color: Colors.black12),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Processed Unit",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text("2 Unit"),
-                            Divider(color: Colors.transparent),
-                            Text(
-                              "Flawless Unit",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text("30  Unit"),
-                            Divider(color: Colors.transparent),
-                            Text(
-                              "Defect Unit",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text("1   Unit"),
-                          ],
-                        ),
+                      Text(
+                        "Production",
+                        style: TextStyle(
+                            fontSize: blockVertical * 3,
+                            fontWeight: FontWeight.bold),
                       ),
+                      NilaiProduction(
+                          blockHorizontal,
+                          blockVertical,
+                          "Processed Unit",
+                          "2 Unit",
+                          "Good Processed",
+                          "1 Unit",
+                          "Defect Unit",
+                          "1 Unit"),
                     ],
                   ),
-                  Divider(thickness: blockVertical*1,),
+                  Divider(
+                    thickness: blockVertical * 1,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Production", style: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
-                          Text("Time", style: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
+                          Text(
+                            "Production",
+                            style: TextStyle(
+                                fontSize: blockVertical * 3,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Time",
+                            style: TextStyle(
+                                fontSize: blockVertical * 3,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
-                      Container(
-                        height: blockVertical * 20,
-                        width: blockHorizontal * 40,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                end: Alignment.bottomRight,
-                                begin: Alignment.topLeft,
-                                colors: [
-                                  Color.fromARGB(255, 180, 179, 179)
-                                      .withOpacity(0.5),
-                                  Color.fromARGB(255, 182, 182, 182)
-                                      .withOpacity(0.2),
-                                ]),
-                            border: Border.all(color: Colors.black12),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Running Time",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text("2 menit"),
-                            Divider(color: Colors.transparent),
-                            Text(
-                              "Operation Time",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text("30 menit"),
-                            Divider(color: Colors.transparent),
-                            Text(
-                              "Downtime",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text("1 menit"),
-                          ],
-                        ),
-                      ),
+                      NilaiProduction(
+                          blockHorizontal,
+                          blockVertical,
+                          "Running Time",
+                          "20 menit",
+                          "Operation Time",
+                          "20 menit",
+                          "Downtime",
+                          "5 menit"),
                     ],
                   ),
-                  Divider(thickness: blockVertical*1,),
+                  Divider(
+                    thickness: blockVertical * 1,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("Parameter", style: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
-                      Container(
-                        height: blockVertical * 20,
-                        width: blockHorizontal * 40,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                end: Alignment.bottomRight,
-                                begin: Alignment.topLeft,
-                                colors: [
-                                  Color.fromARGB(255, 180, 179, 179)
-                                      .withOpacity(0.5),
-                                  Color.fromARGB(255, 182, 182, 182)
-                                      .withOpacity(0.2),
-                                ]),
-                            border: Border.all(color: Colors.black12),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Loading Time",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text("2 menit"),
-                            Divider(color: Colors.transparent),
-                            Text(
-                              "Cycle Time",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text("30 menit"),
-                            Divider(color: Colors.transparent),
-                            Text(
-                              "OEE Target",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text("1 %"),
-                          ],
-                        ),
+                      Text(
+                        "Parameter",
+                        style: TextStyle(
+                            fontSize: blockVertical * 3,
+                            fontWeight: FontWeight.bold),
                       ),
+                      NilaiProduction(
+                          blockHorizontal,
+                          blockVertical,
+                          "Loading Time",
+                          "5 menit",
+                          "Cycle Time",
+                          "0.1 menit",
+                          "OEE Target",
+                          "85 %"),
                     ],
                   ),
-                  SizedBox(height: blockVertical*5,)
+                  SizedBox(
+                    height: blockVertical * 5,
+                  )
                 ],
               ),
             ),
@@ -399,10 +353,63 @@ class _m1monitoringState extends State<m1monitoring> {
     );
   }
 
-  //Pressure-----------------------------------------------------------------------------------------------
-  Widget Pressure() {
-    return Padding(
-      padding: EdgeInsets.all(5),
+  Widget NilaiProduction(
+    double blockHorizontal,
+    double blockVertical,
+    String baris1,
+    String subBaris1,
+    String baris2,
+    String subBaris2,
+    String baris3,
+    String subBaris3,
+  ) {
+    return Container(
+      height: blockVertical * 20,
+      width: blockHorizontal * 40,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              end: Alignment.bottomRight,
+              begin: Alignment.topLeft,
+              colors: [
+                Color.fromARGB(255, 180, 179, 179).withOpacity(0.5),
+                Color.fromARGB(255, 182, 182, 182).withOpacity(0.2),
+              ]),
+          border: Border.all(color: Colors.black12),
+          borderRadius: BorderRadius.circular(blockVertical * 1)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            baris1,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: blockVertical * 1.8),
+          ),
+          Text(
+            subBaris1,
+            style: TextStyle(fontSize: blockVertical * 1.8),
+          ),
+          Divider(color: Colors.transparent, thickness:blockVertical*0.5,),
+          Text(
+            baris2,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: blockVertical * 1.8),
+          ),
+          Text(
+            subBaris2,
+            style: TextStyle(fontSize: blockVertical * 1.8),
+          ),
+          Divider(color: Colors.transparent, thickness:blockVertical*0.5),
+          Text(
+            baris3,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: blockVertical * 1.8),
+          ),
+          Text(
+            subBaris3,
+            style: TextStyle(fontSize: blockVertical * 1.8),
+          ),
+        ],
+      ),
     );
   }
 }

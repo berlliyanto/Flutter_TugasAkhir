@@ -1,59 +1,115 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/back_button_pop.dart';
+import 'dart:async';
 
-class m2pressure extends StatelessWidget {
-  static const nameRoute = '/m2pressure';
-  const m2pressure(String x, {super.key});
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/pressure_model.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter_application_1/Services/pressure_service.dart';
+import 'package:shimmer/shimmer.dart';
+
+class m2pressure extends StatefulWidget {
+  const m2pressure({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<m2pressure> createState() => _m2pressureState();
+}
+class _m2pressureState extends State<m2pressure> {
+  late Timer timer;
+  final StreamController<List> streamGauge = StreamController.broadcast();
+  List<pressureGauge> GaugeData = [];
+  getPressureGauge getPress = getPressureGauge();
+    Future<void> pressGauges() async {
+     GaugeData = await getPress.getValue();
+    streamGauge.add(GaugeData);
+  }
+   @override
+  void initState() {
+    pressGauges();
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      pressGauges();
+    });
+    super.initState();
+  }
 
+  @override
+  void dispose() {
+    if (timer.isActive) timer.cancel();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
     final MediaQuerywidth = MediaQuery.of(context).size.width;
     double blockHorizontal = MediaQuerywidth / 100;
-
-    // UNTUK TINGGI TAMPILAN
     final MediaQueryheight = MediaQuery.of(context).size.height;
     double blockVertical = MediaQueryheight / 100;
-    final myappbar = AppBar(
-      title: Text("Media Query"),
-    );
-    final bodyheight = MediaQueryheight -
-        myappbar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
-
-    // Mengetahui Orientasi Device
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Mesin 2 Pressure",style: TextStyle(fontSize: blockVertical * 2.5),),
-          centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 3, 131, 167),
-          toolbarHeight: blockVertical * 8,
-          leading: backbutton(context),
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: blockVertical*1, left: blockHorizontal*1,right: blockHorizontal*1),
+          height: blockVertical*45,
+          width: MediaQuerywidth,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(blockVertical*3)
+          ),
+          child: StreamBuilder(
+            stream: streamGauge.stream,
+            builder: (context, snapshot) {
+              if(snapshot.hasData){
+                return Column(
+                  children: GaugeData.map((e) {
+                    return SizedBox(
+                      height: blockVertical*45,
+                      width: blockVertical*45,
+                      child: SfRadialGauge(
+                      title: GaugeTitle(text: "Tekanan Angin", textStyle: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold)),
+                      axes: [
+                        RadialAxis(
+                          minimum: 0,
+                          maximum: 16,
+                          pointers: [
+                            NeedlePointer(value: e.value.toDouble(), enableAnimation: true,)
+                          ],
+                          ranges: [
+                            GaugeRange(startValue: 0, endValue: e.value.toDouble(), color: Colors.green,),
+                          ],
+                          annotations: [
+                            GaugeAnnotation(widget: Text("${e.value}", style: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
+                            positionFactor: 0.5,
+                            angle: 90,),
+                            GaugeAnnotation(widget: Text("bar", style: TextStyle(fontSize: blockVertical*1.5, fontWeight: FontWeight.bold),),
+                            positionFactor: 0.65,
+                            angle: 90,)
+                          ],
+                        ),
+                      ],
+                                      ),
+                    );
+                  }).toList(),
+                );
+              }else if(snapshot.connectionState == ConnectionState.waiting){
+                return Center(
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.white,
+                    highlightColor: Colors.grey,
+                    child: Text(
+                      'Loading',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: blockVertical*5,
+                        fontWeight:
+                        FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }
+              return SfRadialGauge();
+            }
+          ),
         ),
-        body: Stack(
-          children: [
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF3ac3cb),
-                      Color(0xFFFFFFFF),
-                    ]),
-              ),
-            ),
-          ],
-        ),
-      ),
+      ],
     );
   }
 }

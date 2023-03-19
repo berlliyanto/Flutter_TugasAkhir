@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class m1cost extends StatelessWidget {
+class m1cost extends StatefulWidget {
   static const nameRoute = '/m1cost';
   const m1cost(String k, {super.key});
 
+  @override
+  State<m1cost> createState() => _m1costState();
+}
+
+class _m1costState extends State<m1cost> {
   @override
   Widget build(BuildContext context) {
     final MediaQuerywidth = MediaQuery.of(context).size.width;
@@ -16,17 +21,6 @@ class m1cost extends StatelessWidget {
     // UNTUK TINGGI TAMPILAN
     final MediaQueryheight = MediaQuery.of(context).size.height;
     double blockVertical = MediaQueryheight / 100;
-    final myappbar = AppBar(
-      title: Text("Media Query"),
-    );
-    final bodyheight = MediaQueryheight -
-        myappbar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
-
-    // Mengetahui Orientasi Device
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

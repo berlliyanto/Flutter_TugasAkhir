@@ -14,30 +14,24 @@ import 'package:flutter_application_1/mesin1/m1monitoring.dart';
 import 'package:flutter_application_1/mesin1/m1stock.dart';
 import 'package:flutter_application_1/mesin2/m2alarm.dart';
 import 'package:flutter_application_1/mesin2/m2cost.dart';
-import 'package:flutter_application_1/mesin2/m2energy_usage.dart';
 import 'package:flutter_application_1/mesin2/m2home.dart';
 import 'package:flutter_application_1/mesin2/m2inputparam.dart';
 import 'package:flutter_application_1/mesin2/m2oee.dart';
 import 'package:flutter_application_1/mesin2/m2pdf.dart';
-import 'package:flutter_application_1/mesin2/m2pressure.dart';
 import 'package:flutter_application_1/mesin2/m2monitoring.dart';
 import 'package:flutter_application_1/mesin2/m2stock.dart';
 import 'package:flutter_application_1/mesin3/m3alarm.dart';
 import 'package:flutter_application_1/mesin3/m3cost.dart';
-import 'package:flutter_application_1/mesin3/m3energy_usage.dart';
 import 'package:flutter_application_1/mesin3/m3inputparam.dart';
 import 'package:flutter_application_1/mesin3/m3oee.dart';
 import 'package:flutter_application_1/mesin3/m3pdf.dart';
-import 'package:flutter_application_1/mesin3/m3pressure.dart';
 import 'package:flutter_application_1/mesin3/m3monitoring.dart';
 import 'package:flutter_application_1/mesin3/m3stock.dart';
 import 'package:flutter_application_1/mesin4/m4alarm.dart';
 import 'package:flutter_application_1/mesin4/m4cost.dart';
-import 'package:flutter_application_1/mesin4/m4energy_usage.dart';
 import 'package:flutter_application_1/mesin4/m4inputparam.dart';
 import 'package:flutter_application_1/mesin4/m4oee.dart';
 import 'package:flutter_application_1/mesin4/m4pdf.dart';
-import 'package:flutter_application_1/mesin4/m4pressure.dart';
 import 'package:flutter_application_1/mesin4/m4monitoring.dart';
 import 'package:flutter_application_1/mesin4/m4stock.dart';
 import 'package:flutter_application_1/preventive.dart';
@@ -151,11 +145,6 @@ class Routes {
       // return MaterialPageRoute(builder:(context) => m2cost(t),);
       return BouncyPageRoute(page: m2cost(t));
 
-      case mym2energy:
-      var u = settings.arguments as String;
-      // return MaterialPageRoute(builder:(context) => m2energy(u),);
-      return BouncyPageRoute(page: m2energy(u));
-
       case mym2oee:
       var v = settings.arguments as String;
       // return MaterialPageRoute(builder:(context) => m2oee(v),);
@@ -165,11 +154,6 @@ class Routes {
       var w = settings.arguments as String;
       // return MaterialPageRoute(builder:(context) => m2pdf(w),);
       return BouncyPageRoute(page: m2pdf(w));
-
-      case mym2pressure:
-      var x = settings.arguments as String;
-      // return MaterialPageRoute(builder:(context) => m2pressure(x),);
-      return BouncyPageRoute(page: m2pressure(x));
 
       case mym2monitoring:
       var y = settings.arguments as String;
@@ -197,11 +181,6 @@ class Routes {
       // return MaterialPageRoute(builder:(context) => m3cost(ac),);
       return BouncyPageRoute(page: m3cost(ac));
 
-      case mym3energy:
-      var ad = settings.arguments as String;
-      // return MaterialPageRoute(builder:(context) => m3energy(ad),);
-      return BouncyPageRoute(page: m3energy(ad));
-
       case mym3oee:
       var ae = settings.arguments as String;
       // return MaterialPageRoute(builder:(context) => m3oee(ae),);
@@ -211,11 +190,6 @@ class Routes {
       var af = settings.arguments as String;
       // return MaterialPageRoute(builder:(context) => m3pdf(af),);
       return BouncyPageRoute(page: m3pdf(af));
-
-      case mym3pressure:
-      var ag = settings.arguments as String;
-      // return MaterialPageRoute(builder:(context) => m3pressure(ag),);
-      return BouncyPageRoute(page: m3pressure(ag));
 
       case mym3monitoring:
       var ah = settings.arguments as String;
@@ -243,11 +217,6 @@ class Routes {
       // return MaterialPageRoute(builder:(context) => m4cost(al),);
       return BouncyPageRoute(page: m4cost(al));
 
-      case mym4energy:
-      var am = settings.arguments as String;
-      // return MaterialPageRoute(builder:(context) => m4energy(am),);
-      return BouncyPageRoute(page: m4energy(am));
-
       case mym4oee:
       var an = settings.arguments as String;
       // return MaterialPageRoute(builder:(context) => m4oee(an),);
@@ -257,11 +226,6 @@ class Routes {
       var ao = settings.arguments as String;
       // return MaterialPageRoute(builder:(context) => m4pdf(ao),);
       return BouncyPageRoute(page: m4pdf(ao));
-
-      case mym4pressure:
-      var ap = settings.arguments as String;
-      // return MaterialPageRoute(builder:(context) => m4pressure(ap),);
-      return BouncyPageRoute(page: m4pressure(ap));
 
       case mym4monitoring:
       var aq = settings.arguments as String;

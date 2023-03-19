@@ -14,6 +14,7 @@ import 'package:flutter_application_1/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:shimmer/shimmer.dart';
 import 'constant.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -156,6 +157,7 @@ class _MyakunState extends State<Myakun> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
+                    alignment: Alignment.center,
                     height: blockVertical * 70,
                     width: MediaQuerywidth,
                     decoration: BoxDecoration(
@@ -168,233 +170,243 @@ class _MyakunState extends State<Myakun> {
                         ],
                       ),
                     ),
-                    child: FutureBuilder(
-                        future: allUserGet().connectAPIGetAll(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else {
-                            if (snapshot.hasData) {
-                              return SingleChildScrollView(
-                                scrollDirection: Axis.vertical,
-                                child: Expanded(
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: DataTable(
-                                      sortColumnIndex: 0,
-                                      sortAscending: sort,
-                                      border: TableBorder(
-                                        verticalInside: BorderSide(
-                                          width: 3,
-                                          color: Colors.black.withOpacity(0.1),
-                                        ),
-                                        horizontalInside: BorderSide(
-                                          width: 3,
-                                          color: Colors.black.withOpacity(0.1),
-                                        ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: FutureBuilder(
+                            future: allUserGet().connectAPIGetAll(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                  child: Shimmer.fromColors(
+                                    baseColor: Colors.white,
+                                    highlightColor: Colors.grey,
+                                    child: Text(
+                                      'Loading',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: blockVertical*5,
+                                        fontWeight:
+                                        FontWeight.bold,
                                       ),
-                                      ////HEADER TABLE------------------------------------------------------------------------------------------------------------
-                                      columns: [
-                                        DataColumn(
-                                          onSort: ((ColumnIndex, ascending) {
-                                            setState(() {
-                                              sort = !sort;
-                                            });
-                                            onSortUserName(
-                                                ColumnIndex, ascending);
-                                          }),
-                                          label: Text(
-                                            "Username",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: blockVertical * 2),
-                                          ),
-                                        ),
-                                        DataColumn(
-                                            label: Text(
-                                          "Nama Lengkap",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: blockVertical * 2),
-                                        )),
-                                        DataColumn(
-                                            label: Text(
-                                          "Otoritas",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: blockVertical * 2),
-                                        )),
-                                        DataColumn(
-                                            label: Text(
-                                          "No Handphone",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: blockVertical * 2),
-                                        )),
-                                        DataColumn(
-                                            label: Text(
-                                          "Actions",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: blockVertical * 2),
-                                        )),
-                                      ],
-                                      //BODY TABLE----------------------------------------------------------------------------------------------------------------
-                                      rows: userList.map((e) {
-                                        return DataRow(cells: [
-                                          DataCell(SelectableText("${e.username}",style: TextStyle(color: Colors.black,
-                                              fontSize: blockVertical * 2),)),
-                                          DataCell(SelectableText("${e.name}",style: TextStyle(color: Colors.black,
-                                              fontSize: blockVertical * 2))),
-                                          DataCell(SelectableText("${e.otoritas}",style: TextStyle(color: Colors.black,
-                                              fontSize: blockVertical * 2))),
-                                          DataCell(SelectableText("${e.noHp}",style: TextStyle(color: Colors.black,
-                                              fontSize: blockVertical * 2))),
-                                          DataCell(Row(
-                                            children: [
-                                              // Update User-------------------------------------------------------------------------------
-                                              IconButton(
-                                                  onPressed: () {
-                                                    AwesomeDialog(
-                                                      context: context,
-                                                      dialogType: DialogType.infoReverse,
-                                                      animType: AnimType.leftSlide,
-                                                      body: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              Text("Update Data "),
-                                                              Text("${e.name} ?", style: TextStyle(fontWeight: FontWeight.bold),)
-                                                            ],
-                                                          ),
-                                                          SizedBox(height: 10,),
-                                                          formField(context, "Username", username, TextInputType.text),
-                                                          SizedBox(height: 5,),
-                                                          formField(context, "Nama Lengkap", name, TextInputType.text),
-                                                          SizedBox(height: 5,),
-                                                          formField(context, "No Handphone", nohp, TextInputType.text),
-                                                          SizedBox(height: 5,),
-                                                          Container(
-                                                            alignment: Alignment.center,
-                                                            padding: EdgeInsets.only(left: blockHorizontal * 5),
-                                                            height: blockVertical * 7.0,
-                                                            width: MediaQuerywidth,
-                                                            decoration: BoxDecoration(
-                                                              color: Colors.grey[200],
-                                                              borderRadius:
-                                                                  BorderRadius.circular(blockVertical * 5),
-                                                            ),
-                                                            child: Padding(
-                                                              padding: EdgeInsets.symmetric(
-                                                                  vertical: blockVertical * 0.1,
-                                                                  horizontal: blockHorizontal * 1),
-                                                              child: DropdownSearch<String>(
-                                                                clearButtonProps: ClearButtonProps(
-                                                                  isVisible: true,
-                                                                ),
-                                                                popupProps: PopupProps.menu(
-                                                                  constraints: BoxConstraints(
-                                                                      maxHeight: blockVertical * 30,
-                                                                      ),
-                                                                  showSelectedItems: true,
-                                                                  disabledItemFn: (String s) => s.startsWith('A'),
-                                                                ),
-                                                                items: otoritas,
-                                                                dropdownDecoratorProps: DropDownDecoratorProps(
-                                                                  dropdownSearchDecoration: InputDecoration(
-                                                                    border: InputBorder.none,
-                                                                    labelText: "Pilih Otoritas",
-                                                                    hintText: "Otoritas",
-                                                                  ),
-                                                                ),
-                                                                onChanged: (value) {
-                                                                  setState(() {
-                                                                    otoValue = value;
-                                                                  });
-                                                                  print(otoValue);
-                                                                },
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      useRootNavigator: true,
-                                                      btnOkIcon: FontAwesomeIcons.upload,
-                                                      btnOkText: "Update",
-                                                      btnOkOnPress: () {
-                                                        HttpUserPut.connectAPIPut(e.id.toString(), username.text, name.text, otoValue.toString(), nohp.text);
-                                                      },
-                                                      btnCancelText: "Cancel",
-                                                      btnCancelIcon: FontAwesomeIcons.ban,
-                                                      btnCancelOnPress: (){
-                                                      }
-                                                    ).show();
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.edit,
-                                                    color: Colors.amber,
-                                                  )),
-                                              // Delete User------------------------------------------------------------------------------
-                                              (e.otoritas!="Admin")?IconButton(
-                                                  onPressed: () {                                              
-                                                    AwesomeDialog(
-                                                      context: context,
-                                                      dialogType:
-                                                          DialogType.question,
-                                                      animType:
-                                                          AnimType.leftSlide,
-                                                      body: Column(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: [
-                                                          Text("Yakin Mau Menghapus "),
-                                                          Text("${e.name} ?", style: TextStyle(fontWeight: FontWeight.bold),),
-                                                        ],
-                                                      ),
-                                                      useRootNavigator: true,
-                                                      btnOkText: "Delete",
-                                                      btnOkIcon: FontAwesomeIcons.trash,
-                                                      btnOkOnPress: () {
-                                                        HttpUserDelete
-                                                                .connectAPIDelete(
-                                                                    "${e.id}")
-                                                            .then((value) =>
-                                                                Navigator.pushNamed(
-                                                                    context,
-                                                                    myakun,
-                                                                    arguments:
-                                                                        "berhasil hapus"));
-                                                      },
-                                                      btnCancelIcon: FontAwesomeIcons.ban,
-                                                      btnCancelOnPress: () {},
-                                                    ).show();
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.delete,
-                                                    color: Colors.red,
-                                                  ),
-                                                ): SizedBox(height: 0.1,),
-                                            ],
-                                          ))
-                                        ]);
-                                      }).toList(),
                                     ),
                                   ),
-                                ),
+                                );
+                              } else {
+                                if (snapshot.hasData) {
+                                  return DataTable(
+                                    sortColumnIndex: 0,
+                                    sortAscending: sort,
+                                    border: TableBorder(
+                                      verticalInside: BorderSide(
+                                        width: 3,
+                                        color: Colors.black.withOpacity(0.1),
+                                      ),
+                                      horizontalInside: BorderSide(
+                                        width: 3,
+                                        color: Colors.black.withOpacity(0.1),
+                                      ),
+                                    ),
+                                    ////HEADER TABLE------------------------------------------------------------------------------------------------------------
+                                    columns: [
+                                      DataColumn(
+                                        onSort: ((ColumnIndex, ascending) {
+                                          setState(() {
+                                            sort = !sort;
+                                          });
+                                          onSortUserName(
+                                              ColumnIndex, ascending);
+                                        }),
+                                        label: Text(
+                                          "Username",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: blockVertical * 2),
+                                        ),
+                                      ),
+                                      DataColumn(
+                                          label: Text(
+                                        "Nama Lengkap",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: blockVertical * 2),
+                                      )),
+                                      DataColumn(
+                                          label: Text(
+                                        "Otoritas",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: blockVertical * 2),
+                                      )),
+                                      DataColumn(
+                                          label: Text(
+                                        "No Handphone",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: blockVertical * 2),
+                                      )),
+                                      DataColumn(
+                                          label: Text(
+                                        "Actions",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: blockVertical * 2),
+                                      )),
+                                    ],
+                                    //BODY TABLE----------------------------------------------------------------------------------------------------------------
+                                    rows: userList.map((e) {
+                                      return DataRow(cells: [
+                                        DataCell(SelectableText("${e.username}",style: TextStyle(color: Colors.black,
+                                            fontSize: blockVertical * 2),)),
+                                        DataCell(SelectableText("${e.name}",style: TextStyle(color: Colors.black,
+                                            fontSize: blockVertical * 2))),
+                                        DataCell(SelectableText("${e.otoritas}",style: TextStyle(color: Colors.black,
+                                            fontSize: blockVertical * 2))),
+                                        DataCell(SelectableText("${e.noHp}",style: TextStyle(color: Colors.black,
+                                            fontSize: blockVertical * 2))),
+                                        DataCell(Row(
+                                          children: [
+                                            // Update User-------------------------------------------------------------------------------
+                                            IconButton(
+                                                onPressed: () {
+                                                  AwesomeDialog(
+                                                    context: context,
+                                                    dialogType: DialogType.infoReverse,
+                                                    animType: AnimType.leftSlide,
+                                                    body: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            Text("Update Data "),
+                                                            Text("${e.name} ?", style: TextStyle(fontWeight: FontWeight.bold),)
+                                                          ],
+                                                        ),
+                                                        SizedBox(height: 10,),
+                                                        formField(context, "Username", username, TextInputType.text),
+                                                        SizedBox(height: 5,),
+                                                        formField(context, "Nama Lengkap", name, TextInputType.text),
+                                                        SizedBox(height: 5,),
+                                                        formField(context, "No Handphone", nohp, TextInputType.text),
+                                                        SizedBox(height: 5,),
+                                                        Container(
+                                                          alignment: Alignment.center,
+                                                          padding: EdgeInsets.only(left: blockHorizontal * 5),
+                                                          height: blockVertical * 7.0,
+                                                          width: MediaQuerywidth,
+                                                          decoration: BoxDecoration(
+                                                            color: Colors.grey[200],
+                                                            borderRadius:
+                                                                BorderRadius.circular(blockVertical * 5),
+                                                          ),
+                                                          child: Padding(
+                                                            padding: EdgeInsets.symmetric(
+                                                                vertical: blockVertical * 0.1,
+                                                                horizontal: blockHorizontal * 1),
+                                                            child: DropdownSearch<String>(
+                                                              clearButtonProps: ClearButtonProps(
+                                                                isVisible: true,
+                                                              ),
+                                                              popupProps: PopupProps.menu(
+                                                                constraints: BoxConstraints(
+                                                                    maxHeight: blockVertical * 30,
+                                                                    ),
+                                                                showSelectedItems: true,
+                                                                disabledItemFn: (String s) => s.startsWith('A'),
+                                                              ),
+                                                              items: otoritas,
+                                                              dropdownDecoratorProps: DropDownDecoratorProps(
+                                                                dropdownSearchDecoration: InputDecoration(
+                                                                  border: InputBorder.none,
+                                                                  labelText: "Pilih Otoritas",
+                                                                  hintText: "Otoritas",
+                                                                ),
+                                                              ),
+                                                              onChanged: (value) {
+                                                                setState(() {
+                                                                  otoValue = value;
+                                                                });
+                                                                print(otoValue);
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    useRootNavigator: true,
+                                                    btnOkIcon: FontAwesomeIcons.upload,
+                                                    btnOkText: "Update",
+                                                    btnOkOnPress: () {
+                                                      HttpUserPut.connectAPIPut(e.id.toString(), username.text, name.text, otoValue.toString(), nohp.text);
+                                                    },
+                                                    btnCancelText: "Cancel",
+                                                    btnCancelIcon: FontAwesomeIcons.ban,
+                                                    btnCancelOnPress: (){
+                                                    }
+                                                  ).show();
+                                                },
+                                                icon: Icon(
+                                                  Icons.edit,
+                                                  color: Colors.amber,
+                                                )),
+                                            // Delete User------------------------------------------------------------------------------
+                                            (e.otoritas!="Admin")?IconButton(
+                                                onPressed: () {                                              
+                                                  AwesomeDialog(
+                                                    context: context,
+                                                    dialogType:
+                                                        DialogType.question,
+                                                    animType:
+                                                        AnimType.leftSlide,
+                                                    body: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Text("Yakin Mau Menghapus "),
+                                                        Text("${e.name} ?", style: TextStyle(fontWeight: FontWeight.bold),),
+                                                      ],
+                                                    ),
+                                                    useRootNavigator: true,
+                                                    btnOkText: "Delete",
+                                                    btnOkIcon: FontAwesomeIcons.trash,
+                                                    btnOkOnPress: () {
+                                                      HttpUserDelete
+                                                              .connectAPIDelete(
+                                                                  "${e.id}")
+                                                          .then((value) =>
+                                                              Navigator.pushNamed(
+                                                                  context,
+                                                                  myakun,
+                                                                  arguments:
+                                                                      "berhasil hapus"));
+                                                    },
+                                                    btnCancelIcon: FontAwesomeIcons.ban,
+                                                    btnCancelOnPress: () {},
+                                                  ).show();
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ),
+                                              ): SizedBox(height: 0.1,),
+                                          ],
+                                        ))
+                                      ]);
+                                    }).toList(),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Text("${snapshot.error}");
+                                }
+                              }
+                              return Center(
+                                child: Text("No DATA"),
                               );
-                            } else if (snapshot.hasError) {
-                              return Text("${snapshot.error}");
-                            }
-                          }
-                          return Center(
-                            child: Text("No DATA"),
-                          );
-                        },
+                            },
+                          ),
                       ),
+                    ),
                   ),
                 ),
               ),

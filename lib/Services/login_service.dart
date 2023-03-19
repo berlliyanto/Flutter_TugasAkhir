@@ -19,6 +19,7 @@ class LoginService{
      headers: requestHeaders, 
      body: jsonEncode(model.toJson()),);
      var data = json.decode(responseLogin.body)['data'];
+     print(data);
      if(responseLogin.statusCode==200){
       // Shared
       final SharedPreferences sharedData = await SharedPreferences.getInstance();

@@ -94,7 +94,7 @@ class m2home extends StatelessWidget {
             ),
             child: ListView(
               padding: EdgeInsets.fromLTRB(
-                  10, blockVertical * 1, 10, blockVertical * 0.1),
+                  blockHorizontal*2, blockVertical * 3, blockHorizontal*2, blockVertical * 0.1),
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(

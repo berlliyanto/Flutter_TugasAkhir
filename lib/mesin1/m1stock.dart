@@ -9,6 +9,7 @@ import 'package:flutter_application_1/Services/stock.services.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
 import 'package:flutter_application_1/models/stock_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 
 class m1stock extends StatefulWidget {
   static const nameRoute = '/m1stock';
@@ -280,8 +281,49 @@ class _m1stockState extends State<m1stock> {
                             );
                           } else if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Shimmer.fromColors(
+                                  baseColor: Colors.white,
+                                  highlightColor: Colors.grey,
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    height: constraints.maxHeight * 0.9,
+                                    width: constraints.maxWidth * 0.3,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: Colors.white,
+                                  highlightColor: Colors.grey,
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    height: constraints.maxHeight * 0.9,
+                                    width: constraints.maxWidth * 0.3,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                                Shimmer.fromColors(
+                                  baseColor: Colors.white,
+                                  highlightColor: Colors.grey,
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    height: constraints.maxHeight * 0.9,
+                                    width: constraints.maxWidth * 0.3,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             );
                           }
                           return Container();
@@ -297,7 +339,7 @@ class _m1stockState extends State<m1stock> {
                     left: blockHorizontal * 3,
                   ),
                   child: Text(
-                    "Riwayat Penggunaan Bahan",
+                    "Riwayat Barang Masuk",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: blockVertical * 3.2,
@@ -415,6 +457,7 @@ class _m1stockState extends State<m1stock> {
                 ),
                 //LIST RIWAYAT BAHAN------------------------------------------------------------------------------------------------------
                 Container(
+                  padding: EdgeInsets.only(bottom: blockVertical*4.5),
                   color: Colors.transparent,
                   height: blockVertical * 45,
                   width: MediaQuerywidth,

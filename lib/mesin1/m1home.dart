@@ -122,7 +122,7 @@ class _m1homeState extends State<m1home> {
             ),
             child: ListView(
               padding: EdgeInsets.fromLTRB(
-                  10, blockVertical * 1, 10, blockVertical * 0.1),
+                  blockHorizontal*2, blockVertical * 3, blockHorizontal*2, blockVertical * 0.1),
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(

@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/energy_service.dart';
+import 'package:shimmer/shimmer.dart';
 // ignore: implementation_imports
 import '../../models/energy_model.dart';
 
@@ -44,6 +45,10 @@ class _chartVoltState extends State<chartVolt> {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQuerywidth = MediaQuery.of(context).size.width;
+    double blockHorizontal = MediaQuerywidth / 100;
+    final MediaQueryheight = MediaQuery.of(context).size.height;
+    double blockVertical = MediaQueryheight / 100;
     return StreamBuilder<Object>(
       stream: streamVolt.stream,
       builder: (context, snapshot) {
@@ -71,7 +76,15 @@ class _chartVoltState extends State<chartVolt> {
         );
         }else if(snapshot.connectionState == ConnectionState.waiting){
           return Center(
-            child: CircularProgressIndicator(),
+            child: Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.grey,
+              child: Container(
+                height: blockVertical*18,
+                width: blockHorizontal*75,
+                color: Colors.white,
+              ),
+            ),
           );
         }
         return Center();
@@ -117,6 +130,10 @@ class _chartcurrentState extends State<chartcurrent> {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQuerywidth = MediaQuery.of(context).size.width;
+    double blockHorizontal = MediaQuerywidth / 100;
+    final MediaQueryheight = MediaQuery.of(context).size.height;
+    double blockVertical = MediaQueryheight / 100;
     return StreamBuilder<Object>(
       stream: streamcurrent.stream,
       builder: (context, snapshot) {
@@ -144,7 +161,15 @@ class _chartcurrentState extends State<chartcurrent> {
         );
         }else if(snapshot.connectionState == ConnectionState.waiting){
           return Center(
-            child: CircularProgressIndicator(),
+            child: Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.grey,
+              child: Container(
+                height: blockVertical*18,
+                width: blockHorizontal*75,
+                color: Colors.white,
+              ),
+            ),
           );
         }
         return Center();
@@ -190,6 +215,10 @@ class _chartpowerState extends State<chartpower> {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQuerywidth = MediaQuery.of(context).size.width;
+    double blockHorizontal = MediaQuerywidth / 100;
+    final MediaQueryheight = MediaQuery.of(context).size.height;
+    double blockVertical = MediaQueryheight / 100;
     return StreamBuilder<Object>(
       stream: streampower.stream,
       builder: (context, snapshot) {
@@ -217,7 +246,15 @@ class _chartpowerState extends State<chartpower> {
         );
         }else if(snapshot.connectionState == ConnectionState.waiting){
           return Center(
-            child: CircularProgressIndicator(),
+            child: Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.grey,
+              child: Container(
+                height: blockVertical*18,
+                width: blockHorizontal*75,
+                color: Colors.white,
+              ),
+            ),
           );
         }
         return Center();
@@ -263,6 +300,10 @@ class _chartenergyState extends State<chartenergy> {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQuerywidth = MediaQuery.of(context).size.width;
+    double blockHorizontal = MediaQuerywidth / 100;
+    final MediaQueryheight = MediaQuery.of(context).size.height;
+    double blockVertical = MediaQueryheight / 100;
     return StreamBuilder<Object>(
       stream: streamenergy.stream,
       builder: (context, snapshot) {
@@ -290,7 +331,15 @@ class _chartenergyState extends State<chartenergy> {
         );
         }else if(snapshot.connectionState == ConnectionState.waiting){
           return Center(
-            child: CircularProgressIndicator(),
+            child: Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.grey,
+              child: Container(
+                height: blockVertical*18,
+                width: blockHorizontal*75,
+                color: Colors.white,
+              ),
+            ),
           );
         }
         return Center();
@@ -336,6 +385,10 @@ class _chartfrequencyState extends State<chartfrequency> {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQuerywidth = MediaQuery.of(context).size.width;
+    double blockHorizontal = MediaQuerywidth / 100;
+    final MediaQueryheight = MediaQuery.of(context).size.height;
+    double blockVertical = MediaQueryheight / 100;
     return StreamBuilder<Object>(
       stream: streamfrequency.stream,
       builder: (context, snapshot) {
@@ -363,7 +416,15 @@ class _chartfrequencyState extends State<chartfrequency> {
         );
         }else if(snapshot.connectionState == ConnectionState.waiting){
           return Center(
-            child: CircularProgressIndicator(),
+            child: Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.grey,
+              child: Container(
+                height: blockVertical*18,
+                width: blockHorizontal*75,
+                color: Colors.white,
+              ),
+            ),
           );
         }
         return Center();
@@ -409,6 +470,10 @@ class _chartpfState extends State<chartpf> {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQuerywidth = MediaQuery.of(context).size.width;
+    double blockHorizontal = MediaQuerywidth / 100;
+    final MediaQueryheight = MediaQuery.of(context).size.height;
+    double blockVertical = MediaQueryheight / 100;
     return StreamBuilder<Object>(
       stream: streampf.stream,
       builder: (context, snapshot) {
@@ -436,7 +501,15 @@ class _chartpfState extends State<chartpf> {
         );
         }else if(snapshot.connectionState == ConnectionState.waiting){
           return Center(
-            child: CircularProgressIndicator(),
+            child: Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.grey,
+              child: Container(
+                height: blockVertical*18,
+                width: blockHorizontal*75,
+                color: Colors.white,
+              ),
+            ),
           );
         }
         return Center();

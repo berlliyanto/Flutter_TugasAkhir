@@ -69,7 +69,7 @@ class _loginState extends State<login> {
                 width: MediaQuerywidth*0.7,
                 child: Lottie.asset("lottie/user.json")
                 ),
-                Text("LOGIN", style: TextStyle(color: Colors.white, fontSize: MediaQueryheight*0.07, fontWeight: FontWeight.bold),),
+                Text("Silahkan Masuk", style: TextStyle(color: Colors.white, fontSize: blockVertical*4, fontWeight: FontWeight.bold),),
                 SizedBox(height: MediaQueryheight*0.01,),
                 ClipRRect(
                 borderRadius: BorderRadius.circular(20),
@@ -200,13 +200,9 @@ class _loginState extends State<login> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: MediaQueryheight * 0.03,
-                          ),
-
                           // Button Login----------------------------------------------------------------------------------------------------------------
                           Padding(
-                            padding:  EdgeInsets.symmetric(horizontal: blockHorizontal*1.25),
+                            padding:  EdgeInsets.symmetric(horizontal: blockHorizontal*1.25,vertical: blockVertical*2),
                             child: Material(
                               elevation: 5,
                               borderRadius: BorderRadius.circular(10),

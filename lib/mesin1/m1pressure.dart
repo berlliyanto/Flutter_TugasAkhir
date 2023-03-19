@@ -46,7 +46,7 @@ class _m1pressureState extends State<m1pressure> {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(top: blockVertical*1),
+          margin: EdgeInsets.only(top: blockVertical*1, left: blockHorizontal*1,right: blockHorizontal*1),
           height: blockVertical*45,
           width: MediaQuerywidth,
           decoration: BoxDecoration(
@@ -59,31 +59,33 @@ class _m1pressureState extends State<m1pressure> {
               if(snapshot.hasData){
                 return Column(
                   children: GaugeData.map((e) {
-                    return SfRadialGauge(
-                    title: GaugeTitle(text: "Tekanan Angin", textStyle: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold)),
-                    axes: [
-                      RadialAxis(
-                        minimum: 0,
-                        maximum: 16,
-                        pointers: [
-                          NeedlePointer(value: e.value.toDouble(), enableAnimation: true,)
-                        ],
-                        ranges: [
-                          GaugeRange(startValue: 0, endValue: e.value.toDouble(), color: Colors.green,),
-                          // GaugeRange(startValue: 5, endValue: 11, color: Colors.yellow,),
-                          // GaugeRange(startValue: 11, endValue: 16, color: Colors.red)
-                        ],
-                        annotations: [
-                          GaugeAnnotation(widget: Text("${e.value}", style: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
-                          positionFactor: 0.5,
-                          angle: 90,),
-                          GaugeAnnotation(widget: Text("bar", style: TextStyle(fontSize: blockVertical*1.5, fontWeight: FontWeight.bold),),
-                          positionFactor: 0.65,
-                          angle: 90,)
-                        ],
-                      ),
-                    ],
-                  );
+                    return SizedBox(
+                      height: blockVertical*45,
+                      width: blockVertical*45,
+                      child: SfRadialGauge(
+                      title: GaugeTitle(text: "Tekanan Angin", textStyle: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold)),
+                      axes: [
+                        RadialAxis(
+                          minimum: 0,
+                          maximum: 16,
+                          pointers: [
+                            NeedlePointer(value: e.value.toDouble(), enableAnimation: true,)
+                          ],
+                          ranges: [
+                            GaugeRange(startValue: 0, endValue: e.value.toDouble(), color: Colors.green,),
+                          ],
+                          annotations: [
+                            GaugeAnnotation(widget: Text("${e.value}", style: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
+                            positionFactor: 0.5,
+                            angle: 90,),
+                            GaugeAnnotation(widget: Text("bar", style: TextStyle(fontSize: blockVertical*1.5, fontWeight: FontWeight.bold),),
+                            positionFactor: 0.65,
+                            angle: 90,)
+                          ],
+                        ),
+                      ],
+                                      ),
+                    );
                   }).toList(),
                 );
               }else if(snapshot.connectionState == ConnectionState.waiting){

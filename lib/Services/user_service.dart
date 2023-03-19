@@ -28,7 +28,6 @@ class HttpUserPost {
           "otoritas": otoritas,
           "noHp": noHp
         }));
-    print(hasilResponsePost.statusCode);
     var dataUser = (json.decode(hasilResponsePost.body) as Map<String, dynamic>);
     return HttpUserPost(
         username: dataUser["username"],

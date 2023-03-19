@@ -4,9 +4,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/energy_service.dart';
-import 'package:flutter_application_1/mesin1/additional/chart_energy.dart';
+import 'package:flutter_application_1/additional/chart_energy.dart';
 import 'package:flutter_application_1/models/energy_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 
 class m1energy extends StatefulWidget {
   const m1energy({super.key});
@@ -174,7 +175,19 @@ class _m1energyState extends State<m1energy> {
                                 } else if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
                                   return Center(
-                                    child: CircularProgressIndicator(),
+                                    child: Shimmer.fromColors(
+                                      baseColor: Colors.white,
+                                      highlightColor: Colors.grey,
+                                      child: Text(
+                                        'Loading',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: blockVertical*5,
+                                          fontWeight:
+                                          FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
                                   );
                                 }
                                 return Center(

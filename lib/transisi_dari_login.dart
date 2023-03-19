@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constant.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:shimmer/shimmer.dart';
 
 class fromLogin extends StatefulWidget {
   static const nameRoute = '/fromLogin';
@@ -50,7 +51,10 @@ class _fromLoginState extends State<fromLogin> {
             children: [
               Text("Login Success!!!", style: TextStyle(color: Colors.white, fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
               SizedBox(height: blockVertical*0.2,),
-              Text("Please Wait...",style: TextStyle(color: Colors.white, fontSize: blockVertical*2)),
+              Shimmer.fromColors(
+                baseColor: Colors.white,
+                highlightColor: Colors.grey,
+                child: Text("Please Wait...",style: TextStyle(color: Colors.white, fontSize: blockVertical*2))),
               SizedBox(height: blockVertical*1,),
               LinearPercentIndicator(
                 width: MediaQuerywidth,

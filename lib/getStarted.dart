@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constant.dart';
 import 'package:lottie/lottie.dart';
@@ -86,8 +87,14 @@ class _getStartedState extends State<getStarted> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Selamat Datang Di", style: TextStyle(color: Colors.white, fontSize: blockVertical*3),),
-                          Text("Production Monitoring System", style: TextStyle(color: Colors.white, fontSize: blockVertical*6, fontWeight: FontWeight.bold),),
+                          Shimmer.fromColors(
+                            baseColor: Colors.white,
+                            highlightColor: Colors.grey,
+                            child: Text("Selamat Datang di", style: TextStyle(color: Colors.white, fontSize: blockVertical*3),)),
+                          Shimmer.fromColors(
+                            baseColor: Colors.white,
+                            highlightColor: Colors.grey,
+                            child: Text("Production Monitoring System", style: TextStyle(color: Colors.white, fontSize: blockVertical*6, fontWeight: FontWeight.bold),)),
                           SizedBox(height: blockVertical*1,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -113,8 +120,14 @@ class _getStartedState extends State<getStarted> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Login", style: TextStyle(color: Colors.white, fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
-                                      Icon(Icons.keyboard_arrow_right_outlined, color: Colors.white,size: blockVertical*4,)
+                                      Shimmer.fromColors(
+                                        baseColor: Colors.white,
+                                        highlightColor: Colors.grey,
+                                        child: Text("Login", style: TextStyle(color: Colors.white, fontSize: blockVertical*3, fontWeight: FontWeight.bold),)),
+                                      Shimmer.fromColors(
+                                        baseColor: Colors.white,
+                                        highlightColor: Colors.grey,
+                                        child: Icon(Icons.keyboard_arrow_right_outlined, color: Colors.white,size: blockVertical*4,))
                                     ],
                                   ),
                                 ),

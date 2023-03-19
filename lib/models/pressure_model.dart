@@ -9,3 +9,15 @@ class pressureGauge{
     );
   }
 }
+
+class pressureChart{
+  late dynamic value;
+
+  pressureChart({this.value});
+
+  factory pressureChart.fromJSON(Map<String, dynamic> json){
+    return pressureChart(
+      value: json['value']
+    );
+  }
+}

@@ -28,7 +28,7 @@ class getStatus{
 class getStatusM1{
   late int? machine_id,status;
 
-  getStatusM1({this.machine_id, this.status});
+  getStatusM1({this.machine_id,this.status});
 
   static Future readStatM1() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();

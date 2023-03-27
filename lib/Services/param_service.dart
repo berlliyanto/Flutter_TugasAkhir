@@ -17,6 +17,7 @@ class inputParameter {
       this.harga_perUnit,
       this.tipe_benda});
 
+  //MACHINE 1
   static Future<inputParameter> insertParam(
       String machine_id,
       String loading_time,
@@ -27,6 +28,8 @@ class inputParameter {
       int state) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
+        shared.setInt('stateParamM1',state);
+        shared.setString('tipeParamM1',tipe_benda);
     Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
 
     var hasilResponsePost = await http.post(url,
@@ -41,10 +44,93 @@ class inputParameter {
           "state": state
         }));
     print(hasilResponsePost.statusCode);
-    var dataParameter =(json.decode(hasilResponsePost.body) as Map<String, dynamic>)['data'];
-    shared.setString('tipeParamM1', dataParameter['tipe_benda']);
-    shared.setInt('stateParamM1', dataParameter['state']);
-    print(dataParameter);
+    return inputParameter();
+  }
+  //MACHINE 2
+  static Future<inputParameter> insertParam2(
+      String machine_id,
+      String loading_time,
+      String cycle_time,
+      String oee_target,
+      String harga_perUnit,
+      String tipe_benda,
+      int state) async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+        shared.setInt('stateParamM2',state);
+        shared.setString('tipeParamM2',tipe_benda);
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
+
+    var hasilResponsePost = await http.post(url,
+        headers: <String, String>{'Content-Type': 'application/json', 'Authorization': 'Basic $getToken' },
+        body: jsonEncode({
+          "machine_id": machine_id,
+          "loading_time": loading_time,
+          "cycle_time": cycle_time,
+          "oee_target": oee_target,
+          "harga_perUnit": harga_perUnit,
+          "tipe_benda": tipe_benda,
+          "state": state
+        }));
+    print(hasilResponsePost.statusCode);
+    return inputParameter();
+  }
+  //MACHINE 3
+  static Future<inputParameter> insertParam3(
+      String machine_id,
+      String loading_time,
+      String cycle_time,
+      String oee_target,
+      String harga_perUnit,
+      String tipe_benda,
+      int state) async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+        shared.setInt('stateParamM3',state);
+        shared.setString('tipeParamM3',tipe_benda);
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
+
+    var hasilResponsePost = await http.post(url,
+        headers: <String, String>{'Content-Type': 'application/json', 'Authorization': 'Basic $getToken' },
+        body: jsonEncode({
+          "machine_id": machine_id,
+          "loading_time": loading_time,
+          "cycle_time": cycle_time,
+          "oee_target": oee_target,
+          "harga_perUnit": harga_perUnit,
+          "tipe_benda": tipe_benda,
+          "state": state
+        }));
+    print(hasilResponsePost.statusCode);
+    return inputParameter();
+  }
+  //MACHINE 4
+  static Future<inputParameter> insertParam4(
+      String machine_id,
+      String loading_time,
+      String cycle_time,
+      String oee_target,
+      String harga_perUnit,
+      String tipe_benda,
+      int state) async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+        shared.setInt('stateParamM4',state);
+        shared.setString('tipeParamM4',tipe_benda);
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
+
+    var hasilResponsePost = await http.post(url,
+        headers: <String, String>{'Content-Type': 'application/json', 'Authorization': 'Basic $getToken' },
+        body: jsonEncode({
+          "machine_id": machine_id,
+          "loading_time": loading_time,
+          "cycle_time": cycle_time,
+          "oee_target": oee_target,
+          "harga_perUnit": harga_perUnit,
+          "tipe_benda": tipe_benda,
+          "state": state
+        }));
+    print(hasilResponsePost.statusCode);
     return inputParameter();
   }
 }
@@ -177,7 +263,6 @@ class readLatestParamM1 {
     Iterable it =
         (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
     List<ParamModel> paramList = it.map((e) => ParamModel.fromJSON(e)).toList();
-    print(paramList);
     return paramList;
   }
 }
@@ -196,7 +281,6 @@ class readLatestParamM2 {
         (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
     List<ParamModel2> paramList =
         it.map((e) => ParamModel2.fromJSON(e)).toList();
-    print(paramList);
     return paramList;
   }
 }
@@ -215,7 +299,6 @@ class readLatestParamM3 {
         (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
     List<ParamModel3> paramList =
         it.map((e) => ParamModel3.fromJSON(e)).toList();
-    print(paramList);
     return paramList;
   }
 }
@@ -234,7 +317,6 @@ class readLatestParamM4 {
         (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
     List<ParamModel4> paramList =
         it.map((e) => ParamModel4.fromJSON(e)).toList();
-    print(paramList);
     return paramList;
   }
 }

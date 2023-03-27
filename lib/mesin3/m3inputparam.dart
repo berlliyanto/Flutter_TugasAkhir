@@ -10,6 +10,7 @@ import 'package:flutter_application_1/Services/param_service.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
 import 'package:flutter_application_1/models/param_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class m3param extends StatefulWidget {
   static const nameRoute = '/m3param';
@@ -304,7 +305,7 @@ class _m3paramState extends State<m3param> {
                                 harga.text.isNotEmpty &&
                                 tipeValue!.isNotEmpty) {
                               inputParameter
-                                  .insertParam(
+                                  .insertParam3(
                                       machine_id,
                                       loading.text,
                                       cycle.text,
@@ -392,7 +393,10 @@ class _m3paramState extends State<m3param> {
                               desc: "Anda Yakin Mau Menghapus Data Parameter Saat Ini?",
                               useRootNavigator: true,
                               btnOkIcon: FontAwesomeIcons.check,
-                              btnOkOnPress: (){
+                              btnOkOnPress: ()async {
+                                final SharedPreferences shared = await SharedPreferences.getInstance();
+                                shared.remove('stateParamM3');
+                                shared.remove('tipeParamM3');
                                 resetParamM3.putParam(state0).then((value) {
                                   if(value.state==0){
                                     AwesomeDialog(

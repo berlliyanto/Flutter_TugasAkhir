@@ -157,7 +157,7 @@ class _MyakunState extends State<Myakun> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    alignment: Alignment.center,
+                    alignment: Alignment.topCenter,
                     height: blockVertical * 70,
                     width: MediaQuerywidth,
                     decoration: BoxDecoration(

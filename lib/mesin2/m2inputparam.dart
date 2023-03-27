@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
 import 'package:flutter_application_1/models/param_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Services/param_service.dart';
 
@@ -315,7 +316,7 @@ class _m2paramState extends State<m2param> {
                                 harga.text.isNotEmpty &&
                                 tipeValue!.isNotEmpty) {
                               inputParameter
-                                  .insertParam(
+                                  .insertParam2(
                                       machine_id,
                                       loading.text,
                                       cycle.text,
@@ -405,7 +406,10 @@ class _m2paramState extends State<m2param> {
                               desc: "Anda Yakin Mau Menghapus Data Parameter Saat Ini?",
                               useRootNavigator: true,
                               btnOkIcon: FontAwesomeIcons.check,
-                              btnOkOnPress: (){
+                              btnOkOnPress: ()async{
+                                final SharedPreferences shared = await SharedPreferences.getInstance();
+                                shared.remove('stateParamM2');
+                                shared.remove('tipeParamM2');
                                 resetParamM2.putParam(state0).then((value) {
                                   if(value.state==0){
                                     AwesomeDialog(

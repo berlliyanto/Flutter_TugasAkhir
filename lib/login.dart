@@ -64,10 +64,9 @@ class _loginState extends State<login> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(top: blockVertical*7,bottom: blockVertical*3),
-                height: MediaQueryheight*0.25,
-                width: MediaQuerywidth*0.7,
-                child: Lottie.asset("lottie/user.json")
+                height: MediaQueryheight*0.35,
+                width: MediaQueryheight*0.35,
+                child: Lottie.asset("lottie/login.json")
                 ),
                 Text("Silahkan Masuk", style: TextStyle(color: Colors.white, fontSize: blockVertical*4, fontWeight: FontWeight.bold),),
                 SizedBox(height: MediaQueryheight*0.01,),
@@ -75,7 +74,7 @@ class _loginState extends State<login> {
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
                   width: MediaQuerywidth,
-                  height: MediaQueryheight * 0.4,
+                  height: MediaQueryheight * 0.42,
                   color: Colors.transparent,
                   child: Stack(children: [
                     //blurEffect
@@ -223,8 +222,7 @@ class _loginState extends State<login> {
                                   color: Colors.transparent,
                                   borderRadius: BorderRadius.circular(10),
                                   child: InkWell(
-                                    splashColor:
-                                        Color.fromARGB(19, 3, 191, 233),
+                                    highlightColor: Color.fromARGB(255, 1, 56, 119),
                                     radius: 100,
                                     borderRadius: BorderRadius.circular(10),
                                     onTap: () {
@@ -287,12 +285,16 @@ class _loginState extends State<login> {
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: blockVertical*1,
+                          )
                         ],
                       ),
                     )
                   ]),
                 ),
-              )
+              ),
+             
             ],
           ),
         ),

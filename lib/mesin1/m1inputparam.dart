@@ -6,10 +6,12 @@ import 'dart:ui';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/param_service.dart';
+import 'package:flutter_application_1/Services/quality_service.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_application_1/models/param_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class m1param extends StatefulWidget {
   static const nameRoute = '/m1param';
@@ -357,6 +359,7 @@ class _m1paramState extends State<m1param> {
                                       },
                                     );
                               }
+                              trigQuality.TriggerQuality(1, tipeValue.toString());
                             } else {
                               AwesomeDialog(
                                       context: context,
@@ -421,7 +424,11 @@ class _m1paramState extends State<m1param> {
                               desc: "Anda Yakin Mau Menghapus Data Parameter Saat Ini?",
                               useRootNavigator: true,
                               btnOkIcon: FontAwesomeIcons.check,
-                              btnOkOnPress: (){
+                              btnOkOnPress: () async{
+                                final SharedPreferences shared = await SharedPreferences.getInstance();
+                                shared.remove('stateParamM1');
+                                shared.remove('tipeParamM1');
+                                resetQuality.reset(1);
                                 resetParam.putParam(state0).then((value) {
                                   if(value.state==0){
                                     AwesomeDialog(

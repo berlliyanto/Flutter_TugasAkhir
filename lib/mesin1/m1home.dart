@@ -8,6 +8,7 @@ import 'package:flutter_application_1/drawer.dart';
 import 'package:flutter_application_1/models/status_model.dart';
 import 'package:flutter_application_1/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../constant.dart';
 
@@ -21,6 +22,7 @@ class m1home extends StatefulWidget {
 }
 
 class _m1homeState extends State<m1home> {
+  int? state;
   //STREAMCONTROLLER STATUS MESIN 
   StreamController<List> streamStatusM1 = StreamController.broadcast();
   List<status1Model> status = [];
@@ -117,7 +119,7 @@ class _m1homeState extends State<m1home> {
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(end: Alignment.bottomCenter, begin: Alignment.topCenter, colors: [
-                Color.fromARGB(255, 36, 36, 36).withOpacity(0.7), Color.fromARGB(255, 117, 117, 117).withOpacity(0.4)
+                Color.fromARGB(255, 26, 26, 26).withOpacity(0.9), Color.fromARGB(255, 117, 117, 117).withOpacity(0.85)
               ])
             ),
             child: ListView(
@@ -168,6 +170,20 @@ class _m1homeState extends State<m1home> {
                                     );
                                   }).toList(),
                                 );
+                              }else if(snapshot.connectionState==ConnectionState.waiting){
+                                return Shimmer.fromColors(
+                                    baseColor: Colors.white,
+                                    highlightColor: Colors.grey,
+                                    child: Text(
+                                      'Loading',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: blockVertical*2.5,
+                                        fontWeight:
+                                        FontWeight.bold,
+                                      ),
+                                    ),
+                                  );
                               }
                               return Text("error");
                             }

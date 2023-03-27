@@ -230,11 +230,14 @@ class _drawerState extends State<drawer> {
                     final SharedPreferences shared = await SharedPreferences.getInstance();
                     shared.remove("name");
                     shared.remove("otoritas");
-                    shared.remove("A");
-                    shared.remove("B");
-                    shared.remove("C");
                     shared.remove("stateParamM1");
                     shared.remove("tipeParamM1");          
+                    shared.remove("stateParamM2");
+                    shared.remove("tipeParamM2");          
+                    shared.remove("stateParamM3");
+                    shared.remove("tipeParamM3");          
+                    shared.remove("stateParamM4");
+                    shared.remove("tipeParamM4");          
                     // ignore: use_build_context_synchronously
                     Navigator.pushNamedAndRemoveUntil(
                         context, mylogin, (route) => false,

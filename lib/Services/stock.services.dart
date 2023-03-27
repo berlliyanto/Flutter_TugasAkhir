@@ -19,21 +19,6 @@ class readStockM1{
     List<stockModel> StockList = it.map((e) =>  stockModel.fromJSON(e)).toList();
     return StockList;
   }
-  static Future<readStockM1> getStockforShared() async {
-    Uri urlpost = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/stockM1");
-
-    final SharedPreferences shared = await SharedPreferences.getInstance();
-    var getToken = shared.getString("token");
-    var hasilResponseGet = await http.get(urlpost,headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic $getToken'
-    });
-    var dataGet = (jsonDecode(hasilResponseGet.body)as Map<String, dynamic>)['data'];
-    shared.setInt("A", dataGet[0]["A"]);
-    shared.setInt("B", dataGet[0]["B"]);
-    shared.setInt("C", dataGet[0]["C"]);
-    return readStockM1();
-  }
 }
 
 //Tambah Stock M1
@@ -46,7 +31,7 @@ class addStockM1{
   static Future<addStockM1> putStockM1(int A, int B, int C) async{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/addstockM1");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/addstock?m_id=1");
 
     var hasilResponsePut = await http.put(url,headers: {
       'Content-Type': 'application/json',

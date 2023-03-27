@@ -89,7 +89,7 @@ class m4home extends StatelessWidget {
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(end: Alignment.bottomCenter, begin: Alignment.topCenter, colors: [
-                Color.fromARGB(255, 36, 36, 36).withOpacity(0.7), Color.fromARGB(255, 117, 117, 117).withOpacity(0.4)
+                Color.fromARGB(255, 26, 26, 26).withOpacity(0.9), Color.fromARGB(255, 117, 117, 117).withOpacity(0.85)
               ])
             ),
             child: ListView(

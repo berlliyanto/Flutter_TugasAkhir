@@ -118,11 +118,16 @@ class _m1stockState extends State<m1stock> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  height: 100,
+                  height: blockVertical * 13,
                   width: MediaQuerywidth,
                   decoration: BoxDecoration(
-                    color: Colors.black87,
+                    gradient:LinearGradient(colors: [Color.fromARGB(255, 38, 46, 161), Color.fromARGB(255, 1, 80, 250)]),
                     borderRadius: BorderRadius.circular(20),
+                    boxShadow: [BoxShadow(
+                      offset: Offset(0, 6),
+                      color: Colors.black.withOpacity(0.5),
+                      blurRadius: 2
+                    )],
                     image: DecorationImage(
                         image: AssetImage("images/asset8.png"),
                         fit: BoxFit.cover),
@@ -246,7 +251,7 @@ class _m1stockState extends State<m1stock> {
                 Container(
                   padding: EdgeInsets.only(top: 5),
                   color: Colors.transparent,
-                  height: 120,
+                  height: blockVertical * 15,
                   width: MediaQuerywidth,
                   child: LayoutBuilder(builder: (context, constraints) {
                     return StreamBuilder<Object>(
@@ -264,17 +269,20 @@ class _m1stockState extends State<m1stock> {
                                         constraints,
                                         Color.fromARGB(255, 255, 77, 7),
                                         "${e.A}",
-                                        FontAwesomeIcons.a),
+                                        FontAwesomeIcons.a,
+                                        e.A!),
                                     Stock(
                                         constraints,
                                         Color.fromARGB(255, 253, 173, 0),
                                         "${e.B}",
-                                        FontAwesomeIcons.b),
+                                        FontAwesomeIcons.b,
+                                        e.B!),
                                     Stock(
                                         constraints,
                                         Color.fromARGB(255, 7, 32, 255),
                                         "${e.C}",
-                                        FontAwesomeIcons.c),
+                                        FontAwesomeIcons.c,
+                                        e.C!),
                                   ],
                                 );
                               }).toList(),
@@ -457,7 +465,7 @@ class _m1stockState extends State<m1stock> {
                 ),
                 //LIST RIWAYAT BAHAN------------------------------------------------------------------------------------------------------
                 Container(
-                  padding: EdgeInsets.only(bottom: blockVertical*4.5),
+                  padding: EdgeInsets.only(bottom: blockVertical * 4.5),
                   color: Colors.transparent,
                   height: blockVertical * 45,
                   width: MediaQuerywidth,
@@ -539,7 +547,7 @@ class _m1stockState extends State<m1stock> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
       child: Container(
-        height: blockVertical*10,
+        height: blockVertical * 10,
         decoration: BoxDecoration(
             color: color1.withOpacity(0.5),
             borderRadius: BorderRadius.circular(10)),
@@ -547,16 +555,21 @@ class _m1stockState extends State<m1stock> {
         child: ListTile(
           title: Text(
             "Tambah Unit : $jumlah",
-            style: TextStyle(fontSize: blockVertical*2.3, color: Colors.white),
+            style:
+                TextStyle(fontSize: blockVertical * 2.3, color: Colors.white),
           ),
-          subtitle: Text(tanggal, style: TextStyle(color: Colors.white, fontSize: blockVertical*2)),
+          subtitle: Text(tanggal,
+              style:
+                  TextStyle(color: Colors.white, fontSize: blockVertical * 2)),
           leading: Icon(
             icon,
             color: Colors.white,
-            size: blockVertical*4.5,
+            size: blockVertical * 4.5,
           ),
           tileColor: color2,
-          trailing: Text("+$jumlah", style: TextStyle(color: Colors.white, fontSize: blockVertical*3)),
+          trailing: Text("+$jumlah",
+              style:
+                  TextStyle(color: Colors.white, fontSize: blockVertical * 3)),
         ),
       ),
     );
@@ -564,7 +577,12 @@ class _m1stockState extends State<m1stock> {
 
 // JUMLAH STOCK-------------------------------------------------------------------------------------------
   Widget Stock(
-      BoxConstraints constraints, Color color, String unit, IconData icon) {
+    BoxConstraints constraints,
+    Color color,
+    String unit,
+    IconData icon,
+    int value
+  ) {
     return Container(
       padding: EdgeInsets.all(8),
       height: constraints.maxHeight * 0.9,
@@ -576,18 +594,25 @@ class _m1stockState extends State<m1stock> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Icon(
+          (value>5)?Icon(
             icon,
             color: Colors.white,
+            size: constraints.maxHeight * 0.2,
+          ): Icon(
+            FontAwesomeIcons.triangleExclamation,
+            color: Colors.red,
+            size: constraints.maxHeight * 0.2,
           ),
           Divider(
-            thickness: 1,
+            thickness: constraints.maxHeight * 0.01,
           ),
           Text("Jumlah : ",
-              style: TextStyle(color: Colors.white, fontSize: 16)),
+              style: TextStyle(
+                  color: Colors.white, fontSize: constraints.maxHeight * 0.15,fontWeight: FontWeight.bold)),
           Text(
             "$unit unit",
-            style: TextStyle(color: Colors.white, fontSize: 16),
+            style: TextStyle(
+                color:(value>5)? Colors.white:Colors.red, fontSize: constraints.maxHeight * 0.15,fontWeight: FontWeight.bold),
           )
         ],
       ),

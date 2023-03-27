@@ -288,7 +288,9 @@ class _m4energyState extends State<m4energy> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    AnimatedContainer(
+                      duration: Duration(seconds: 1),
+                      curve: Curves.linear,
                       height: blockVertical * 4,
                       width: blockHorizontal * 23.5,
                       decoration: BoxDecoration(
@@ -310,7 +312,9 @@ class _m4energyState extends State<m4energy> {
                             size: blockVertical * 2.5,
                           )),
                     ),
-                    Container(
+                    AnimatedContainer(
+                      duration: Duration(seconds: 1),
+                      curve: Curves.linear,
                       height: blockVertical * 4,
                       width: blockHorizontal * 23.5,
                       decoration: BoxDecoration(

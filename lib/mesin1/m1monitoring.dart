@@ -172,7 +172,7 @@ class _m1monitoringState extends State<m1monitoring> {
                 blockHorizontal * 3, blockVertical * 1, blockHorizontal * 3, 0),
             height: blockVertical * 5,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 197, 251, 255),
+                color: Color.fromARGB(255, 232, 253, 255),
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
@@ -183,11 +183,16 @@ class _m1monitoringState extends State<m1monitoring> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("PARAMETER ", style: TextStyle(color: Colors.black, fontSize: blockVertical*2, fontWeight: FontWeight.bold),),
+                Text(
+                  "PARAMETER ",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: blockVertical * 2,
+                      fontWeight: FontWeight.bold),
+                ),
                 CircleAvatar(
                     radius: blockVertical * 2,
-                    backgroundColor:
-                        (state == 1) ? Colors.green : Colors.red,
+                    backgroundColor: (state == 1) ? Colors.green : Colors.red,
                     child: Icon(
                       (state == 1)
                           ? FontAwesomeIcons.check
@@ -199,126 +204,99 @@ class _m1monitoringState extends State<m1monitoring> {
             ),
           ),
           Container(
+            padding: EdgeInsets.all(blockVertical * 1),
             margin: EdgeInsets.symmetric(
                 vertical: blockVertical * 1, horizontal: blockHorizontal * 3),
-            height: blockVertical * 14,
+            height: blockVertical * 15,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 197, 251, 255),
-                image: DecorationImage(
-                    image: AssetImage("images/asset6.png"), fit: BoxFit.cover),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      offset: Offset(5, 5),
-                      blurRadius: 5)
-                ]),
+              color: Color.fromARGB(255, 255, 255, 255).withOpacity(0.7),
+              borderRadius: BorderRadius.circular(10),
+            ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Status Mesin",
-                      style: TextStyle(
-                        fontSize: blockVertical * 2,
-                        fontWeight: FontWeight.bold,
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: blockVertical * 0.5,
+                          horizontal: blockHorizontal * 3),
+                      height: blockVertical * 6,
+                      width: blockHorizontal * 42,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.circular(blockVertical * 1)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Status Mesin",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 100, 100, 100),
+                                    fontSize: blockVertical * 1.2),
+                              ),
+                              Icon(
+                                FontAwesomeIcons.piedPiper,
+                                size: blockVertical * 2,
+                                color: Colors.grey,
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                height: blockVertical * 1.2,
+                                width: blockVertical * 1.2,
+                                color: Color.fromARGB(255, 0, 255, 8),
+                              ),
+                              Text(" Running",
+                                  style: TextStyle(
+                                      fontSize: blockVertical * 2,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          )
+                        ],
                       ),
                     ),
-                    SizedBox(
-                      height: blockVertical * 0.5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          height: blockVertical * 1,
-                          width: blockVertical * 1,
-                          color: Color.fromARGB(255, 0, 255, 8),
-                        ),
-                        Text("  Running",
-                            style: TextStyle(
-                              fontSize: blockVertical * 1.8,
-                            )),
-                      ],
-                    )
+                    bodyCard(blockHorizontal, blockVertical, "Life Time",
+                        "92221 Menit",FontAwesomeIcons.heartPulse)
                   ],
                 ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Tipe Benda",
-                      style: TextStyle(
-                          fontSize: blockVertical * 2,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: blockVertical * 0.5,
-                    ),
-                    Text((state == 1) ? "$tipeBenda" : "-",
-                        style: TextStyle(
-                          fontSize: blockVertical * 2,
-                        )),
-                    SizedBox(
-                      height: blockVertical * 2,
-                    ),
-                    Text(
-                      (state == 1) ? "Stock $tipeBenda" : "Stock -",
-                      style: TextStyle(
-                          fontSize: blockVertical * 2,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: blockVertical * 0.5,
-                    ),
-                    StreamBuilder(
+                    bodyCard(blockHorizontal, blockVertical, "Tipe Benda",
+                        (state == 1) ? "$tipeBenda" : "-",FontAwesomeIcons.shapes),
+                    StreamBuilder<Object>(
                         stream: streamStock.stream,
                         builder: (context, snapshot) {
                           if (state == 1) {
                             if (snapshot.hasData) {
                               return Column(
                                 children: stockList.map((e) {
-                                  return Text(
-                                    (tipeBenda == "A")
-                                        ? "${e.A}"
-                                        : (tipeBenda == "B")
-                                            ? "${e.B}"
-                                            : "${e.C}",
-                                    style: TextStyle(
-                                      fontSize: blockVertical * 2,
-                                    ),
-                                  );
+                                  return bodyCard(
+                                      blockHorizontal,
+                                      blockVertical,
+                                      "Jumlah Stock",
+                                      (tipeBenda == "A")
+                                          ? "${e.A}"
+                                          : (tipeBenda == "B")
+                                              ? "${e.B}"
+                                              : "${e.C}",FontAwesomeIcons.boxOpen);
                                 }).toList(),
                               );
                             }
                           }
-                          return Text(
-                            "No Parameter",
-                            style: TextStyle(
-                              fontSize: blockVertical * 2,
-                            ),
-                          );
-                        }),
+                          return bodyCard(blockHorizontal, blockVertical,
+                              "Jumlah Stock", "-",FontAwesomeIcons.boxOpen);
+                        })
                   ],
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Life Time",
-                      style: TextStyle(
-                          fontSize: blockVertical * 2,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: blockVertical * 0.5),
-                    Text("91281",
-                        style: TextStyle(
-                          fontSize: blockVertical * 2,
-                        )),
-                  ],
-                )
               ],
             ),
           ),
@@ -703,6 +681,44 @@ class _m1monitoringState extends State<m1monitoring> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget bodyCard(double blockHorizontal, double blockVertical, String title,
+      String Value, IconData icon) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+          vertical: blockVertical * 0.5, horizontal: blockHorizontal * 3),
+      height: blockVertical * 6,
+      width: blockHorizontal * 42,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(blockVertical * 1)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                    color: Color.fromARGB(255, 100, 100, 100),
+                    fontSize: blockVertical * 1.2),
+              ),
+              Icon(
+                icon,
+                size: blockVertical * 2,
+                color: Colors.grey,
+              )
+            ],
+          ),
+          Text(Value,
+              style: TextStyle(
+                  fontSize: blockVertical * 2, fontWeight: FontWeight.bold))
+        ],
       ),
     );
   }

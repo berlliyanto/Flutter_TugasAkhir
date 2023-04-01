@@ -12,6 +12,8 @@ import 'package:flutter_application_1/models/param_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Services/quality_service.dart';
+
 class m3param extends StatefulWidget {
   static const nameRoute = '/m3param';
   const m3param(String aa, {super.key});
@@ -331,6 +333,7 @@ class _m3paramState extends State<m3param> {
                                         },
                                     },
                                   );
+                              trigQuality.TriggerQuality(3, tipeValue.toString());
                             } else {
                               AwesomeDialog(
                                       context: context,
@@ -397,6 +400,7 @@ class _m3paramState extends State<m3param> {
                                 final SharedPreferences shared = await SharedPreferences.getInstance();
                                 shared.remove('stateParamM3');
                                 shared.remove('tipeParamM3');
+                                resetQuality.reset(3);
                                 resetParamM3.putParam(state0).then((value) {
                                   if(value.state==0){
                                     AwesomeDialog(

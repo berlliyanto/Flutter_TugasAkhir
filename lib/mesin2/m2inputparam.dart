@@ -12,6 +12,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Services/param_service.dart';
+import '../Services/quality_service.dart';
 
 class m2param extends StatefulWidget {
   static const nameRoute = '/m2param';
@@ -342,6 +343,7 @@ class _m2paramState extends State<m2param> {
                                         },
                                     },
                                   );
+                              trigQuality.TriggerQuality(2, tipeValue.toString());
                             } else {
                               AwesomeDialog(
                                       context: context,
@@ -410,6 +412,7 @@ class _m2paramState extends State<m2param> {
                                 final SharedPreferences shared = await SharedPreferences.getInstance();
                                 shared.remove('stateParamM2');
                                 shared.remove('tipeParamM2');
+                                resetQuality.reset(2);
                                 resetParamM2.putParam(state0).then((value) {
                                   if(value.state==0){
                                     AwesomeDialog(

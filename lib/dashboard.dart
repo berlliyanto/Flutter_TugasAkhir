@@ -434,9 +434,18 @@ class _dashboardState extends State<dashboard> {
                                                             ? Color.fromARGB(
                                                                 255, 0, 185, 15)
                                                             : Color.fromARGB(
-                                                                255, 40, 41, 56),
+                                                                255,
+                                                                40,
+                                                                41,
+                                                                56),
                                                 "Mesin ${e.machine_id}",
-                                                mym1monitoring,
+                                                (e.machine_id == 1)
+                                                    ? mym1monitoring
+                                                    : (e.machine_id == 2)
+                                                        ? mym2monitoring
+                                                        : (e.machine_id == 3)
+                                                            ? mym3monitoring
+                                                            : mym4monitoring,
                                                 " Running",
                                                 (e.state == 1)
                                                     ? "Tipe ${e.tipe}"

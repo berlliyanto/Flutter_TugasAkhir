@@ -5,10 +5,12 @@ import 'dart:ui';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Services/availability_service.dart';
 import 'package:flutter_application_1/Services/param_service.dart';
 import 'package:flutter_application_1/Services/quality_service.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter_application_1/constant.dart';
 import 'package:flutter_application_1/models/param_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -352,7 +354,7 @@ class _m1paramState extends State<m1param> {
                                               desc: "Sukses Input Parameter",
                                               useRootNavigator: true,
                                               btnOkOnPress: () {
-                                                Navigator.pop(context);
+                                                Navigator.pushReplacementNamed(context, mym1monitoring, arguments: "sukses input");
                                               },
                                             ).show()
                                           },
@@ -360,6 +362,7 @@ class _m1paramState extends State<m1param> {
                                     );
                               }
                               trigQuality.TriggerQuality(1, tipeValue.toString());
+                              trigAvailability.triggerAvai(1, 1);
                             } else {
                               AwesomeDialog(
                                       context: context,

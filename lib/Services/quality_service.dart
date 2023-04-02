@@ -43,7 +43,7 @@ class getQuality{
   
   Future getQualityM(int machine_id, String tipe) async {
       final SharedPreferences shared = await SharedPreferences.getInstance();
-        var getToken = shared.getString("token");
+      var getToken = shared.getString("token");
     Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getQualityData?m_id=$machine_id&tipe=$tipe");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',

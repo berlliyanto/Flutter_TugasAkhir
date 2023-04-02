@@ -4,9 +4,11 @@ import 'dart:async';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Services/availability_service.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
 import 'package:flutter_application_1/mesin1/m1energy_usage.dart';
 import 'package:flutter_application_1/mesin1/m1pressure.dart';
+import 'package:flutter_application_1/models/availability_model.dart';
 import 'package:flutter_application_1/models/quality_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -86,13 +88,24 @@ class _m1monitoringState extends State<m1monitoring> {
     streamProd.add(QList);
   }
 
+  //PRODUCTION TIME
+  StreamController<List> streamTime = StreamController.broadcast();
+  List<avaiModelM> AList = [];
+  getAvailability Availability = getAvailability();
+  Future<void> Avaidata() async {
+    AList = await Availability.availabilityM(1);
+    streamTime.add(AList);
+  }
+
   @override
   void initState() {
+    Avaidata();
     latestParam();
     QualityData();
     stockData();
     sharedpref();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      Avaidata();
       latestParam();
       stockData();
       QualityData();
@@ -247,31 +260,52 @@ class _m1monitoringState extends State<m1monitoring> {
                               )
                             ],
                           ),
-                          Row(
-                            children: [
-                              Container(
-                                height: blockVertical * 1.2,
-                                width: blockVertical * 1.2,
-                                color: Color.fromARGB(255, 0, 255, 8),
-                              ),
-                              Text(" Running",
-                                  style: TextStyle(
-                                      fontSize: blockVertical * 2,
-                                      fontWeight: FontWeight.bold)),
-                            ],
-                          )
+                          StreamBuilder<Object>(
+                              stream: streamTime.stream,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Row(
+                                    children: AList.map((e) {
+                                      return statusMesin(
+                                          blockHorizontal,
+                                          blockVertical,
+                                          (e.state == 1)
+                                              ? Color.fromARGB(255, 9, 255, 0)
+                                              : Color.fromARGB(255, 255, 17, 0),
+                                          (e.state == 1)
+                                              ? " Running"
+                                              : " Finish");
+                                    }).toList(),
+                                  );
+                                }
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return statusMesin(blockHorizontal,
+                                      blockVertical, Colors.grey, " Waiting");
+                                }
+
+                                return statusMesin(
+                                    blockHorizontal,
+                                    blockVertical,
+                                    Color.fromARGB(255, 255, 17, 0),
+                                    " Stopped");
+                              })
                         ],
                       ),
                     ),
                     bodyCard(blockHorizontal, blockVertical, "Life Time",
-                        "92221 Menit",FontAwesomeIcons.heartPulse)
+                        "92221 Menit", FontAwesomeIcons.heartPulse)
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    bodyCard(blockHorizontal, blockVertical, "Tipe Benda",
-                        (state == 1) ? "$tipeBenda" : "-",FontAwesomeIcons.shapes),
+                    bodyCard(
+                        blockHorizontal,
+                        blockVertical,
+                        "Tipe Benda",
+                        (state == 1) ? "$tipeBenda" : "-",
+                        FontAwesomeIcons.shapes),
                     StreamBuilder<Object>(
                         stream: streamStock.stream,
                         builder: (context, snapshot) {
@@ -287,13 +321,14 @@ class _m1monitoringState extends State<m1monitoring> {
                                           ? "${e.A}"
                                           : (tipeBenda == "B")
                                               ? "${e.B}"
-                                              : "${e.C}",FontAwesomeIcons.boxOpen);
+                                              : "${e.C}",
+                                      FontAwesomeIcons.boxOpen);
                                 }).toList(),
                               );
                             }
                           }
                           return bodyCard(blockHorizontal, blockVertical,
-                              "Jumlah Stock", "-",FontAwesomeIcons.boxOpen);
+                              "Jumlah Stock", "-", FontAwesomeIcons.boxOpen);
                         })
                   ],
                 ),
@@ -340,7 +375,6 @@ class _m1monitoringState extends State<m1monitoring> {
                     StreamBuilder(
                         stream: streamProd.stream,
                         builder: (context, snapshot) {
-                          if (state == 1) {
                             if (snapshot.hasData) {
                               return Column(
                                 children: QList.map((e) {
@@ -348,15 +382,14 @@ class _m1monitoringState extends State<m1monitoring> {
                                       blockHorizontal,
                                       blockVertical,
                                       "Processed Unit",
-                                      "${e.processed} Unit",
+                                      (e.state==1)?"${e.processed} Unit": "- Unit",
                                       "Good Processed",
-                                      "${e.good} Unit",
+                                      (e.state==1)?"${e.good} Unit":"- Unit",
                                       "Defect Unit",
-                                      "${e.defect} Unit");
+                                      (e.state==1)?"${e.defect} Unit":"- Unit");
                                 }).toList(),
                               );
                             }
-                          }
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return ShimmerBody(blockHorizontal, blockVertical);
@@ -396,15 +429,38 @@ class _m1monitoringState extends State<m1monitoring> {
                         ),
                       ],
                     ),
-                    NilaiProduction(
-                        blockHorizontal,
-                        blockVertical,
-                        "Running Time",
-                        "20 menit",
-                        "Operation Time",
-                        "20 menit",
-                        "Downtime",
-                        "5 menit"),
+                    StreamBuilder(
+                        stream: streamTime.stream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                              return Column(
+                                children: AList.map((e) {
+                                  return NilaiProduction(
+                                      blockHorizontal,
+                                      blockVertical,
+                                      "Running Time",
+                                      (e.state==1)?"${(e.runningtime! / 60).toStringAsFixed(2)} menit":"- menit",
+                                      "Operation Time",
+                                      (e.state==1)?"${(e.operationtime! / 60).toStringAsFixed(2)} menit":"- menit",
+                                      "Downtime",
+                                      (e.state==1)?"${(e.downtime! / 60).toStringAsFixed(2)} menit":"- menit");
+                                }).toList(),
+                              );
+                            
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return ShimmerBody(blockHorizontal, blockVertical);
+                          }
+                          return NilaiProduction(
+                              blockHorizontal,
+                              blockVertical,
+                              "Running Time",
+                              "- menit",
+                              "Operation Time",
+                              "- menit",
+                              "Downtime",
+                              "- menit");
+                        }),
                   ],
                 ),
                 Divider(
@@ -720,6 +776,22 @@ class _m1monitoringState extends State<m1monitoring> {
                   fontSize: blockVertical * 2, fontWeight: FontWeight.bold))
         ],
       ),
+    );
+  }
+
+  Widget statusMesin(double blockHorizontal, double blockVertical, Color colors,
+      String title) {
+    return Row(
+      children: [
+        Container(
+          height: blockVertical * 1.2,
+          width: blockVertical * 1.2,
+          color: colors,
+        ),
+        Text(title,
+            style: TextStyle(
+                fontSize: blockVertical * 2, fontWeight: FontWeight.bold)),
+      ],
     );
   }
 }

@@ -1,12 +1,14 @@
-// ignore_for_file: unused_local_variable
-
+// ignore_for_file: unused_local_variable, depend_on_referenced_packages
+import 'package:intl/intl.dart';
 import 'dart:async';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Services/quality_service.dart';
 import 'package:flutter_application_1/Services/stock.services.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
+import 'package:flutter_application_1/models/quality_model.dart';
 import 'package:flutter_application_1/models/stock_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shimmer/shimmer.dart';
@@ -30,7 +32,7 @@ class _m1stockState extends State<m1stock> {
     streamStock.add(stockList);
   }
 
-  //RIWAYAT STOCK
+  //RIWAYAT STOCK IN
   StreamController<List> streamRiwayatStock = StreamController.broadcast();
   List<historiM1model> riwayatStockList = [];
   getriwayatM1 getriwayatstockM1 = getriwayatM1();
@@ -39,7 +41,17 @@ class _m1stockState extends State<m1stock> {
     streamRiwayatStock.add(riwayatStockList);
   }
 
+  //RIWAYAT STOCK OUT
+   StreamController<List> streamProcessed = StreamController.broadcast();
+  List<recQuality> stockProcessed = [];
+  recordQuality getStockprocessed = recordQuality();
+  Future<void> processedData() async {
+    stockProcessed = await getStockprocessed.getrecQuality(1);
+    streamProcessed.add(stockProcessed);
+  }
+
   TextEditingController jumlah = TextEditingController();
+  bool riwayat = true;
   bool stateA = true;
   bool stateB = false;
   bool stateC = false;
@@ -52,9 +64,11 @@ class _m1stockState extends State<m1stock> {
 
   @override
   void initState() {
+    processedData();
     riwayatstockData();
     stockData();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      processedData();
       riwayatstockData();
       stockData();
     });
@@ -341,13 +355,82 @@ class _m1stockState extends State<m1stock> {
                 Divider(
                   thickness: 2,
                 ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: blockVertical*0.5),
+                  child: Container(
+                    padding: EdgeInsets.all(blockVertical*0.5),
+                    height: blockVertical*5,
+                    width: MediaQuerywidth,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(blockVertical*1),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                       GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            riwayat = true;
+                            print(riwayat);
+                          });
+                        },
+                         child: AnimatedContainer(
+                            duration: Duration(seconds: 1),
+                            curve: Curves.linear,
+                            height: blockVertical*4,
+                            width: blockHorizontal*46,
+                            decoration: BoxDecoration(
+                              color: (riwayat)?Colors.lightBlue:Colors.blueGrey,
+                              borderRadius: BorderRadius.circular(blockVertical*1)
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(FontAwesomeIcons.circleArrowDown,size: blockVertical*2.5,color:(riwayat)? Colors.white:Colors.black45,),
+                                Text(" Stock In", style: TextStyle(fontSize: blockVertical*2, color:(riwayat)? Colors.white:Colors.black45),)
+                              ],
+                            ),
+                          ),
+                       ),
+                       GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            riwayat = false;
+                            print(riwayat);
+                          });
+                        },
+                         child: AnimatedContainer(
+                            duration: Duration(seconds: 1),
+                            curve: Curves.linear,
+                            height: blockVertical*4,
+                            width: blockHorizontal*46,
+                            decoration: BoxDecoration(
+                              color: (riwayat)?Colors.blueGrey:Colors.lightBlue,
+                              borderRadius: BorderRadius.circular(blockVertical*1)
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(FontAwesomeIcons.circleArrowUp,size: blockVertical*2.5,color: (riwayat)?Colors.black45: Colors.white,),
+                                Text(" Stock Out", style: TextStyle(fontSize: blockVertical*2, color: (riwayat)?Colors.black45: Colors.white),)
+                              ],
+                            ),
+                          ),
+                       ),
+                      ],
+                    ),
+                  ),
+                ),
                 //RIWAYAT PENGGUNAAN BAHAN-----------------------------------------------------------------------------------------
                 Padding(
                   padding: EdgeInsets.only(
                     left: blockHorizontal * 3,
                   ),
                   child: Text(
-                    "Riwayat Barang Masuk",
+                    (riwayat)?"Riwayat Stock In":"Riwayat Stock Out",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: blockVertical * 3.2,
@@ -356,7 +439,7 @@ class _m1stockState extends State<m1stock> {
                 ),
                 //PILIH RIWAYAT BAHAN-------------------------------------------------------------------------------------------------
                 Container(
-                  height: 75,
+                  height: blockVertical*9,
                   width: MediaQuerywidth,
                   color: Colors.transparent,
                   child: LayoutBuilder(builder: (context, constraints) {
@@ -471,7 +554,8 @@ class _m1stockState extends State<m1stock> {
                   width: MediaQuerywidth,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
-                    child: StreamBuilder<Object>(
+                    //STOCK IN
+                    child: (riwayat) ? StreamBuilder<Object>(
                         stream: streamRiwayatStock.stream,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
@@ -483,7 +567,7 @@ class _m1stockState extends State<m1stock> {
                                       children: [
                                         listHistory(
                                             context,
-                                            e.dibuat!.split(' ')[0],
+                                            DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(e.createdAt!).toLocal().toString().split(' ')[0],
                                             e.jumlah!,
                                             Color.fromARGB(255, 23, 42, 211),
                                             Colors.greenAccent,
@@ -497,7 +581,7 @@ class _m1stockState extends State<m1stock> {
                                       children: [
                                         listHistory(
                                             context,
-                                            e.dibuat!.split(' ')[0],
+                                            DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(e.createdAt!).toLocal().toString().split(' ')[0],
                                             e.jumlah!,
                                             Color.fromARGB(255, 253, 216, 5),
                                             Colors.greenAccent,
@@ -511,7 +595,7 @@ class _m1stockState extends State<m1stock> {
                                       children: [
                                         listHistory(
                                             context,
-                                            e.dibuat!.split(' ')[0],
+                                            DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(e.createdAt!).toLocal().toString().split(' ')[0],
                                             e.jumlah!,
                                             Color.fromARGB(255, 241, 100, 6),
                                             Color.fromARGB(255, 226, 125, 42),
@@ -521,11 +605,70 @@ class _m1stockState extends State<m1stock> {
                                   }
                                 }
                                 return Column();
-                              }).toList(),
-                            );
-                          }
-                          return Center();
-                        }),
+                              },
+                            ).toList(),
+                          );
+                        }
+                      return Center();
+                      },
+                    //STOCK OUT
+                    ) : StreamBuilder<Object>(
+                        stream: streamProcessed.stream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Column(
+                              children: stockProcessed.map((e) {
+                                if (stateC) {
+                                  if (e.tipe == "C" && e.processed != 0) {
+                                    return Column(
+                                      children: [
+                                        processHistory(
+                                            context,
+                                            DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(e.createdAt!).toLocal().toString().split(' ')[0],
+                                            e.processed!,
+                                            Color.fromARGB(255, 23, 42, 211),
+                                            Colors.greenAccent,
+                                            FontAwesomeIcons.c),
+                                      ],
+                                    );
+                                  }
+                                } else if (stateB) {
+                                  if (e.tipe == "B" && e.processed != 0) {
+                                    return Column(
+                                      children: [
+                                        processHistory(
+                                            context,
+                                            DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(e.createdAt!).toLocal().toString().split(' ')[0],
+                                            e.processed!,
+                                            Color.fromARGB(255, 253, 216, 5),
+                                            Colors.greenAccent,
+                                            FontAwesomeIcons.b),
+                                      ],
+                                    );
+                                  }
+                                } else if (stateA) {
+                                  if (e.tipe == "A" && e.processed != 0) {
+                                    return Column(
+                                      children: [
+                                        processHistory(
+                                            context,
+                                            DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(e.createdAt!).toLocal().toString().split(' ')[0],
+                                            e.processed!,
+                                            Color.fromARGB(255, 241, 100, 6),
+                                            Color.fromARGB(255, 226, 125, 42),
+                                            FontAwesomeIcons.a),
+                                      ],
+                                    );
+                                  }
+                                }
+                                return Column();
+                              },
+                            ).toList(),
+                          );
+                        }
+                      return Center();
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -568,6 +711,44 @@ class _m1stockState extends State<m1stock> {
           ),
           tileColor: color2,
           trailing: Text("+$jumlah",
+              style:
+                  TextStyle(color: Colors.white, fontSize: blockVertical * 3)),
+        ),
+      ),
+    );
+  }
+  //LIST RIWAYAT PROCESSED----------------------------------------------------------------------------------------------------------------
+  Widget processHistory(BuildContext context, String tanggal, int jumlah,
+      Color color1, Color color2, IconData icon) {
+    final MediaQuerywidth = MediaQuery.of(context).size.width;
+    double blockHorizontal = MediaQuerywidth / 100;
+    final MediaQueryheight = MediaQuery.of(context).size.height;
+    double blockVertical = MediaQueryheight / 100;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+      child: Container(
+        height: blockVertical * 10,
+        decoration: BoxDecoration(
+            color: color1.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(10)),
+        width: MediaQuerywidth,
+        child: ListTile(
+          title: Text(
+            "Processed Unit : $jumlah",
+            style:
+                TextStyle(fontSize: blockVertical * 2.3, color: Colors.white),
+          ),
+          subtitle: Text(tanggal,
+              style:
+                  TextStyle(color: Colors.white, fontSize: blockVertical * 2)),
+          leading: Icon(
+            icon,
+            color: Colors.white,
+            size: blockVertical * 4.5,
+          ),
+          tileColor: color2,
+          trailing: Text("-$jumlah",
               style:
                   TextStyle(color: Colors.white, fontSize: blockVertical * 3)),
         ),

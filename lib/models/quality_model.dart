@@ -35,3 +35,20 @@ class dashQuality{
     );
   }
 }
+
+class recQuality{
+  late int? machine_id,state,processed;
+  late String? tipe,createdAt;
+
+  recQuality({this.machine_id,this.state,this.processed,this.tipe,this.createdAt});
+
+  factory recQuality.fromJSON(Map<String, dynamic> json){
+    return recQuality(
+      machine_id: json['machine_id'],
+      tipe:json['tipe'],
+      processed: json['processed'],
+      createdAt: json['createdAt'],
+      state: json['state'],
+    );
+  }
+}

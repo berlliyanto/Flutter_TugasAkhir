@@ -14,10 +14,10 @@ class stockModel{
 }
 
 class historiM1model{
-  late String? id, tipe, dibuat;
+  late String? id, tipe, dibuat,createdAt;
   late int? jumlah,machine_id;
 
-  historiM1model({this.id, this.machine_id, this.dibuat, this.jumlah, this.tipe});
+  historiM1model({this.id, this.machine_id, this.dibuat, this.jumlah, this.tipe,this.createdAt});
 
   factory historiM1model.fromJSON(Map<String, dynamic> json){
     return historiM1model(
@@ -25,7 +25,8 @@ class historiM1model{
       machine_id: json["machine_id"],
       tipe: json["tipe"],
       dibuat: json["dibuat"],
-      jumlah: json["jumlah"]
+      jumlah: json["jumlah"],
+      createdAt: json["createdAt"]
     );
   }
 }

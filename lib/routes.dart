@@ -11,6 +11,7 @@ import 'package:flutter_application_1/mesin1/m1inputparam.dart';
 import 'package:flutter_application_1/mesin1/m1oee.dart';
 import 'package:flutter_application_1/mesin1/m1pdf.dart';
 import 'package:flutter_application_1/mesin1/m1monitoring.dart';
+import 'package:flutter_application_1/mesin1/m1pricelist.dart';
 import 'package:flutter_application_1/mesin1/m1stock.dart';
 import 'package:flutter_application_1/mesin2/m2alarm.dart';
 import 'package:flutter_application_1/mesin2/m2cost.dart';

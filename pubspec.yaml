@@ -43,6 +43,7 @@ dependencies:
   http: ^0.13.5
   liquid_pull_to_refresh: ^3.0.1
   lottie: ^2.2.0
+  mongo_dart: ^0.9.1
   open_file: ^3.2.1
   path_provider: ^2.0.13
   pdf: ^3.9.0
@@ -50,6 +51,7 @@ dependencies:
   shared_preferences: ^2.0.17
   shimmer: ^2.0.0
   syncfusion_flutter_gauges: ^20.4.50
+  timezone: ^0.9.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0

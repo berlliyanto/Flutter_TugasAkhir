@@ -31,24 +31,5 @@ class LoginService{
       return false;
      }
   }
-  //Authorization------------------------------------------------------------
-  // static Future<String> getProfile() async {
-  //   var loginDetails = await SharedService.loginDetails();
-    // Map<String, String> requestHeaders = {
-    //   'Content-Type': 'application/json',
-    //   'Authorization': 'Basic ${loginDetails!.data?.token}'
-    // };
-
-  //   var url = Uri.parse("http://192.168.1.13:5000/api/user-profile");
-
-  //   var responseLogin  = await client.get(url,
-  //    headers: requestHeaders, 
-  //    );
-  //    if(responseLogin.statusCode==200){
-  //     return (responseLogin.body);
-  //    }else{
-  //     return '';
-  //    }
-  // }
 }
 

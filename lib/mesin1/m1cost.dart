@@ -29,6 +29,7 @@ class m1cost extends StatefulWidget {
 
 class _m1costState extends State<m1cost> {
   late Timer timer;
+  //LATEST COST
   StreamController streamCost = StreamController.broadcast();
   List<getCostModel> listCost = [];
   getLatestCost latestCost = getLatestCost();
@@ -36,10 +37,21 @@ class _m1costState extends State<m1cost> {
     listCost = await latestCost.getCostList(1);
     streamCost.add(listCost);
   }
-   @override
+
+  StreamController streamCostH = StreamController.broadcast();
+  List<getCostHModel> listCostH = [];
+  getCostHistori latestCostH = getCostHistori();
+  Future<void> CostHData() async {
+    listCostH = await latestCostH.getCostH(1);
+    streamCostH.add(listCost);
+  }
+
+  @override
   void initState() {
+    CostHData();
     CostData();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      CostHData();
       CostData();
     });
     super.initState();
@@ -102,7 +114,8 @@ class _m1costState extends State<m1cost> {
     );
   }
 
-  Widget listHistory(BuildContext context) {
+  Widget listHistory(BuildContext context, String good, String tanggal,
+      String tipe, String total, IconData icon) {
     final MediaQuerywidth = MediaQuery.of(context).size.width;
     double blockHorizontal = MediaQuerywidth / 100;
     final MediaQueryheight = MediaQuery.of(context).size.height;
@@ -113,18 +126,18 @@ class _m1costState extends State<m1cost> {
       child: Container(
         height: blockVertical * 10,
         decoration: BoxDecoration(
-            color: Colors.greenAccent.withOpacity(0.5),
+            color: Color.fromARGB(255, 9, 241, 129).withOpacity(0.5),
             borderRadius: BorderRadius.circular(10)),
         width: MediaQuerywidth,
         child: ListTile(
           title: Text(
-            "Processed Unit : 50",
-            style: TextStyle(fontSize: blockVertical * 2),
+            good,
+            style: TextStyle(fontSize: blockVertical * 3, fontWeight: FontWeight.bold),
           ),
-          subtitle: Text("17 Juli 2023"),
-          leading: Icon(FontAwesomeIcons.b),
-          tileColor: Colors.greenAccent,
-          trailing: Text("Rp. 50.000"),
+          subtitle: Text(tanggal.split(" ")[0], style: TextStyle(fontSize: blockVertical*2),),
+          leading: Icon(icon, size: blockVertical*3,color: Colors.black,),
+          tileColor: Color.fromARGB(255, 5, 209, 111),
+          trailing: Text(total, style: TextStyle(fontSize: blockVertical*2.5, fontWeight: FontWeight.bold),),
         ),
       ),
     );
@@ -154,13 +167,17 @@ class _m1costState extends State<m1cost> {
                                   blockHorizontal,
                                   blockVertical,
                                   "Tanggal",
-                                  (e.state==1)?(e.tanggal!).split(" ")[0]:"-",
+                                  (e.state == 1)
+                                      ? (e.tanggal!).split(" ")[0]
+                                      : "-",
                                   Color.fromARGB(255, 202, 108, 0)),
                               baris1(
                                   blockHorizontal,
                                   blockVertical,
                                   "Harga Total",
-                                  (e.state==1)?"Rp.${e.total_harga},-":"-",
+                                  (e.state == 1)
+                                      ? "Rp.${e.total_harga},-"
+                                      : "-",
                                   Color.fromARGB(255, 197, 0, 92))
                             ],
                           ),
@@ -172,13 +189,21 @@ class _m1costState extends State<m1cost> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                baris2(blockHorizontal, blockVertical, "Good",
-                                    (e.state==1)?"${e.good}":"-", Color.fromARGB(255, 48, 207, 0)),
+                                baris2(
+                                    blockHorizontal,
+                                    blockVertical,
+                                    "Good",
+                                    (e.state == 1) ? "${e.good}" : "-",
+                                    Color.fromARGB(255, 48, 207, 0)),
                                 SizedBox(
                                   width: blockHorizontal * 1.5,
                                 ),
-                                baris2(blockHorizontal, blockVertical, "Tipe",
-                                    (e.state==1)?"${e.tipe}":"-", Color.fromARGB(255, 216, 0, 0)),
+                                baris2(
+                                    blockHorizontal,
+                                    blockVertical,
+                                    "Tipe",
+                                    (e.state == 1) ? "${e.tipe}" : "-",
+                                    Color.fromARGB(255, 216, 0, 0)),
                                 SizedBox(
                                   width: blockHorizontal * 1.5,
                                 ),
@@ -186,7 +211,7 @@ class _m1costState extends State<m1cost> {
                                     blockHorizontal,
                                     blockVertical,
                                     "Harga Unit (Rp)",
-                                    (e.state==1)?"${e.harga_unit}":"-",
+                                    (e.state == 1) ? "${e.harga_unit}" : "-",
                                     Color.fromARGB(255, 0, 12, 187)),
                               ],
                             ),
@@ -232,14 +257,36 @@ class _m1costState extends State<m1cost> {
                   SizedBox(
                     height: blockVertical * 45,
                     child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          listHistory((context)),
-                          listHistory((context)),
-                          listHistory((context)),
-                          listHistory((context)),
-                          listHistory((context)),
-                        ],
+                      child: StreamBuilder(
+                        stream: streamCostH.stream,
+                        builder: (context, snapshot) {
+                          if(snapshot.hasData){
+                            return Column(
+                            children: listCostH.map((e) {
+                              return listHistory(
+                                  context,
+                                  "${e.good}",
+                                  "${e.tanggal}",
+                                  "${e.tipe}",
+                                  "Rp. ${e.total_harga},-",
+                                  (e.tipe == "A")
+                                      ? FontAwesomeIcons.a
+                                      : (e.tipe == "B")
+                                          ? FontAwesomeIcons.b
+                                          : FontAwesomeIcons.c);
+                            }).toList(),
+                          );
+                          }
+                          return Column(
+                            children: [
+                              Container(
+                                height: blockVertical*30,
+                                width: double.infinity,
+                                color: Colors.white,
+                              )
+                            ],
+                          );
+                        }
                       ),
                     ),
                   )

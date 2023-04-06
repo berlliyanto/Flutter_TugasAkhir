@@ -26,7 +26,7 @@ class glass extends StatelessWidget {
         child: Stack(children: [
           //blurEffect
           BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
+            filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
             child: Container(),
           ),
           Container(

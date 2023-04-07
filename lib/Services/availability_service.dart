@@ -41,3 +41,24 @@ class trigAvailability{
     }
   }
 }
+
+class resetAvailability{
+  static Future resetAvai(int machine_id)async{
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/resetAvailability");
+    var response = await http.put(url, headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    },body: jsonEncode({
+      "machine_id": machine_id,
+    }),
+    );
+    if(response.statusCode==200){
+      print(response.statusCode);
+    }else{
+      print("Gagal");
+    }
+  }
+}
+

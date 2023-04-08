@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/availability_service.dart';
+import 'package:flutter_application_1/Services/oee_service.dart';
 import 'package:flutter_application_1/Services/param_service.dart';
 import 'package:flutter_application_1/Services/performance_service.dart';
 import 'package:flutter_application_1/Services/quality_service.dart';
@@ -367,6 +368,7 @@ class _m1paramState extends State<m1param> {
                               trigAvailability.triggerAvai(1, 1);
                               triggCost.trigCost(1);
                               trigPerformance.triggerPerformance(1);
+                              trigOEE.triggerOEE(1);
                             } else {
                               AwesomeDialog(
                                       context: context,
@@ -439,6 +441,7 @@ class _m1paramState extends State<m1param> {
                                 resetCost.resettCost(1);
                                 resetQuality.reset(1);
                                 resetAvailability.resetAvai(1);
+                                resetOEE.resOEE(1);
                                 resetParam.putParam(state0).then((value) {
                                   if(value.state==0){
                                     AwesomeDialog(

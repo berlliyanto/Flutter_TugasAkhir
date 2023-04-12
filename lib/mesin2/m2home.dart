@@ -47,11 +47,11 @@ class m2home extends StatelessWidget {
           toolbarHeight: blockVertical * 6,
           shadowColor: Colors.transparent,
           title: Text(
-            "Mesin 2",
+            "Machine 2",
             style: TextStyle(fontSize: 20),
           ),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 117, 6, 207).withOpacity(0.5),
+          backgroundColor: Color.fromARGB(255, 6, 93, 207).withOpacity(0.5),
           leading: Builder(
             builder: (context) => IconButton(
               onPressed: () {
@@ -81,7 +81,7 @@ class m2home extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             color: Color.fromARGB(255, 35, 1, 44),
-            image: DecorationImage(image: AssetImage("images/asset2.png"), fit: BoxFit.cover)
+            image: DecorationImage(image: AssetImage("images/asset25.jpg"), fit: BoxFit.cover)
           ),
           child: Container(
             padding: EdgeInsets.only(top: blockVertical*8),
@@ -122,11 +122,11 @@ class m2home extends StatelessWidget {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    Color.fromARGB(255, 145, 58, 203),
-                                    Color.fromARGB(255, 76, 13, 177),
+                                    Color.fromARGB(255, 58, 97, 203),
+                                    Color.fromARGB(255, 13, 89, 177),
                                   ])),
                           child: Text(
-                            "Mesin 1 - Not Connected",
+                            "Machine 2 - Not Connected",
                             style: TextStyle(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 fontSize: blockVertical * 3,
@@ -155,9 +155,6 @@ class m2home extends StatelessWidget {
                 Listmenu2((context), "Troubleshoot", mym2alarm, "from mesin 2",
                     FontAwesomeIcons.solidBell),
                 SizedBox(height: sizedheight),
-                Listmenu2((context), "Report", mym2pdf, "from mesin 2",
-                    Icons.picture_as_pdf),
-                SizedBox(height: sizedheight),
               ],
             ),
           ),
@@ -171,7 +168,7 @@ class m2home extends StatelessWidget {
       String arg, IconData icon) {
     return Container(
       decoration: BoxDecoration(
-          color: Color.fromARGB(255, 37, 2, 77),
+          color: Color.fromARGB(255, 2, 28, 77),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(

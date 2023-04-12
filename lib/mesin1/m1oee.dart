@@ -15,7 +15,6 @@ import 'package:flutter_application_1/models/param_model.dart';
 import 'package:flutter_application_1/models/performance_model.dart';
 import 'package:flutter_application_1/models/quality_model.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 class m1oee extends StatefulWidget {
@@ -28,14 +27,7 @@ class m1oee extends StatefulWidget {
 
 class _m1oeeState extends State<m1oee> {
   late Timer timer;
-  String? tipeBenda, tipe;
-  void sharedpref() async {
-    final SharedPreferences shared = await SharedPreferences.getInstance();
-    var tipeParamM1 = shared.getString('tipeParamM1');
-    setState(() {
-      tipeBenda = tipeParamM1;
-    });
-  }
+  String? tipe;
 
   // PARAMETER
   StreamController<List> streamParam = StreamController.broadcast();
@@ -51,7 +43,7 @@ class _m1oeeState extends State<m1oee> {
   List<currentQuality> QList = [];
   getQuality Quality = getQuality();
   Future<void> QualityData() async {
-    QList = await Quality.getQualityM(1, "$tipeBenda");
+    QList = await Quality.getQualityM(1, "$tipe");
     streamQuality.add(QList);
   }
 
@@ -84,12 +76,16 @@ class _m1oeeState extends State<m1oee> {
 
   @override
   void initState() {
+    getLatestParamM1.getTipe().then((value) {
+      setState(() {
+        tipe = value!;
+      });
+    });
     OEEdata();
     latestParam();
     Perdata();
     Avaidata();
     QualityData();
-    sharedpref();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       latestParam();
       Perdata();
@@ -161,7 +157,7 @@ class _m1oeeState extends State<m1oee> {
                                 horizontal: blockHorizontal * 2,
                                 vertical: blockVertical * 1),
                             child: Container(
-                              height: blockVertical * 35,
+                              height: blockVertical * 40,
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   boxShadow: [
@@ -203,6 +199,51 @@ class _m1oeeState extends State<m1oee> {
                                                   Divider(
                                                     thickness: 2,
                                                   ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            right:
+                                                                blockHorizontal *
+                                                                    3),
+                                                        height:
+                                                            blockVertical * 5,
+                                                        width: blockHorizontal *
+                                                            30,
+                                                        decoration: BoxDecoration(
+                                                            color: ((e.nilaioee! * 100)
+                                                                        .toDouble() <=
+                                                                    param.oee_target!
+                                                                        .toDouble())
+                                                                ? Color.fromARGB(
+                                                                        255,
+                                                                        255,
+                                                                        17,
+                                                                        0)
+                                                                    .withOpacity(
+                                                                        0.8)
+                                                                : Color.fromARGB(
+                                                                        255, 0, 138, 5)
+                                                                    .withOpacity(
+                                                                        0.8),
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    blockVertical * 1)),
+                                                        child: Center(
+                                                          child: Text(
+                                                            "Target : ${param.oee_target} %",
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontSize:blockVertical *2,
+                                                                fontWeight: FontWeight.bold
+                                                              ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                   circleOEE(
                                                       blockHorizontal,
                                                       blockVertical,
@@ -241,6 +282,32 @@ class _m1oeeState extends State<m1oee> {
                                               Divider(
                                                 thickness: 2,
                                               ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Shimmer.fromColors(
+                                                    baseColor: Colors.grey,
+                                                    highlightColor:
+                                                        Colors.white,
+                                                    child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          right:
+                                                              blockHorizontal *
+                                                                  3),
+                                                      height: blockVertical * 5,
+                                                      width:
+                                                          blockHorizontal * 30,
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.grey,
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  blockVertical *
+                                                                      1)),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                               Shimmer.fromColors(
                                                 highlightColor: Colors.white,
                                                 baseColor: Colors.grey,
@@ -252,7 +319,8 @@ class _m1oeeState extends State<m1oee> {
                                               SizedBox(
                                                 height: blockVertical * 2.5,
                                               ),
-                                              ShimmerrowOEE(blockHorizontal, blockVertical)
+                                              ShimmerrowOEE(blockHorizontal,
+                                                  blockVertical)
                                             ],
                                           );
                                         }
@@ -290,6 +358,22 @@ class _m1oeeState extends State<m1oee> {
                                         ),
                                         Divider(
                                           thickness: 2,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(right: blockHorizontal * 3),
+                                              height: blockVertical * 5,
+                                              width: blockHorizontal * 30,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          blockVertical * 1)),
+                                            )
+                                          ],
                                         ),
                                         circleOEE(blockHorizontal,
                                             blockVertical, 0.0, "0"),
@@ -369,11 +453,11 @@ class _m1oeeState extends State<m1oee> {
                                                           blockHorizontal,
                                                           blockVertical,
                                                           "Running Time",
-                                                          "${(e.runningtime! / 60).toStringAsFixed(2)} Menit",
+                                                          "${(e.runningtime! / 60).toStringAsFixed(2)} Minute",
                                                           "Operation Time",
-                                                          "${(e.operationtime! / 60).toStringAsFixed(2)} Menit",
+                                                          "${(e.operationtime! / 60).toStringAsFixed(2)} Minute",
                                                           "Downtime",
-                                                          "${(e.downtime! / 60).toStringAsFixed(2)} Menit")
+                                                          "${(e.downtime! / 60).toStringAsFixed(2)} Minute")
                                                     ],
                                                   );
                                                 }).toList(),
@@ -410,11 +494,11 @@ class _m1oeeState extends State<m1oee> {
                                                     blockHorizontal,
                                                     blockVertical,
                                                     "Running Time",
-                                                    "0 Menit",
+                                                    "0 Minute",
                                                     "Operation Time",
-                                                    "0 Menit",
+                                                    "0 Minute",
                                                     "Downtime",
-                                                    "0 Menit")
+                                                    "0 Minute")
                                               ],
                                             );
                                           })
@@ -435,11 +519,11 @@ class _m1oeeState extends State<m1oee> {
                                                 blockHorizontal,
                                                 blockVertical,
                                                 "Running Time",
-                                                "0 Menit",
+                                                "0 Minute",
                                                 "Operation Time",
-                                                "0 Menit",
+                                                "0 Minute",
                                                 "Downtime",
-                                                "0 Menit")
+                                                "0 Minute")
                                           ],
                                         ),
                                   SizedBox(
@@ -491,22 +575,22 @@ class _m1oeeState extends State<m1oee> {
                                                             ? Prate
                                                                 .toStringAsFixed(
                                                                     2)
-                                                            : "-"),
+                                                            : "0"),
                                                     NilaiOEE(
                                                         blockHorizontal,
                                                         blockVertical,
                                                         "Cycle Time",
                                                         (e.state == 1)
-                                                            ? "${e.cycle_time} Menit"
-                                                            : "- Menit",
+                                                            ? "${e.cycle_time} Minute"
+                                                            : "- Minute",
                                                         "Processed Unit",
                                                         (e.state == 1)
                                                             ? "${e.processed} Unit"
-                                                            : "- Menit",
+                                                            : "- Minute",
                                                         "Operation Time",
                                                         (e.state == 1)
-                                                            ? "${(e.operationtime! / 60).toStringAsFixed(2)} Menit"
-                                                            : "- Menit")
+                                                            ? "${(e.operationtime! / 60).toStringAsFixed(2)} Minute"
+                                                            : "- Minute")
                                                   ],
                                                 );
                                               }).toList());
@@ -542,11 +626,11 @@ class _m1oeeState extends State<m1oee> {
                                                     blockHorizontal,
                                                     blockVertical,
                                                     "Cycle Time",
-                                                    "0 Menit",
+                                                    "0 Minute",
                                                     "Good Processed",
                                                     "0 Unit",
                                                     "Operation Time",
-                                                    "0 Menit")
+                                                    "0 Minute")
                                               ],
                                             );
                                           })
@@ -561,16 +645,16 @@ class _m1oeeState extends State<m1oee> {
                                                 Color.fromARGB(
                                                     255, 175, 76, 76),
                                                 0.0,
-                                                "-"),
+                                                "0"),
                                             NilaiOEE(
                                                 blockHorizontal,
                                                 blockVertical,
                                                 "Cycle Time",
-                                                "0 Menit",
+                                                "0 Minute",
                                                 "Good Processed",
                                                 "0 Unit",
                                                 "Operation Time",
-                                                "0 Menit")
+                                                "0 Minute")
                                           ],
                                         ),
                                   SizedBox(

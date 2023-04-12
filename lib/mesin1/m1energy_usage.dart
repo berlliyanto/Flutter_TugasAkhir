@@ -113,14 +113,14 @@ class _m1energyState extends State<m1energy> {
                                                   context,
                                                   constraints,
                                                   FontAwesomeIcons.bolt,
-                                                  "Arus",
+                                                  "Current",
                                                   "${e.current} A"),
                                               content(
                                                   context,
                                                   constraints,
                                                   FontAwesomeIcons
                                                       .boltLightning,
-                                                  "Tegangan",
+                                                  "Voltage",
                                                   "${e.voltage} VAC")
                                             ],
                                           ),
@@ -136,7 +136,7 @@ class _m1energyState extends State<m1energy> {
                                                   context,
                                                   constraints,
                                                   FontAwesomeIcons.batteryHalf,
-                                                  "Daya",
+                                                  "Power",
                                                   "${e.power} W"),
                                               content(
                                                   context,
@@ -220,35 +220,35 @@ class _m1energyState extends State<m1energy> {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("TEGANGAN (V)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
+                                Text("VOLTAGE (V)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
                                 chartVolt(),
                               ],
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("ARUS (A)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
+                                Text("CURRENT (A)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
                                 chartcurrent(),
                               ],
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("DAYA (W)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
+                                Text("POWER (W)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
                                 chartpower(),
                               ],
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("ENERGI (Wh)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
+                                Text("ENERGY (Wh)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
                                 chartenergy(),
                               ],
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("FREKUENSI (Hz)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
+                                Text("FREQUENCY (Hz)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
                                 chartfrequency(),
                               ],
                             ),

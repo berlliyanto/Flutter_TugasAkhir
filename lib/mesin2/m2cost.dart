@@ -32,11 +32,11 @@ class m2cost extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Mesin 2 Cost Price",
+            "Machine 2 Cost Price",
             style: TextStyle(fontSize: blockVertical * 2.5),
           ),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 82, 0, 234),
+          backgroundColor: Color.fromARGB(255, 6, 93, 207),
           toolbarHeight: blockVertical * 8,
           leading: backbutton(context),
         ),
@@ -48,8 +48,8 @@ class m2cost extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color.fromARGB(255, 122, 29, 215),
-                  Color.fromARGB(255, 13, 76, 237),
+                  Color.fromARGB(255, 58, 97, 203),
+                  Color.fromARGB(255, 13, 89, 177)
                 ]),
           ),
           child: SingleChildScrollView(
@@ -71,8 +71,8 @@ class m2cost extends StatelessWidget {
                           end: Alignment.topLeft,
                           begin: Alignment.bottomRight,
                           colors: [
-                            Color.fromARGB(255, 122, 29, 215),
-                            Color.fromARGB(255, 13, 76, 237),
+                            Color.fromARGB(255, 58, 97, 203),
+                  Color.fromARGB(255, 13, 89, 177)
                           ],
                         ),
                         boxShadow: [

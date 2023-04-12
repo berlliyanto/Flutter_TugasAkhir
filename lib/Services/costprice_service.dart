@@ -57,6 +57,24 @@ class getLatestCost {
   }
 }
 
+class getDashCost {
+  Future getCostDash() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    Uri url = Uri.parse(
+        "https://aplikasi-pms-berli.onrender.com/api/getDashCost");
+    var hasilResponseGet = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    Iterable it =
+        (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
+    List<getCostdashModel> Costlist =
+        it.map((e) => getCostdashModel.FromJSON(e)).toList();
+    return Costlist;
+  }
+}
+
 class getCostHistori {
   Future getCostH(int machine_id) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();

@@ -84,9 +84,9 @@ class _m4paramState extends State<m4param> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Mesin 4 Input Parameter",style: TextStyle(fontSize: blockVertical * 2.5),),
+          title: Text("Machine 4 Input Parameter",style: TextStyle(fontSize: blockVertical * 2.5),),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 45, 49, 83),
+          backgroundColor: Color.fromARGB(255, 7, 189, 189),
           toolbarHeight: blockVertical * 8,
           leading: backbutton(context),
         ),
@@ -98,8 +98,8 @@ class _m4paramState extends State<m4param> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color.fromARGB(255, 37, 39, 59),
-                  Color.fromARGB(255, 107, 100, 168),
+                  Color.fromARGB(255, 39, 214, 214),
+                                    Color.fromARGB(255, 1, 176, 182),
                   
                 ]),
           ),
@@ -199,7 +199,7 @@ class _m4paramState extends State<m4param> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text((e.state==1)?"${e.loading_time} Menit" : "0.0 Menit",
+                                              Text((e.state==1)?"${e.loading_time} Minute" : "0.0 Minute",
                                                   style: TextStyle(
                                                       fontSize:
                                                           blockVertical * 1.5)),
@@ -218,7 +218,7 @@ class _m4paramState extends State<m4param> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text((e.state==1)?"${e.cycle_time} Menit" : "0.0 Menit",
+                                              Text((e.state==1)?"${e.cycle_time} Minute" : "0.0 Minute",
                                                   style: TextStyle(
                                                       fontSize:
                                                           blockVertical * 1.5)),
@@ -247,7 +247,7 @@ class _m4paramState extends State<m4param> {
                                             height: blockVertical * 1,
                                           ),
                                           Text(
-                                            "Tipe Benda",
+                                            "Object Type",
                                             style: TextStyle(
                                                 fontSize: blockVertical * 1.5,
                                                 fontWeight: FontWeight.bold),
@@ -256,7 +256,7 @@ class _m4paramState extends State<m4param> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text((e.state==1)?"Bentuk ${e.tipe_benda}":"Tipe Belum Ditentukan",
+                                              Text((e.state==1)?"Type ${e.tipe_benda}":"Undefined Type",
                                                   style: TextStyle(
                                                       fontSize:
                                                           blockVertical * 1.5)),
@@ -335,8 +335,8 @@ class _m4paramState extends State<m4param> {
                                             context: context,
                                             dialogType: DialogType.success,
                                             animType: AnimType.leftSlide,
-                                            title: "Sukses",
-                                            desc: "Sukses Input Parameter",
+                                            title: "Success",
+                                            desc: "Success Input Parameter",
                                             btnOkOnPress: () {
                                               Navigator.pop(context);
                                             },
@@ -350,9 +350,9 @@ class _m4paramState extends State<m4param> {
                                       context: context,
                                       dialogType: DialogType.warning,
                                       animType: AnimType.leftSlide,
-                                      title: "Gagal",
+                                      title: "Fail",
                                       desc:
-                                          "Parameter Tidak Boleh Ada Yang Kosong",
+                                          "Parameters Can't Be Empty",
                                       autoHide: Duration(seconds: 2))
                                   .show();
                               print("ok");
@@ -403,7 +403,7 @@ class _m4paramState extends State<m4param> {
                               dialogType: DialogType.question,
                               animType: AnimType.leftSlide,
                               title: "Reset",
-                              desc: "Anda Yakin Mau Menghapus Data Parameter Saat Ini?",
+                              desc: "Are You Sure You Want To Delete The Current Parameter Data?",
                               useRootNavigator: true,
                               btnOkIcon: FontAwesomeIcons.check,
                               btnOkOnPress: ()async{
@@ -418,7 +418,7 @@ class _m4paramState extends State<m4param> {
                                       dialogType: DialogType.success,
                                       animType: AnimType.leftSlide,
                                       title: "Success",
-                                      desc: "Berhasil Reset Parameter",
+                                      desc: "Success Reset Parameter",
                                       useRootNavigator: true,
                                       autoHide: Duration(seconds: 2),
                                     );
@@ -534,10 +534,10 @@ class _m4paramState extends State<m4param> {
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Color(0xFF605F64))),
-                          hintText: "Masukan Nilai...",
+                          hintText: "Input Value...",
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 106, 106, 107)),
-                          labelText: "Loading Time (Menit)",
+                          labelText: "Loading Time (Minute)",
                           labelStyle:
                               TextStyle(color: Color.fromARGB(255, 98, 97, 100))),
                     ),
@@ -554,10 +554,10 @@ class _m4paramState extends State<m4param> {
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Color(0xFF605F64))),
-                          hintText: "Masukan Nilai...",
+                          hintText: "Input Value...",
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 106, 106, 107)),
-                          labelText: "Cycle Time (Menit)",
+                          labelText: "Cycle Time (Minute)",
                           labelStyle:
                               TextStyle(color: Color.fromARGB(255, 98, 97, 100))),
                     ),
@@ -574,7 +574,7 @@ class _m4paramState extends State<m4param> {
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Color(0xFF605F64))),
-                          hintText: "Masukan Nilai...",
+                          hintText: "Input Value...",
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 106, 106, 107)),
                           labelText: "OEE Target (%)",
@@ -594,7 +594,7 @@ class _m4paramState extends State<m4param> {
                             border: OutlineInputBorder(),
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Color(0xFF605F64))),
-                            hintText: "Masukan Nilai...",
+                            hintText: "Input Value...",
                             hintStyle: TextStyle(
                                 color: Color.fromARGB(255, 106, 106, 107)),
                             labelText: "Harga per Unit (Rp)",
@@ -626,9 +626,9 @@ class _m4paramState extends State<m4param> {
                                 dropdownDecoratorProps: DropDownDecoratorProps(
                                   dropdownSearchDecoration: InputDecoration(
                                     border: InputBorder.none,
-                                    labelText: "Pilih Tipe Benda",
+                                    labelText: "Choose Object Type",
                                     labelStyle: TextStyle(color: Color.fromARGB(255, 98, 97, 100)),
-                                    hintText: "Tipe Benda",
+                                    hintText: "Object Type",
                                     hintStyle: TextStyle(color: Color.fromARGB(255, 98, 97, 100))
                                   ),
                                 ),

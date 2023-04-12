@@ -37,7 +37,7 @@ class _m1alarmState extends State<m1alarm> {
       home: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Mesin 1 Troubleshoot",
+            "Machine 1 Troubleshoot",
             style: TextStyle(fontSize: blockVertical * 2.5),
           ),
           centerTitle: true,

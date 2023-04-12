@@ -44,7 +44,7 @@ class _m1costState extends State<m1cost> {
   getCostHistori latestCostH = getCostHistori();
   Future<void> CostHData() async {
     listCostH = await latestCostH.getCostH(1);
-    streamCostH.add(listCost);
+    streamCostH.add(listCostH);
   }
 
   @override
@@ -79,7 +79,7 @@ class _m1costState extends State<m1cost> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              "Mesin 1 Cost Price",
+              "Machine 1 Cost Price",
               style: TextStyle(fontSize: blockVertical * 2.5),
             ),
             centerTitle: true,
@@ -133,12 +133,24 @@ class _m1costState extends State<m1cost> {
         child: ListTile(
           title: Text(
             good,
-            style: TextStyle(fontSize: blockVertical * 3, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: blockVertical * 3, fontWeight: FontWeight.bold),
           ),
-          subtitle: Text(tanggal.split(" ")[0], style: TextStyle(fontSize: blockVertical*2),),
-          leading: Icon(icon, size: blockVertical*3,color: Colors.black,),
+          subtitle: Text(
+            tanggal.split(" ")[0],
+            style: TextStyle(fontSize: blockVertical * 2),
+          ),
+          leading: Icon(
+            icon,
+            size: blockVertical * 3,
+            color: Colors.black,
+          ),
           tileColor: Color.fromARGB(255, 5, 209, 111),
-          trailing: Text(total, style: TextStyle(fontSize: blockVertical*2.5, fontWeight: FontWeight.bold),),
+          trailing: Text(
+            total,
+            style: TextStyle(
+                fontSize: blockVertical * 2.5, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
@@ -167,7 +179,7 @@ class _m1costState extends State<m1cost> {
                               baris1(
                                   blockHorizontal,
                                   blockVertical,
-                                  "Tanggal",
+                                  "Date",
                                   (e.state == 1)
                                       ? (e.tanggal!).split(" ")[0]
                                       : "-",
@@ -175,7 +187,7 @@ class _m1costState extends State<m1cost> {
                               baris1(
                                   blockHorizontal,
                                   blockVertical,
-                                  "Harga Total",
+                                  "Total Price",
                                   (e.state == 1)
                                       ? "Rp.${e.total_harga},-"
                                       : "-",
@@ -202,7 +214,7 @@ class _m1costState extends State<m1cost> {
                                 baris2(
                                     blockHorizontal,
                                     blockVertical,
-                                    "Tipe",
+                                    "Type",
                                     (e.state == 1) ? "${e.tipe}" : "-",
                                     Color.fromARGB(255, 216, 0, 0)),
                                 SizedBox(
@@ -211,7 +223,7 @@ class _m1costState extends State<m1cost> {
                                 baris2(
                                     blockHorizontal,
                                     blockVertical,
-                                    "Harga Unit (Rp)",
+                                    "Unit Price (Rp)",
                                     (e.state == 1) ? "${e.harga_unit}" : "-",
                                     Color.fromARGB(255, 0, 12, 187)),
                               ],
@@ -221,12 +233,24 @@ class _m1costState extends State<m1cost> {
                       );
                     }).toList(),
                   );
-                }else if(snapshot.connectionState==ConnectionState.waiting){
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
                   return Center(
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.white,
-                      highlightColor: Colors.grey,
-                      child: Text("LOADING", style: TextStyle(color: Colors.white, fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: blockHorizontal * 2),
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.white,
+                        highlightColor: Colors.grey,
+                        child: Container(
+                          height: blockVertical * 22,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.circular(blockVertical * 3)),
+                        ),
+                      ),
                     ),
                   );
                 }
@@ -256,7 +280,7 @@ class _m1costState extends State<m1cost> {
                         left: blockVertical * 2,
                         bottom: blockVertical * 1),
                     child: Text(
-                      "Aktivitas Terbaru",
+                      "Recents Activity",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: blockVertical * 3,
@@ -267,36 +291,54 @@ class _m1costState extends State<m1cost> {
                     height: blockVertical * 45,
                     child: SingleChildScrollView(
                       child: StreamBuilder(
-                        stream: streamCostH.stream,
-                        builder: (context, snapshot) {
-                          if(snapshot.hasData){
+                          stream: streamCostH.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Column(
+                                children: listCostH.map((e) {
+                                  if (e.good != 0) {
+                                    return listHistory(
+                                        context,
+                                        "${e.good}",
+                                        "${e.tanggal}",
+                                        "${e.tipe}",
+                                        "Rp. ${e.total_harga},-",
+                                        (e.tipe == "A")
+                                            ? FontAwesomeIcons.a
+                                            : (e.tipe == "B")
+                                                ? FontAwesomeIcons.b
+                                                : FontAwesomeIcons.c);
+                                  }
+                                  return Center();
+                                }).toList(),
+                              );
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                child: Shimmer.fromColors(
+                                  baseColor: Colors.white,
+                                  highlightColor: Colors.grey,
+                                  child: Text(
+                                    'Loading',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: blockVertical * 5,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
                             return Column(
-                            children: listCostH.map((e) {
-                              return listHistory(
-                                  context,
-                                  "${e.good}",
-                                  "${e.tanggal}",
-                                  "${e.tipe}",
-                                  "Rp. ${e.total_harga},-",
-                                  (e.tipe == "A")
-                                      ? FontAwesomeIcons.a
-                                      : (e.tipe == "B")
-                                          ? FontAwesomeIcons.b
-                                          : FontAwesomeIcons.c);
-                            }).toList(),
-                          );
-                          }
-                          return Column(
-                            children: [
-                              Container(
-                                height: blockVertical*30,
-                                width: double.infinity,
-                                color: Colors.white,
-                              )
-                            ],
-                          );
-                        }
-                      ),
+                              children: [
+                                Container(
+                                  height: blockVertical * 30,
+                                  width: double.infinity,
+                                  color: Colors.white,
+                                )
+                              ],
+                            );
+                          }),
                     ),
                   )
                 ],

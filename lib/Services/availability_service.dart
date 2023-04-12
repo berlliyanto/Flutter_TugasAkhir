@@ -19,6 +19,19 @@ class getAvailability{
     return QualityM1_A;
   }
   
+  Future getState(int machine_id) async{
+     final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestAvailability?machine_id=$machine_id");
+    var response = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    final data = (json.decode(response.body)as Map<String, dynamic>)['data'];
+    final int state = data[0]['state'];
+    return state;
+  }
+  
 }
 
 class trigAvailability{

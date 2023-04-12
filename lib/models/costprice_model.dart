@@ -47,9 +47,9 @@ class getCostModel {
 
 class getCostHModel {
   late int? machine_id,good,total_harga,harga_unit,state;
-  late String? tipe,tanggal;
+  late String? tipe,tanggal,updatedAt;
 
-  getCostHModel({this.machine_id,this.good,this.harga_unit,this.state,this.tanggal,this.tipe,this.total_harga});
+  getCostHModel({this.machine_id,this.good,this.harga_unit,this.state,this.tanggal,this.tipe,this.total_harga,this.updatedAt});
 
   factory getCostHModel.FromJSON(Map<String, dynamic> json){
     return getCostHModel(
@@ -59,7 +59,26 @@ class getCostHModel {
       total_harga: json['total_harga'],
       tanggal: json['tanggal'],
       tipe: json['tipe'],
-      state: json['state']
+      state: json['state'],
+      updatedAt: json['updatedAt']
+    );
+  }
+}
+
+class getCostdashModel {
+  late int? machine_id,good,total_harga,harga_unit;
+  late String? tipe,updatedAt;
+
+  getCostdashModel({this.machine_id,this.good,this.harga_unit,this.updatedAt,this.tipe,this.total_harga});
+
+  factory getCostdashModel.FromJSON(Map<String, dynamic> json){
+    return getCostdashModel(
+      machine_id: json['machine_id'],
+      good: json['good'],
+      harga_unit: json['harga_unit'],
+      total_harga: json['total_harga'],
+      updatedAt: json['updatedAt'],
+      tipe: json['tipe'],
     );
   }
 }

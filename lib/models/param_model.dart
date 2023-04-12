@@ -81,3 +81,22 @@ class ParamModel4{
       );
   }
 }
+
+class paramReportModel{
+  late  int? machine_id,oee_target;
+  late dynamic  cycle_time,loading_time;
+  late String? tipe_benda,updatedAt;
+
+  paramReportModel({this.machine_id, this.loading_time, this.cycle_time, this.oee_target, this.updatedAt, this.tipe_benda});
+
+  factory paramReportModel.fromJSON(Map<String, dynamic> json){
+      return paramReportModel(
+        machine_id: json['machine_id'],
+        loading_time: json['loading_time'],
+        cycle_time: json['cycle_time'],
+        oee_target: json['oee_target'],
+        tipe_benda: json['tipe_benda'],
+        updatedAt: json['updatedAt']
+      );
+  }
+}

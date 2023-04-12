@@ -32,7 +32,10 @@ class _preventiveState extends State<preventive> {
       debugShowCheckedModeBanner: false,
       onGenerateRoute: Routes.generateRoute,
       home: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text("Preventive Maintenance"),
+          centerTitle: true,
+        ),
         drawer: drawer(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.end,

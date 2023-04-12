@@ -250,12 +250,44 @@ class resetParamM4 {
   }
 }
 
+//Report
+class reportParam {
+  Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/reportParam");
+  Future getParam() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    Iterable it = (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
+    List<paramReportModel> paramList = it.map((e) => paramReportModel.fromJSON(e)).toList();
+    return paramList;
+  }
+}
+
+//Histori
+class HistoriParam {
+  Future getParam(int machine_id) async {
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getParamHistori?machine_id=$machine_id");
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    Iterable it = (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
+    List<paramReportModel> paramList = it.map((e) => paramReportModel.fromJSON(e)).toList();
+    return paramList;
+  }
+}
+
 //READ LATEST INPUT PARAMETER M1
 class readLatestParamM1 {
+  Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM1");
   Future getParamM1() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
-        var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM1");
+    var getToken = shared.getString("token");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -264,6 +296,18 @@ class readLatestParamM1 {
         (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
     List<ParamModel> paramList = it.map((e) => ParamModel.fromJSON(e)).toList();
     return paramList;
+  }
+
+  Future getTipe() async{
+     final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    var response = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    final data = (json.decode(response.body)as Map<String, dynamic>)['data'];
+    final String tipe = data[0]['tipe_benda'];
+    return tipe;
   }
 }
 

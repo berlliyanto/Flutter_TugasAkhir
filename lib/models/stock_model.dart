@@ -1,7 +1,8 @@
 class stockModel{
   late int? machine_id, A,B,C;
+  late String? updatedAt;
 
-  stockModel({this.machine_id,this.A,this.B,this.C});
+  stockModel({this.machine_id,this.A,this.B,this.C,this.updatedAt});
 
   factory stockModel.fromJSON(Map<String, dynamic> json){
     return stockModel(
@@ -9,6 +10,24 @@ class stockModel{
       A: json["A"],
       B: json["B"],
       C: json["C"],
+      updatedAt: json["updatedAt"]
+    );
+  }
+}
+//REPORT
+class allstockModel{
+  late int? machine_id, A,B,C;
+  late String? updatedAt;
+
+  allstockModel({this.machine_id,this.A,this.B,this.C,this.updatedAt});
+
+  factory allstockModel.fromJSON(Map<String, dynamic> json){
+    return allstockModel(
+      machine_id: json["machine_id"],
+      A: json["A"],
+      B: json["B"],
+      C: json["C"],
+      updatedAt: json["updatedAt"]
     );
   }
 }

@@ -47,11 +47,11 @@ class m4home extends StatelessWidget {
           toolbarHeight: blockVertical * 6,
           shadowColor: Colors.transparent,
           title: Text(
-            "Mesin 4",
+            "Machine 4",
             style: TextStyle(fontSize: 20),
           ),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 54, 43, 43).withOpacity(0.5),
+          backgroundColor: Color.fromARGB(255, 7, 189, 189).withOpacity(0.5),
           leading: Builder(
             builder: (context) => IconButton(
               onPressed: () {
@@ -122,11 +122,11 @@ class m4home extends StatelessWidget {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    Color.fromARGB(255, 129, 118, 192),
-                                    Color.fromARGB(255, 40, 41, 56),
+                                    Color.fromARGB(255, 39, 214, 214),
+                                    Color.fromARGB(255, 1, 176, 182),
                                   ])),
                           child: Text(
-                            "Mesin 4 - Not Connected",
+                            "Machine 4 - Not Connected",
                             style: TextStyle(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 fontSize: blockVertical * 3,
@@ -155,9 +155,6 @@ class m4home extends StatelessWidget {
                 Listmenu4((context), "Troubleshoot", mym4alarm, "from mesin 4",
                     FontAwesomeIcons.solidBell),
                 SizedBox(height: sizedheight),
-                Listmenu4((context), "Report", mym4pdf, "from mesin 4",
-                    Icons.picture_as_pdf),
-                SizedBox(height: sizedheight),
               ],
             ),
           ),
@@ -171,7 +168,7 @@ class m4home extends StatelessWidget {
       String arg, IconData icon) {
     return Container(
       decoration: BoxDecoration(
-          color: Color.fromARGB(255, 53, 57, 73),
+          color: Color.fromARGB(255, 0, 73, 78),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(

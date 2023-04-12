@@ -9,7 +9,6 @@ import 'package:flutter_application_1/mesin1/m1cost.dart';
 import 'package:flutter_application_1/mesin1/m1home.dart';
 import 'package:flutter_application_1/mesin1/m1inputparam.dart';
 import 'package:flutter_application_1/mesin1/m1oee.dart';
-import 'package:flutter_application_1/mesin1/m1pdf.dart';
 import 'package:flutter_application_1/mesin1/m1monitoring.dart';
 import 'package:flutter_application_1/mesin1/m1stock.dart';
 import 'package:flutter_application_1/mesin2/m2alarm.dart';
@@ -17,24 +16,22 @@ import 'package:flutter_application_1/mesin2/m2cost.dart';
 import 'package:flutter_application_1/mesin2/m2home.dart';
 import 'package:flutter_application_1/mesin2/m2inputparam.dart';
 import 'package:flutter_application_1/mesin2/m2oee.dart';
-import 'package:flutter_application_1/mesin2/m2pdf.dart';
 import 'package:flutter_application_1/mesin2/m2monitoring.dart';
 import 'package:flutter_application_1/mesin2/m2stock.dart';
 import 'package:flutter_application_1/mesin3/m3alarm.dart';
 import 'package:flutter_application_1/mesin3/m3cost.dart';
 import 'package:flutter_application_1/mesin3/m3inputparam.dart';
 import 'package:flutter_application_1/mesin3/m3oee.dart';
-import 'package:flutter_application_1/mesin3/m3pdf.dart';
 import 'package:flutter_application_1/mesin3/m3monitoring.dart';
 import 'package:flutter_application_1/mesin3/m3stock.dart';
 import 'package:flutter_application_1/mesin4/m4alarm.dart';
 import 'package:flutter_application_1/mesin4/m4cost.dart';
 import 'package:flutter_application_1/mesin4/m4inputparam.dart';
 import 'package:flutter_application_1/mesin4/m4oee.dart';
-import 'package:flutter_application_1/mesin4/m4pdf.dart';
 import 'package:flutter_application_1/mesin4/m4monitoring.dart';
 import 'package:flutter_application_1/mesin4/m4stock.dart';
 import 'package:flutter_application_1/preventive.dart';
+import 'package:flutter_application_1/report.dart';
 import 'package:flutter_application_1/splashscreen.dart';
 import 'package:flutter_application_1/tambahuser.dart';
 import 'package:flutter_application_1/transisi_dari_login.dart';
@@ -93,6 +90,11 @@ class Routes {
       // return MaterialPageRoute(builder:(context) => preventive(h),);
       return BouncyPageRoute(page: preventive(h));
 
+      case myreport:
+      var hk = settings.arguments as String;
+      // return MaterialPageRoute(builder:(context) => report(h),);
+      return BouncyPageRoute(page: report(hk));
+
       // Halaman Mesin 1----------------------------------------------------------------------------------------------------------------
       case mym1param:
       var i = settings.arguments as String;
@@ -113,11 +115,6 @@ class Routes {
       var m = settings.arguments as String;
       // return MaterialPageRoute(builder:(context) => m1oee(m),);
       return BouncyPageRoute(page: m1oee(m));
-
-      case mym1pdf:
-      var n = settings.arguments as String;
-      // return MaterialPageRoute(builder:(context) => m1pdf(n),);
-      return BouncyPageRoute(page: m1pdf(n));
 
       case mym1monitoring:
       var p = settings.arguments as String;
@@ -150,11 +147,6 @@ class Routes {
       // return MaterialPageRoute(builder:(context) => m2oee(v),);
       return BouncyPageRoute(page: m2oee(v));
 
-      case mym2pdf:
-      var w = settings.arguments as String;
-      // return MaterialPageRoute(builder:(context) => m2pdf(w),);
-      return BouncyPageRoute(page: m2pdf(w));
-
       case mym2monitoring:
       var y = settings.arguments as String;
       // return MaterialPageRoute(builder:(context) => m2monitoring(y),);
@@ -186,11 +178,6 @@ class Routes {
       // return MaterialPageRoute(builder:(context) => m3oee(ae),);
       return BouncyPageRoute(page: m3oee(ae));
 
-      case mym3pdf:
-      var af = settings.arguments as String;
-      // return MaterialPageRoute(builder:(context) => m3pdf(af),);
-      return BouncyPageRoute(page: m3pdf(af));
-
       case mym3monitoring:
       var ah = settings.arguments as String;
       // return MaterialPageRoute(builder:(context) => m3monitoring(ah),);
@@ -221,11 +208,6 @@ class Routes {
       var an = settings.arguments as String;
       // return MaterialPageRoute(builder:(context) => m4oee(an),);
       return BouncyPageRoute(page: m4oee(an));
-
-      case mym4pdf:
-      var ao = settings.arguments as String;
-      // return MaterialPageRoute(builder:(context) => m4pdf(ao),);
-      return BouncyPageRoute(page: m4pdf(ao));
 
       case mym4monitoring:
       var aq = settings.arguments as String;

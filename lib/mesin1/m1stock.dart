@@ -26,18 +26,18 @@ class _m1stockState extends State<m1stock> {
   StreamController<List> streamStock = StreamController.broadcast();
   late Timer timer;
   List<stockModel> stockList = [];
-  readStockM1 getstockM1 = readStockM1();
+  readStock getstockM1 = readStock();
   Future<void> stockData() async {
-    stockList = await getstockM1.getStockM1();
+    stockList = await getstockM1.getStock(1);
     streamStock.add(stockList);
   }
 
   //RIWAYAT STOCK IN
   StreamController<List> streamRiwayatStock = StreamController.broadcast();
   List<historiM1model> riwayatStockList = [];
-  getriwayatM1 getriwayatstockM1 = getriwayatM1();
+  getriwayat getriwayatstockM1 = getriwayat();
   Future<void> riwayatstockData() async {
-    riwayatStockList = await getriwayatstockM1.gethistoriM1();
+    riwayatStockList = await getriwayatstockM1.gethistori(1);
     streamRiwayatStock.add(riwayatStockList);
   }
 
@@ -105,7 +105,7 @@ class _m1stockState extends State<m1stock> {
       home: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Mesin 1 Stock Bahan",
+            "Machine 1 Stock",
             style: TextStyle(fontSize: blockVertical * 2.5),
           ),
           centerTitle: true,
@@ -151,7 +151,7 @@ class _m1stockState extends State<m1stock> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        "Tambah Stock",
+                        "Add Stock",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 26,
@@ -174,7 +174,7 @@ class _m1stockState extends State<m1stock> {
                                               MainAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Tambah Stock",
+                                              "Add Stock",
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold),
@@ -198,8 +198,8 @@ class _m1stockState extends State<m1stock> {
                                                 dropdownSearchDecoration:
                                                     InputDecoration(
                                                   border: InputBorder.none,
-                                                  labelText: "Pilih Tipe Benda",
-                                                  hintText: "Tipe Benda",
+                                                  labelText: "Choose Object Type",
+                                                  hintText: "Object Type",
                                                 ),
                                               ),
                                               onChanged: (value) {
@@ -214,7 +214,7 @@ class _m1stockState extends State<m1stock> {
                                                   TextInputType.number,
                                               decoration: InputDecoration(
                                                   hintText:
-                                                      "Isi Jumlah (unit)"),
+                                                      "Input Amount (unit)"),
                                             ),
                                           ],
                                         ),
@@ -224,24 +224,24 @@ class _m1stockState extends State<m1stock> {
                                           //addStockM1 untuk menambah jumlah
                                           //riwayatStock untuk menambah riwayat
                                           if (tipeValue == "A") {
-                                            addStockM1.putStockM1(
-                                                int.parse(jumlah.text), 0, 0);
+                                            addStock.putStock(
+                                                int.parse(jumlah.text), 0, 0, 1);
                                             addriwayatStock.connectAPIPost(
                                               1,
                                               tipeValue.toString(),
                                               int.parse(jumlah.text),
                                             );
                                           } else if (tipeValue == "B") {
-                                            addStockM1.putStockM1(
-                                                0, int.parse(jumlah.text), 0);
+                                            addStock.putStock(
+                                                0, int.parse(jumlah.text), 0, 1);
                                             addriwayatStock.connectAPIPost(
                                               1,
                                               tipeValue.toString(),
                                               int.parse(jumlah.text),
                                             );
                                           } else if (tipeValue == "C") {
-                                            addStockM1.putStockM1(
-                                                0, 0, int.parse(jumlah.text));
+                                            addStock.putStock(
+                                                0, 0, int.parse(jumlah.text), 1);
                                             addriwayatStock.connectAPIPost(
                                               1,
                                               tipeValue.toString(),
@@ -430,7 +430,7 @@ class _m1stockState extends State<m1stock> {
                     left: blockHorizontal * 3,
                   ),
                   child: Text(
-                    (riwayat)?"Riwayat Stock In":"Riwayat Stock Out",
+                    (riwayat)?"Stock In History":"Stock Out History",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: blockVertical * 3.2,
@@ -697,7 +697,7 @@ class _m1stockState extends State<m1stock> {
         width: MediaQuerywidth,
         child: ListTile(
           title: Text(
-            "Tambah Unit : $jumlah",
+            "Add Unit : $jumlah",
             style:
                 TextStyle(fontSize: blockVertical * 2.3, color: Colors.white),
           ),
@@ -787,7 +787,7 @@ class _m1stockState extends State<m1stock> {
           Divider(
             thickness: constraints.maxHeight * 0.01,
           ),
-          Text("Jumlah : ",
+          Text("Amount : ",
               style: TextStyle(
                   color: Colors.white, fontSize: constraints.maxHeight * 0.15,fontWeight: FontWeight.bold)),
           Text(

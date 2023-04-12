@@ -32,11 +32,11 @@ class m3cost extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Mesin 3 Cost Price",
+            "Machine 3 Cost Price",
             style: TextStyle(fontSize: blockVertical * 2.5),
           ),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 3, 167, 66),
+          backgroundColor: Color.fromARGB(255, 1, 94, 74),
           toolbarHeight: blockVertical * 8,
           leading: backbutton(context),
         ),
@@ -48,8 +48,8 @@ class m3cost extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color.fromARGB(255, 4, 197, 97),
-                  Color.fromARGB(255, 19, 220, 227),
+                  Color.fromARGB(255, 58, 203, 172),
+                                    Color.fromARGB(255, 13, 177, 150)
                 ]),
           ),
           child: SingleChildScrollView(

@@ -4,12 +4,12 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-//Read Data Stock M1
-class readStockM1{
-    Future getStockM1() async {
+//Read Data Stock M
+class readStock{
+    Future getStock(int machine_id) async {
       final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/stockM1");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStock?machine_id=$machine_id");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -19,19 +19,33 @@ class readStockM1{
     List<stockModel> StockList = it.map((e) =>  stockModel.fromJSON(e)).toList();
     return StockList;
   }
+  //REPORT
+    Future getallStock() async {
+      final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/allStock");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    
+    Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
+    List<allstockModel> StockList = it.map((e) =>  allstockModel.fromJSON(e)).toList();
+    return StockList;
+  }
 }
 
 //Tambah Stock M1
-class addStockM1{
+class addStock{
   late int? A,B,C,machine_id;
   late String? id;
 
-  addStockM1({this.A,this.B,this.C,this.id,this.machine_id});
+  addStock({this.A,this.B,this.C,this.id,this.machine_id});
 
-  static Future<addStockM1> putStockM1(int A, int B, int C) async{
+  static Future<addStock> putStock(int A, int B, int C,int machine_id) async{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/addstock?m_id=1");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/addStock?m_id=$machine_id");
 
     var hasilResponsePut = await http.put(url,headers: {
       'Content-Type': 'application/json',
@@ -49,7 +63,7 @@ class addStockM1{
     }else{
       print(hasilResponsePut.statusCode);
     }
-    return addStockM1(
+    return addStock(
       id: dataPut["_id"],
       machine_id: dataPut["machine_id"],
       A: dataPut["A"],
@@ -89,11 +103,11 @@ class addriwayatStock {
   }
 }
 
-class getriwayatM1{
-    Future gethistoriM1() async {
+class getriwayat{
+    Future gethistori(int m_id) async {
       final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/historiM1");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/historiStock?m_id=$m_id");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'

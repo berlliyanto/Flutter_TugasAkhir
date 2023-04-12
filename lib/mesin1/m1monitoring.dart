@@ -11,7 +11,6 @@ import 'package:flutter_application_1/mesin1/m1pressure.dart';
 import 'package:flutter_application_1/models/availability_model.dart';
 import 'package:flutter_application_1/models/quality_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../Services/param_service.dart';
@@ -48,13 +47,16 @@ class m1monitoring extends StatefulWidget {
 
 class _m1monitoringState extends State<m1monitoring> {
   late Timer timer;
+  int? state;
+  String? tipe;
   TextEditingController jumlah = TextEditingController();
+
   //STOCK
   StreamController<List> streamStock = StreamController.broadcast();
   List<stockModel> stockList = [];
-  readStockM1 getstockM1 = readStockM1();
+  readStock getstockM1 = readStock();
   Future<void> stockData() async {
-    stockList = await getstockM1.getStockM1();
+    stockList = await getstockM1.getStock(1);
     streamStock.add(stockList);
   }
 
@@ -67,24 +69,12 @@ class _m1monitoringState extends State<m1monitoring> {
     streamParam.add(paramList);
   }
 
-  int? state;
-  String? tipeBenda;
-  void sharedpref() async {
-    final SharedPreferences shared = await SharedPreferences.getInstance();
-    var tipeParamM1 = shared.getString('tipeParamM1');
-    var stateM1 = shared.getInt('stateParamM1');
-    setState(() {
-      state = stateM1;
-      tipeBenda = tipeParamM1;
-    });
-  }
-
   //PRODUCTION
   StreamController<List> streamProd = StreamController.broadcast();
   List<currentQuality> QList = [];
   getQuality Quality = getQuality();
   Future<void> QualityData() async {
-    QList = await Quality.getQualityM(1, "$tipeBenda");
+    QList = await Quality.getQualityM(1, "$tipe");
     streamProd.add(QList);
   }
 
@@ -99,11 +89,15 @@ class _m1monitoringState extends State<m1monitoring> {
 
   @override
   void initState() {
+    getLatestParamM1.getTipe().then((value) {
+      setState(() {
+        tipe = value!;
+      });
+    });
     Avaidata();
     latestParam();
     QualityData();
     stockData();
-    sharedpref();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       Avaidata();
       latestParam();
@@ -136,7 +130,7 @@ class _m1monitoringState extends State<m1monitoring> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              "Mesin 1 Monitoring",
+              "Machine 1 Monitoring",
               style: TextStyle(fontSize: blockVertical * 2.5),
             ),
             centerTitle: true,
@@ -213,9 +207,9 @@ class _m1monitoringState extends State<m1monitoring> {
                             CircleAvatar(
                                 radius: blockVertical * 2,
                                 backgroundColor:
-                                    (state == 1) ? Colors.green : Colors.red,
+                                    (data.state == 1) ? Colors.green : Colors.red,
                                 child: Icon(
-                                  (state == 1)
+                                  (data.state == 1)
                                       ? FontAwesomeIcons.check
                                       : FontAwesomeIcons.x,
                                   color: Colors.white,
@@ -260,7 +254,7 @@ class _m1monitoringState extends State<m1monitoring> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Status Mesin",
+                                            "Status Machine",
                                             style: TextStyle(
                                                 color: Color.fromARGB(
                                                     255, 100, 100, 100),
@@ -315,7 +309,7 @@ class _m1monitoringState extends State<m1monitoring> {
                                     blockHorizontal,
                                     blockVertical,
                                     "Life Time",
-                                    "92221 Menit",
+                                    "92221 Minute",
                                     FontAwesomeIcons.heartPulse)
                               ],
                             ),
@@ -325,7 +319,7 @@ class _m1monitoringState extends State<m1monitoring> {
                                 bodyCard(
                                     blockHorizontal,
                                     blockVertical,
-                                    "Tipe Benda",
+                                    "Object Type",
                                     (data.state == 1)
                                         ? "${data.tipe_benda}"
                                         : "-",
@@ -340,7 +334,7 @@ class _m1monitoringState extends State<m1monitoring> {
                                               return bodyCard(
                                                   blockHorizontal,
                                                   blockVertical,
-                                                  "Jumlah Stock",
+                                                  "Stock Amount",
                                                   (data.tipe_benda == "A")
                                                       ? "${e.A}"
                                                       : (data.tipe_benda == "B")
@@ -354,7 +348,7 @@ class _m1monitoringState extends State<m1monitoring> {
                                       return bodyCard(
                                           blockHorizontal,
                                           blockVertical,
-                                          "Jumlah Stock",
+                                          "Stock Amount",
                                           "-",
                                           FontAwesomeIcons.boxOpen);
                                     })
@@ -364,7 +358,7 @@ class _m1monitoringState extends State<m1monitoring> {
                         ),
                       ),
                       Container(
-                        height: blockVertical * 90,
+                        height: blockVertical * 85,
                         width: MediaQuerywidth,
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -486,11 +480,11 @@ class _m1monitoringState extends State<m1monitoring> {
                                                     blockHorizontal,
                                                     blockVertical,
                                                     "Running Time",
-                                                    "${(e.runningtime! / 60).toStringAsFixed(2)} menit",
+                                                    "${(e.runningtime! / 60).toStringAsFixed(2)} Minute",
                                                     "Operation Time",
-                                                    "${(e.operationtime! / 60).toStringAsFixed(2)} menit",
+                                                    "${(e.operationtime! / 60).toStringAsFixed(2)} Minute",
                                                     "Downtime",
-                                                    "${(e.downtime! / 60).toStringAsFixed(2)} menit");
+                                                    "${(e.downtime! / 60).toStringAsFixed(2)} Minute");
                                               }).toList(),
                                             );
                                           } else if (snapshot.connectionState ==
@@ -502,22 +496,22 @@ class _m1monitoringState extends State<m1monitoring> {
                                               blockHorizontal,
                                               blockVertical,
                                               "Running Time",
-                                              "- menit",
+                                              "- Minute",
                                               "Operation Time",
-                                              "- menit",
+                                              "- Minute",
                                               "Downtime",
-                                              "- menit");
+                                              "- Minute");
                                         },
                                       )
                                     : NilaiProduction(
                                         blockHorizontal,
                                         blockVertical,
                                         "Running Time",
-                                        "- menit",
+                                        "- Minute",
                                         "Operation Time",
-                                        "- menit",
+                                        "- Minute",
                                         "Downtime",
-                                        "- menit")
+                                        "- Minute")
                               ],
                             ),
                             Divider(
@@ -543,12 +537,12 @@ class _m1monitoringState extends State<m1monitoring> {
                                                 blockVertical,
                                                 "Loading Time",
                                                 (e.state == 1)
-                                                    ? "${e.loading_time} menit"
-                                                    : "- menit",
+                                                    ? "${e.loading_time} Minute"
+                                                    : "- Minute",
                                                 "Cycle Time",
                                                 (e.state == 1)
-                                                    ? "${e.cycle_time} menit"
-                                                    : "- menit",
+                                                    ? "${e.cycle_time} Minute"
+                                                    : "- Minute",
                                                 "OEE Target",
                                                 (e.state == 1)
                                                     ? "${e.oee_target} %"
@@ -564,9 +558,9 @@ class _m1monitoringState extends State<m1monitoring> {
                                           blockHorizontal,
                                           blockVertical,
                                           "Loading Time",
-                                          "- menit",
+                                          "- Minute",
                                           "Cycle Time",
-                                          "- menit",
+                                          "- Minute",
                                           "OEE Target",
                                           "- %");
                                     }),
@@ -582,13 +576,6 @@ class _m1monitoringState extends State<m1monitoring> {
                               child:
                                   buttonDefect(blockHorizontal, blockVertical),
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: blockHorizontal * 5,
-                                  vertical: blockVertical * 0),
-                              child:
-                                  buttonSession(blockHorizontal, blockVertical),
-                            ),
                           ],
                         ),
                       )
@@ -599,7 +586,7 @@ class _m1monitoringState extends State<m1monitoring> {
             );
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return Container(
-              height: blockVertical*80,
+              height: blockVertical * 80,
               width: MediaQuerywidth,
               color: Colors.transparent,
               child: Center(
@@ -705,46 +692,6 @@ class _m1monitoringState extends State<m1monitoring> {
     );
   }
 
-  Widget buttonSession(double blockHorizontal, double blockVertical) {
-    return Material(
-      elevation: 5,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        width: blockHorizontal * 100,
-        height: blockVertical * 5,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Color.fromARGB(212, 2, 84, 122),
-                  Color.fromARGB(235, 14, 61, 99)
-                ])),
-        child: Material(
-          type: MaterialType.canvas,
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
-          child: InkWell(
-            highlightColor: Color.fromARGB(255, 0, 214, 214),
-            radius: blockVertical * 10,
-            borderRadius: BorderRadius.circular(10),
-            onTap: () {},
-            child: Center(
-              child: Text(
-                "Save Report and Create New Session",
-                style: TextStyle(
-                    fontSize: blockVertical * 2,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget buttonDefect(double blockHorizontal, double blockVertical) {
     return Material(
       elevation: 5,
@@ -807,7 +754,7 @@ class _m1monitoringState extends State<m1monitoring> {
                       btnOkIcon: FontAwesomeIcons.plus,
                       btnOkOnPress: () {
                         inputDefect.defectQuality(
-                            int.parse(jumlah.text), 1, "$tipeBenda");
+                            int.parse(jumlah.text), 1, "$tipe");
                       },
                       btnCancelIcon: FontAwesomeIcons.ban,
                       btnCancelOnPress: () {})

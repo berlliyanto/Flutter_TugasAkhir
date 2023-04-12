@@ -100,7 +100,7 @@ class _MyakunState extends State<Myakun> {
           toolbarHeight: blockVertical * 6,
           shadowColor: Colors.transparent,
           title: Text(
-            "Kelola Akun",
+            "Manage Accounts",
             style: TextStyle(fontSize: blockVertical*2.5),
           ),
           centerTitle: true,
@@ -228,21 +228,21 @@ class _MyakunState extends State<Myakun> {
                                       ),
                                       DataColumn(
                                           label: Text(
-                                        "Nama Lengkap",
+                                        "Name",
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: blockVertical * 2),
                                       )),
                                       DataColumn(
                                           label: Text(
-                                        "Otoritas",
+                                        "Authority",
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: blockVertical * 2),
                                       )),
                                       DataColumn(
                                           label: Text(
-                                        "No Handphone",
+                                        "Number Phone",
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: blockVertical * 2),
@@ -288,9 +288,9 @@ class _MyakunState extends State<Myakun> {
                                                         SizedBox(height: 10,),
                                                         formField(context, "Username", username, TextInputType.text),
                                                         SizedBox(height: 5,),
-                                                        formField(context, "Nama Lengkap", name, TextInputType.text),
+                                                        formField(context, "Name", name, TextInputType.text),
                                                         SizedBox(height: 5,),
-                                                        formField(context, "No Handphone", nohp, TextInputType.text),
+                                                        formField(context, "Number Phone (62)", nohp, TextInputType.text),
                                                         SizedBox(height: 5,),
                                                         Container(
                                                           alignment: Alignment.center,
@@ -321,8 +321,8 @@ class _MyakunState extends State<Myakun> {
                                                               dropdownDecoratorProps: DropDownDecoratorProps(
                                                                 dropdownSearchDecoration: InputDecoration(
                                                                   border: InputBorder.none,
-                                                                  labelText: "Pilih Otoritas",
-                                                                  hintText: "Otoritas",
+                                                                  labelText: "Choose Authority",
+                                                                  hintText: "Authority",
                                                                 ),
                                                               ),
                                                               onChanged: (value) {
@@ -364,7 +364,7 @@ class _MyakunState extends State<Myakun> {
                                                     body: Column(
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
-                                                        Text("Yakin Mau Menghapus "),
+                                                        Text("Are You Sure You Want to Delete "),
                                                         Text("${e.name} ?", style: TextStyle(fontWeight: FontWeight.bold),),
                                                       ],
                                                     ),
@@ -468,15 +468,15 @@ class _MyakunState extends State<Myakun> {
         build: (pw.Context context) {
           return [
             pw.Center(
-              child: pw.Text("DATA AKUN PENGGUNA APLIKASI PRODUCTION MONITORING SYSTEM",softWrap: true, style: pw.TextStyle(fontBold: pw.Font.courierBold()))
+              child: pw.Text("PRODUCTION MONITORING SYSTEM APPLICATION USER ACCOUNT DATA",softWrap: true, style: pw.TextStyle(fontBold: pw.Font.courierBold()))
             ),
             pw.SizedBox(height: 10),
             pw.Table.fromTextArray(
                 headers: [
                   'Username',
-                  'Nama Lengkap',
-                  'Otoritas',
-                  'No Handphone'
+                  'Name',
+                  'Authority',
+                  'Number Phone'
                 ],
                 data: userList.map((e) => [e.username, e.name, e.otoritas, e.noHp]).toList())
           ];

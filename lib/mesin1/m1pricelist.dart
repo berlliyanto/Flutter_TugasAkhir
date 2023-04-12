@@ -83,7 +83,7 @@ class _m1pricelistState extends State<m1pricelist> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Barang ${e.tipe}",
+                                      "Goods ${e.tipe}",
                                       style: TextStyle(
                                           color:
                                               Color.fromARGB(255, 65, 60, 60),
@@ -99,7 +99,7 @@ class _m1pricelistState extends State<m1pricelist> {
                                   thickness: constraints.maxHeight * 0.01,
                                 ),
                                 Text(
-                                  "Bahan Baku :",
+                                  "Raw Material :",
                                   style: TextStyle(
                                       color: Color.fromARGB(255, 65, 60, 60),
                                       fontSize: constraints.maxHeight * 0.07,
@@ -130,7 +130,7 @@ class _m1pricelistState extends State<m1pricelist> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Bahan ${e.Nbaku1} : Rp. ${e.Pbaku1},-",
+                                        "Material ${e.Nbaku1} : Rp. ${e.Pbaku1},-",
                                         style: TextStyle(
                                             fontSize:
                                                 constraints.maxHeight * 0.07,
@@ -139,7 +139,7 @@ class _m1pricelistState extends State<m1pricelist> {
                                                 255, 65, 60, 60)),
                                       ),
                                       Text(
-                                        "Bahan ${e.Nbaku2} : Rp. ${e.Pbaku2},-",
+                                        "Material ${e.Nbaku2} : Rp. ${e.Pbaku2},-",
                                         style: TextStyle(
                                             fontSize:
                                                 constraints.maxHeight * 0.07,
@@ -148,7 +148,7 @@ class _m1pricelistState extends State<m1pricelist> {
                                                 255, 65, 60, 60)),
                                       ),
                                       Text(
-                                        "Bahan ${e.Nbaku3} : Rp. ${e.Pbaku3},-",
+                                        "Material ${e.Nbaku3} : Rp. ${e.Pbaku3},-",
                                         style: TextStyle(
                                             fontSize:
                                                 constraints.maxHeight * 0.07,
@@ -173,7 +173,7 @@ class _m1pricelistState extends State<m1pricelist> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Harga : ",
+                                      "Price : ",
                                       style: TextStyle(
                                         fontSize: constraints.maxHeight * 0.08,
                                         fontWeight: FontWeight.bold,

@@ -30,9 +30,9 @@ class m3alarm extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Mesin 3 Troubleshoot",style: TextStyle(fontSize: blockVertical * 2.5),),
+          title: Text("Machine 3 Troubleshoot",style: TextStyle(fontSize: blockVertical * 2.5),),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 3, 131, 167),
+          backgroundColor: Color.fromARGB(255, 1, 94, 74),
           toolbarHeight: blockVertical * 8,
           leading: backbutton(context),
         ),
@@ -46,8 +46,8 @@ class m3alarm extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Color(0xFF3ac3cb),
-                      Color(0xFFFFFFFF),
+                      Color.fromARGB(255, 58, 203, 172),
+                                    Color.fromARGB(255, 13, 177, 150)
                     ]),
               ),
             ),

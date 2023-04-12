@@ -20,9 +20,9 @@ class currentQuality{
 
 class dashQuality{
   late int? machine_id,state,good,defect,processed;
-  late String? tipe;
+  late String? tipe,updatedAt;
 
-  dashQuality({this.machine_id,this.state,this.good,this.defect,this.processed,this.tipe});
+  dashQuality({this.machine_id,this.state,this.good,this.defect,this.processed,this.tipe,this.updatedAt});
 
   factory dashQuality.fromJSON(Map<String, dynamic> json){
     return dashQuality(
@@ -31,21 +31,24 @@ class dashQuality{
       good: json['good'],
       defect: json['defect'],
       processed: json['processed'],
+      updatedAt: json['updatedAt'],
       state: json['state'],
     );
   }
 }
 
 class recQuality{
-  late int? machine_id,state,processed;
+  late int? machine_id,state,processed,good,defect;
   late String? tipe,createdAt;
 
-  recQuality({this.machine_id,this.state,this.processed,this.tipe,this.createdAt});
+  recQuality({this.machine_id,this.state,this.processed,this.tipe,this.createdAt,this.defect,this.good});
 
   factory recQuality.fromJSON(Map<String, dynamic> json){
     return recQuality(
       machine_id: json['machine_id'],
       tipe:json['tipe'],
+      good: json['good'],
+      defect: json['defect'],
       processed: json['processed'],
       createdAt: json['createdAt'],
       state: json['state'],

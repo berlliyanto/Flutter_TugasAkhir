@@ -75,7 +75,7 @@ class _loginState extends State<login> {
                   width: MediaQueryheight * 0.35,
                   child: Lottie.asset("lottie/login.json")),
               Text(
-                "Silahkan Masuk",
+                "Welcome",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: blockVertical * 4,
@@ -123,7 +123,7 @@ class _loginState extends State<login> {
                                   blockHorizontal * 1.25,
                                   blockHorizontal * 1.25),
                               child: Text(
-                                "Masukkan Username",
+                                "Input Username",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: MediaQueryheight * 0.02,
@@ -176,7 +176,7 @@ class _loginState extends State<login> {
                                   blockHorizontal * 1.25,
                                   blockHorizontal * 1.25),
                               child: Text(
-                                "Masukkan Password",
+                                "Input Password",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: MediaQueryheight * 0.02,
@@ -292,7 +292,7 @@ class _loginState extends State<login> {
                                                               .leftSlide,
                                                           title: "Error",
                                                           desc:
-                                                              "Username atau Password Salah !",
+                                                              "Username or Password Incorrect !",
                                                           autoHide: Duration(
                                                               seconds: 2),
                                                         ).show()
@@ -305,7 +305,7 @@ class _loginState extends State<login> {
                                             animType: AnimType.leftSlide,
                                             title: "Error",
                                             desc:
-                                                "Username atau Password Salah !",
+                                                "Username or Password Incorrect !",
                                             autoHide: Duration(seconds: 2),
                                           ).show();
                                         }

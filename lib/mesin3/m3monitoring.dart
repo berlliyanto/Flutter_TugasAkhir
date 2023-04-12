@@ -77,11 +77,11 @@ class _m3monitoringState extends State<m3monitoring> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              "Mesin 3 Monitoring",
+              "Machine 3 Monitoring",
               style: TextStyle(fontSize: blockVertical * 2.5),
             ),
             centerTitle: true,
-            backgroundColor: Color.fromARGB(255, 3, 167, 66),
+            backgroundColor: Color.fromARGB(255, 1, 94, 74),
             toolbarHeight: blockVertical * 8,
             leading: backbutton(context),
             bottom: TabBar(
@@ -99,8 +99,8 @@ class _m3monitoringState extends State<m3monitoring> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color.fromARGB(255, 4, 197, 97),
-                    Color.fromARGB(255, 19, 220, 227),
+                    Color.fromARGB(255, 58, 203, 172),
+                                    Color.fromARGB(255, 13, 177, 150)
                   ]),
             ),
             child: TabBarView(
@@ -145,7 +145,7 @@ class _m3monitoringState extends State<m3monitoring> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Status Mesin",
+                      "Status Machine",
                       style: TextStyle(
                         fontSize: blockVertical * 2,
                         fontWeight: FontWeight.bold,

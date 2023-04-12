@@ -30,9 +30,9 @@ class m2oee extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Mesin 2 OEE",style: TextStyle(fontSize: blockVertical * 2.5),),
+          title: Text("Machine 2 OEE",style: TextStyle(fontSize: blockVertical * 2.5),),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 3, 131, 167),
+          backgroundColor: Color.fromARGB(255, 6, 93, 207),
           toolbarHeight: blockVertical * 8,
           leading: backbutton(context),
         ),
@@ -46,8 +46,8 @@ class m2oee extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Color(0xFF3ac3cb),
-                      Color(0xFFFFFFFF),
+                      Color.fromARGB(255, 58, 97, 203),
+                  Color.fromARGB(255, 13, 89, 177)
                     ]),
               ),
             ),

@@ -39,8 +39,10 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_flutter: ^10.3.0
+  get: ^4.6.5
   google_fonts: ^3.0.1
   http: ^0.13.5
+  intl: ^0.18.0
   liquid_pull_to_refresh: ^3.0.1
   lottie: ^2.2.0
   mongo_dart: ^0.9.1

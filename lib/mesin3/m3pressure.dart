@@ -64,7 +64,7 @@ class _m3pressureState extends State<m3pressure> {
                       height: blockVertical*45,
                       width: blockVertical*45,
                       child: SfRadialGauge(
-                      title: GaugeTitle(text: "Tekanan Angin", textStyle: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold)),
+                      title: GaugeTitle(text: "Wind Pressure", textStyle: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold)),
                       axes: [
                         RadialAxis(
                           minimum: 0,

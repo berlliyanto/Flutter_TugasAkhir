@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:flutter_application_1/Services/availability_service.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +28,37 @@ class dashboard extends StatefulWidget {
 
 class _dashboardState extends State<dashboard> {
   late Timer timer;
-  int? state;
-  //PRODUCTION M1
+  int? stateA1;
+  int? stateA2,stateA3,stateA4;
+  // int stateA2 = 0;
+  // int stateA3 = 0;
+  // int stateA4 = 0;
+  //AVAILABILITY STATE
+  getAvailability getAvaiState = getAvailability();
+  Future<void> avaiState() async {
+    getAvaiState.getState(1).then((value) {
+      setState(() {
+        stateA1 = value!;
+      });
+    });
+        getAvaiState.getState(2).then((value) {
+      setState(() {
+        stateA2 = value!;
+      });
+    });
+        getAvaiState.getState(3).then((value) {
+      setState(() {
+        stateA3 = value!;
+      });
+    });
+        getAvaiState.getState(4).then((value) {
+      setState(() {
+        stateA4 = value!;
+      });
+    });
+  }
+
+  //PRODUCTION 
   StreamController<List> streamProd = StreamController.broadcast();
   List<dashQuality> QList = [];
   dashQualityy Quality = dashQualityy();
@@ -48,6 +78,7 @@ class _dashboardState extends State<dashboard> {
 
   @override
   void initState() {
+    avaiState();
     QualityData();
     getValidUser();
     getStatusM();
@@ -161,6 +192,7 @@ class _dashboardState extends State<dashboard> {
               onRefresh: () async {
                 await QualityData();
                 await getStatusM();
+                await avaiState();
               },
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -248,7 +280,7 @@ class _dashboardState extends State<dashboard> {
                               padding:
                                   EdgeInsets.only(left: blockHorizontal * 3),
                               child: Text(
-                                "Konektivitas Mesin",
+                                "Active Machine",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -285,7 +317,7 @@ class _dashboardState extends State<dashboard> {
                                                 height: blockVertical * 0.5,
                                               ),
                                               Text(
-                                                "Mesin ${e.machine_id}",
+                                                "Machine ${e.machine_id}",
                                                 style: TextStyle(
                                                     fontSize:
                                                         blockVertical * 1.5,
@@ -355,27 +387,27 @@ class _dashboardState extends State<dashboard> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 menuMesin(
-                                    "Mesin 1",
+                                    "Machine 1",
                                     FontAwesomeIcons.mobileButton,
                                     Color.fromARGB(255, 0, 16, 247)
                                         .withOpacity(0.5),
                                     mym1home),
                                 menuMesin(
-                                    "Mesin 2",
+                                    "Machine 2",
                                     FontAwesomeIcons.mobileButton,
-                                    Color.fromARGB(255, 123, 6, 190)
+                                    Color.fromARGB(255, 58, 97, 203)
                                         .withOpacity(0.5),
                                     mym2home),
                                 menuMesin(
-                                    "Mesin 3",
+                                    "Machine 3",
                                     FontAwesomeIcons.mobileButton,
-                                    Color.fromARGB(255, 71, 250, 0)
+                                    Color.fromARGB(255, 0, 250, 208)
                                         .withOpacity(0.5),
                                     mym3home),
                                 menuMesin(
-                                    "Mesin 4",
+                                    "Machine 4",
                                     FontAwesomeIcons.mobileButton,
-                                    Color.fromARGB(255, 42, 41, 77)
+                                    Color.fromARGB(255, 8, 145, 150)
                                         .withOpacity(0.5),
                                     mym4home),
                               ],
@@ -414,31 +446,20 @@ class _dashboardState extends State<dashboard> {
                                                     ? Color.fromARGB(
                                                         255, 87, 89, 236)
                                                     : (e.machine_id == 2)
-                                                        ? Color.fromARGB(
-                                                            255, 189, 87, 236)
+                                                        ? Color.fromARGB(255, 58, 97, 203)
                                                         : (e.machine_id == 3)
-                                                            ? Color.fromARGB(
-                                                                255, 92, 192, 97)
-                                                            : Color.fromARGB(
-                                                                255,
-                                                                129,
-                                                                118,
-                                                                192),
+                                                            ? Color.fromARGB(255, 92, 192, 179)
+                                                            : Color.fromARGB(255, 28, 182, 209),
                                                 (e.machine_id == 1)
                                                     ? Color.fromARGB(
                                                         255, 18, 2, 240)
                                                     : (e.machine_id == 2)
                                                         ? Color.fromARGB(
-                                                            255, 145, 2, 240)
+                                                            255, 13, 89, 177)
                                                         : (e.machine_id == 3)
-                                                            ? Color.fromARGB(
-                                                                255, 0, 185, 15)
-                                                            : Color.fromARGB(
-                                                                255,
-                                                                40,
-                                                                41,
-                                                                56),
-                                                "Mesin ${e.machine_id}",
+                                                            ? Color.fromARGB(255, 0, 185, 169)
+                                                            : Color.fromARGB(255, 0, 139, 139),
+                                                "Machine ${e.machine_id}",
                                                 (e.machine_id == 1)
                                                     ? mym1monitoring
                                                     : (e.machine_id == 2)
@@ -446,21 +467,41 @@ class _dashboardState extends State<dashboard> {
                                                         : (e.machine_id == 3)
                                                             ? mym3monitoring
                                                             : mym4monitoring,
-                                                " Running",
+                                                (e.machine_id == 1 &&
+                                                        stateA1 == 1)
+                                                    ? " Running"
+                                                    : (e.machine_id == 2 &&
+                                                            stateA2 == 1)
+                                                        ? " Running"
+                                                        : (e.machine_id == 3 &&
+                                                                stateA3 == 1)
+                                                            ? " Running"
+                                                            : (e.machine_id == 4 &&
+                                                                    stateA4 == 1)
+                                                                ? " Running"
+                                                                : " Stop/Finish",
                                                 (e.state == 1)
-                                                    ? "Tipe ${e.tipe}"
-                                                    : "Tipe -",
+                                                    ? "Type ${e.tipe}"
+                                                    : "Type -",
                                                 (e.state == 1)
                                                     ? "Processed Unit : ${e.processed}"
                                                     : "Processed Unit : -",
-                                                (e.state == 1)
-                                                    ? "Good Processed : ${e.good}"
-                                                    : "Good Processed : -",
-                                                (e.state == 1)
-                                                    ? "Defect : ${e.defect}"
-                                                    : "Defect : -",
-                                                Color.fromARGB(
-                                                    255, 24, 240, 4));
+                                                (e.state == 1) ? "Good Processed : ${e.good}" : "Good Processed : -",
+                                                (e.state == 1) ? "Defect : ${e.defect}" : "Defect : -",
+                                                (e.machine_id == 1 &&
+                                                        stateA1 == 1)
+                                                    ? Color.fromARGB(255, 24, 240, 4)
+                                                    : (e.machine_id == 2 &&
+                                                            stateA2 == 1)
+                                                        ? Color.fromARGB(255, 24, 240, 4)
+                                                        : (e.machine_id == 3 &&
+                                                                stateA3 == 1)
+                                                            ? Color.fromARGB(255, 24, 240, 4)
+                                                            : (e.machine_id == 4 &&
+                                                                    stateA4 == 1)
+                                                                ? Color.fromARGB(255, 24, 240, 4)
+                                                                : Color.fromARGB(255, 240, 4, 4),);
+                                                
                                           }).toList(),
                                           options: CarouselOptions(
                                               autoPlay: true,
@@ -475,10 +516,10 @@ class _dashboardState extends State<dashboard> {
                                           constraints,
                                           Color.fromARGB(255, 87, 89, 236),
                                           Color.fromARGB(255, 2, 18, 240),
-                                          "Mesin -",
+                                          "Machine -",
                                           mym1monitoring,
                                           " -",
-                                          "Tipe -",
+                                          "Type -",
                                           "Processed Unit : -",
                                           "Good Processed : -",
                                           "Defect : -",
@@ -506,28 +547,28 @@ class _dashboardState extends State<dashboard> {
                                 menuOEE(
                                     blockVertical,
                                     Color.fromARGB(255, 8, 4, 240),
-                                    "Mesin 1",
+                                    "Machine 1",
                                     0.8,
                                     "80 %"),
                                 //MESIN 2-------------------------------------------
                                 menuOEE(
                                     blockVertical,
-                                    Color.fromARGB(255, 165, 4, 240),
-                                    "Mesin 2",
+                                    Color.fromARGB(255, 58, 97, 203),
+                                    "Machine 2",
                                     0.8,
                                     "80 %"),
                                 //MESIN 3-------------------------------------------
                                 menuOEE(
                                     blockVertical,
-                                    Color.fromARGB(255, 24, 240, 4),
-                                    "Mesin 3",
+                                    Color.fromARGB(255, 0, 250, 208),
+                                    "Machine 3",
                                     0.8,
                                     "80 %"),
                                 //MESIN 4-------------------------------------------
                                 menuOEE(
                                     blockVertical,
-                                    Color.fromARGB(255, 49, 49, 83),
-                                    "Mesin 4",
+                                    Color.fromARGB(255, 8, 145, 150),
+                                    "Machine 4",
                                     0.8,
                                     "80 %"),
                               ],

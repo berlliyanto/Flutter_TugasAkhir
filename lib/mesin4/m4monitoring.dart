@@ -76,11 +76,11 @@ class _m4monitoringState extends State<m4monitoring> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              "Mesin 4 Monitoring",
+              "Machine 4 Monitoring",
               style: TextStyle(fontSize: blockVertical * 2.5),
             ),
             centerTitle: true,
-            backgroundColor: Color.fromARGB(255, 45, 49, 83),
+            backgroundColor: Color.fromARGB(255, 7, 189, 189),
             toolbarHeight: blockVertical * 8,
             leading: backbutton(context),
             bottom: TabBar(
@@ -98,8 +98,8 @@ class _m4monitoringState extends State<m4monitoring> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color.fromARGB(255, 37, 39, 59),
-                    Color.fromARGB(255, 107, 100, 168),
+                    Color.fromARGB(255, 39, 214, 214),
+                                    Color.fromARGB(255, 1, 176, 182),
                   ]),
             ),
             child: TabBarView(

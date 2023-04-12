@@ -52,6 +52,7 @@ const String mytambahuser   ='/tambahuser';
 const String mytesapi       ='/tesAPI';
 const String mytransisi     ='/mytransisi';
 const String mygetstarted   ='/mygetstarted';
+const String myreport       ='/myreport';
 
 
 

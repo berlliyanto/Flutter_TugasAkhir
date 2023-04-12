@@ -84,7 +84,7 @@ class _m1paramState extends State<m1param> {
         appBar: AppBar(
           leading: backbutton(context),
           title: Text(
-            "Mesin 1 Input Parameter",
+            "Machine 1 Input Parameter",
             style: TextStyle(fontSize: blockVertical * 2.5),
           ),
           centerTitle: true,
@@ -252,7 +252,7 @@ class _m1paramState extends State<m1param> {
                                               height: blockVertical * 1,
                                             ),
                                             Text(
-                                              "Tipe Benda",
+                                              "Object Type",
                                               style: TextStyle(
                                                   fontSize: blockVertical * 1.5,
                                                   fontWeight: FontWeight.bold),
@@ -261,7 +261,7 @@ class _m1paramState extends State<m1param> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Text((e.state==1)?"Bentuk ${e.tipe_benda}":"Tipe Belum Ditentukan",
+                                                Text((e.state==1)?"Type ${e.tipe_benda}":"Undefined Type",
                                                     style: TextStyle(
                                                         fontSize:
                                                             blockVertical *
@@ -330,7 +330,7 @@ class _m1paramState extends State<m1param> {
                                         animType: AnimType.leftSlide,
                                         title: "Error",
                                         desc:
-                                            "Nilai OEE tidak boleh lebih dari 100% !",
+                                            "OEE value should not be greater than 100% !",
                                         useRootNavigator: true,
                                         autoHide: Duration(seconds: 2))
                                     .show();
@@ -353,8 +353,8 @@ class _m1paramState extends State<m1param> {
                                               context: context,
                                               dialogType: DialogType.success,
                                               animType: AnimType.leftSlide,
-                                              title: "Sukses",
-                                              desc: "Sukses Input Parameter",
+                                              title: "Success",
+                                              desc: "Success Input Parameter",
                                               useRootNavigator: true,
                                               btnOkOnPress: () {
                                                 Navigator.pushReplacementNamed(context, mym1monitoring, arguments: "sukses input");
@@ -374,9 +374,9 @@ class _m1paramState extends State<m1param> {
                                       context: context,
                                       dialogType: DialogType.warning,
                                       animType: AnimType.leftSlide,
-                                      title: "Gagal",
+                                      title: "Fail",
                                       desc:
-                                          "Parameter Tidak Boleh Ada Yang Kosong",
+                                          "Parameters Can't Be Empty",
                                       autoHide: Duration(seconds: 2))
                                   .show();
                               print("ok");
@@ -430,7 +430,7 @@ class _m1paramState extends State<m1param> {
                               dialogType: DialogType.question,
                               animType: AnimType.leftSlide,
                               title: "Reset",
-                              desc: "Anda Yakin Mau Menghapus Data Parameter Saat Ini?",
+                              desc: "Are You Sure You Want To Delete The Current Parameter Data? Performing This Action Will Reset The Current Process",
                               useRootNavigator: true,
                               btnOkIcon: FontAwesomeIcons.check,
                               btnOkOnPress: () async{
@@ -449,7 +449,7 @@ class _m1paramState extends State<m1param> {
                                       dialogType: DialogType.success,
                                       animType: AnimType.leftSlide,
                                       title: "Success",
-                                      desc: "Berhasil Reset Parameter",
+                                      desc: "Success Reset Parameter",
                                       useRootNavigator: true,
                                       autoHide: Duration(seconds: 2),
                                     );
@@ -566,7 +566,7 @@ class _m1paramState extends State<m1param> {
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Color(0xFF605F64))),
-                          hintText: "Masukan Nilai...",
+                          hintText: "Input Value...",
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 106, 106, 107)),
                           labelText: "Loading Time (Menit)",
@@ -586,7 +586,7 @@ class _m1paramState extends State<m1param> {
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Color(0xFF605F64))),
-                          hintText: "Masukan Nilai...",
+                          hintText: "Input Value...",
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 106, 106, 107)),
                           labelText: "Cycle Time (Menit)",
@@ -606,7 +606,7 @@ class _m1paramState extends State<m1param> {
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Color(0xFF605F64))),
-                          hintText: "Masukan Nilai...",
+                          hintText: "Input Value...",
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 106, 106, 107)),
                           labelText: "OEE Target (%)",
@@ -626,7 +626,7 @@ class _m1paramState extends State<m1param> {
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(color: Color(0xFF605F64))),
-                          hintText: "Masukan Nilai...",
+                          hintText: "Input Value...",
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 106, 106, 107)),
                           labelText: "Harga per Unit (Rp)",
@@ -661,10 +661,10 @@ class _m1paramState extends State<m1param> {
                         dropdownDecoratorProps: DropDownDecoratorProps(
                           dropdownSearchDecoration: InputDecoration(
                               border: InputBorder.none,
-                              labelText: "Pilih Tipe Benda",
+                              labelText: "Choose Object Type",
                               labelStyle: TextStyle(
                                   color: Color.fromARGB(255, 98, 97, 100)),
-                              hintText: "Tipe Benda",
+                              hintText: "Object type",
                               hintStyle: TextStyle(
                                   color: Color.fromARGB(255, 98, 97, 100))),
                         ),

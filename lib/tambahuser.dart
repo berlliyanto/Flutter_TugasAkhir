@@ -93,7 +93,7 @@ class _tambahuserState extends State<tambahuser> {
                               padding: EdgeInsets.symmetric(
                                   vertical: blockVertical * 2),
                               child: Text(
-                                "     Tambahkan User",
+                                "     Add User",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 26,
@@ -110,7 +110,7 @@ class _tambahuserState extends State<tambahuser> {
                             "Username",
                           ),
                         ),
-                        formField(context, "Masukkan Username", username,
+                        formField(context, "Input Username", username,
                             TextInputType.text),
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -120,27 +120,27 @@ class _tambahuserState extends State<tambahuser> {
                             "Password",
                           ),
                         ),
-                        formField(context, "Masukkan Password", pass,
+                        formField(context, "Input Password", pass,
                             TextInputType.text),
                         Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: blockVertical * 1,
                               horizontal: blockHorizontal * 2),
                           child: Text(
-                            "Nama Lengkap",
+                            "Name",
                           ),
                         ),
-                        formField(context, "Masukkan Nama Lengkap", name,
+                        formField(context, "Input Name", name,
                             TextInputType.text),
                         Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: blockVertical * 1,
                               horizontal: blockHorizontal * 2),
                           child: Text(
-                            "Nomor Handphone (62)",
+                            "Number Phone (62)",
                           ),
                         ),
-                        formField(context, "Masukkan No Handphone (62)", nohp,
+                        formField(context, "Input Number Phone (62)", nohp,
                             TextInputType.number),
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -178,8 +178,8 @@ class _tambahuserState extends State<tambahuser> {
                               dropdownDecoratorProps: DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   border: InputBorder.none,
-                                  labelText: "Pilih Otoritas",
-                                  hintText: "Otoritas",
+                                  labelText: "Choose Authority",
+                                  hintText: "Authority",
                                 ),
                               ),
                               onChanged: (value) {
@@ -241,16 +241,16 @@ class _tambahuserState extends State<tambahuser> {
                                           context: context,
                                           dialogType: DialogType.warning,
                                           animType: AnimType.leftSlide,
-                                          title: "Form Kosong",
+                                          title: "Form Empty",
                                           desc:
-                                              "Form Tidak Boleh Ada Yang Kosong",
+                                              "Form Can't Be Empty",
                                           autoHide: Duration(seconds: 2),
                                         ).show();
                                       }
                                     },
                                     child: Center(
                                       child: Text(
-                                        "Tambah User",
+                                        "Add User",
                                         style: TextStyle(
                                             fontSize: MediaQueryheight * 0.028,
                                             color: Colors.white,

@@ -18,6 +18,33 @@ class getOEE{
         List<getOEEModel> getoee = it.map((e) =>  getOEEModel.FromJSON(e)).toList();
         return getoee;
   }
+  Future dashOEE() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getdashOEE");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+   Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
+        List<OEEdashModel> getoee = it.map((e) =>  OEEdashModel.FromJSON(e)).toList();
+        return getoee;
+  }
+}
+
+class OEEHistori{
+    Future HistoryOEE(int machine_id) async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+        var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getOEEHistori?machine_id=$machine_id");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+   Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
+        List<OEEHistoriModel> getoee = it.map((e) =>  OEEHistoriModel.FromJSON(e)).toList();
+        return getoee;
+  }
 }
 
 class trigOEE{

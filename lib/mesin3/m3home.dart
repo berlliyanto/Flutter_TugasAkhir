@@ -47,11 +47,11 @@ class m3home extends StatelessWidget {
           toolbarHeight: blockVertical * 6,
           shadowColor: Colors.transparent,
           title: Text(
-            "Mesin 3",
+            "Machine 3",
             style: TextStyle(fontSize: 20),
           ),
           centerTitle: true,
-          backgroundColor: Color.fromARGB(255, 1, 94, 6).withOpacity(0.5),
+          backgroundColor: Color.fromARGB(255, 1, 94, 74).withOpacity(0.5),
           leading: Builder(
             builder: (context) => IconButton(
               onPressed: () {
@@ -122,11 +122,11 @@ class m3home extends StatelessWidget {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    Color.fromARGB(255, 58, 203, 89),
-                                    Color.fromARGB(255, 100, 177, 13),
+                                    Color.fromARGB(255, 58, 203, 172),
+                                    Color.fromARGB(255, 13, 177, 150),
                                   ])),
                           child: Text(
-                            "Mesin 1 - Not Connected",
+                            "Machine 3 - Not Connected",
                             style: TextStyle(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 fontSize: blockVertical * 3,
@@ -155,9 +155,6 @@ class m3home extends StatelessWidget {
                 Listmenu3((context), "Troubleshoot", mym3alarm, "from mesin 3",
                     FontAwesomeIcons.solidBell),
                 SizedBox(height: sizedheight),
-                Listmenu3((context), "Report", mym3pdf, "from mesin 3",
-                    Icons.picture_as_pdf),
-                SizedBox(height: sizedheight),
               ],
             ),
           ),
@@ -171,7 +168,7 @@ class m3home extends StatelessWidget {
       String arg, IconData icon) {
     return Container(
       decoration: BoxDecoration(
-          color: Color.fromARGB(255, 15, 77, 2),
+          color: Color.fromARGB(255, 2, 77, 65),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(

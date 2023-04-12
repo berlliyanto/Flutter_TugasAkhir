@@ -90,7 +90,7 @@ class _getStartedState extends State<getStarted> {
                           Shimmer.fromColors(
                             baseColor: Colors.white,
                             highlightColor: Colors.grey,
-                            child: Text("Selamat Datang di", style: TextStyle(color: Colors.white, fontSize: blockVertical*3),)),
+                            child: Text("Welcome to", style: TextStyle(color: Colors.white, fontSize: blockVertical*3),)),
                           Shimmer.fromColors(
                             baseColor: Colors.white,
                             highlightColor: Colors.grey,

@@ -58,13 +58,24 @@ class _chartVoltState extends State<chartVolt> {
           child: LineChart(
             LineChartData(
               backgroundColor: Colors.white,
+              gridData: FlGridData(
+                show: true,
+                getDrawingHorizontalLine: (value) {
+                  return FlLine(
+                    color: Color.fromARGB(255, 94, 94, 94).withOpacity(0.5),
+                    strokeWidth: 1
+                  );
+                },
+              ),
               lineBarsData: [
                 LineChartBarData(
                   gradient: LinearGradient(colors: [Color.fromARGB(255, 9, 99, 110), Color.fromARGB(255, 0, 198, 212)]),
                   barWidth: 4,
                   belowBarData: BarAreaData(
                     show: true,
-                    gradient: LinearGradient(colors:[Color.fromARGB(255, 9, 99, 110).withOpacity(0.4), Color.fromARGB(255, 0, 198, 212).withOpacity(0.4)] )
+                    gradient: LinearGradient(colors:[Color.fromARGB(255, 9, 99, 110).withOpacity(0.4), Color.fromARGB(255, 0, 198, 212).withOpacity(0.4)] ),
+                    applyCutOffY: true,
+                    cutOffY: 5,
                   ),
                   spots: voltage_Point.map((e) => FlSpot(e.x.toDouble(), e.y.toDouble())).toList(),
                   isCurved: true,
@@ -143,6 +154,15 @@ class _chartcurrentState extends State<chartcurrent> {
           child: LineChart(
             LineChartData(
               backgroundColor: Colors.white,
+              gridData: FlGridData(
+                show: true,
+                getDrawingHorizontalLine: (value) {
+                  return FlLine(
+                    color: Color.fromARGB(255, 94, 94, 94).withOpacity(0.5),
+                    strokeWidth: 1
+                  );
+                },
+              ),
               lineBarsData: [
                 LineChartBarData(
                   gradient: LinearGradient(colors: [Color.fromARGB(255, 9, 99, 110), Color.fromARGB(255, 0, 198, 212)]),
@@ -228,6 +248,15 @@ class _chartpowerState extends State<chartpower> {
           child: LineChart(
             LineChartData(
               backgroundColor: Colors.white,
+              gridData: FlGridData(
+                show: true,
+                getDrawingHorizontalLine: (value) {
+                  return FlLine(
+                    color: Color.fromARGB(255, 94, 94, 94).withOpacity(0.5),
+                    strokeWidth: 1
+                  );
+                },
+              ),
               lineBarsData: [
                 LineChartBarData(
                   gradient: LinearGradient(colors: [Color.fromARGB(255, 9, 99, 110), Color.fromARGB(255, 0, 198, 212)]),
@@ -313,6 +342,15 @@ class _chartenergyState extends State<chartenergy> {
           child: LineChart(
             LineChartData(
               backgroundColor: Colors.white,
+              gridData: FlGridData(
+                show: true,
+                getDrawingHorizontalLine: (value) {
+                  return FlLine(
+                    color: Color.fromARGB(255, 94, 94, 94).withOpacity(0.5),
+                    strokeWidth: 1
+                  );
+                },
+              ),
               lineBarsData: [
                 LineChartBarData(
                   gradient: LinearGradient(colors: [Color.fromARGB(255, 9, 99, 110), Color.fromARGB(255, 0, 198, 212)]),
@@ -398,6 +436,15 @@ class _chartfrequencyState extends State<chartfrequency> {
           child: LineChart(
             LineChartData(
               backgroundColor: Colors.white,
+              gridData: FlGridData(
+                show: true,
+                getDrawingHorizontalLine: (value) {
+                  return FlLine(
+                    color: Color.fromARGB(255, 94, 94, 94).withOpacity(0.5),
+                    strokeWidth: 1
+                  );
+                },
+              ),
               lineBarsData: [
                 LineChartBarData(
                   gradient: LinearGradient(colors: [Color.fromARGB(255, 9, 99, 110), Color.fromARGB(255, 0, 198, 212)]),
@@ -483,6 +530,15 @@ class _chartpfState extends State<chartpf> {
           child: LineChart(
             LineChartData(
               backgroundColor: Colors.white,
+              gridData: FlGridData(
+                show: true,
+                getDrawingHorizontalLine: (value) {
+                  return FlLine(
+                    color: Color.fromARGB(255, 94, 94, 94).withOpacity(0.5),
+                    strokeWidth: 1
+                  );
+                },
+              ),
               lineBarsData: [
                 LineChartBarData(
                   gradient: LinearGradient(colors: [Color.fromARGB(255, 9, 99, 110), Color.fromARGB(255, 0, 198, 212)]),

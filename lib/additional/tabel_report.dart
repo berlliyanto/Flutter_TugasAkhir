@@ -711,19 +711,19 @@ class _tableCostState extends State<tableCost> {
               )),
               DataColumn(
                   label: Text(
-                "Good Processed (unit)",
+                "Good Processed",
                 style:
                     TextStyle(color: Colors.black, fontSize: blockVertical * 2),
               )),
               DataColumn(
                   label: Text(
-                "Unit Price (Rp)",
+                "Unit Price",
                 style:
                     TextStyle(color: Colors.black, fontSize: blockVertical * 2),
               )),
               DataColumn(
                   label: Text(
-                "Total Price (Rp)",
+                "Total Price",
                 style:
                     TextStyle(color: Colors.black, fontSize: blockVertical * 2),
               )),
@@ -748,14 +748,14 @@ class _tableCostState extends State<tableCost> {
                   style: TextStyle(fontSize: blockVertical * 2),
                 )),
                 DataCell(Text(
-                  "${e.good}",
+                  "${e.good} Unit",
                   style: TextStyle(fontSize: blockVertical * 2),
                 )),
                 DataCell(Text(
-                  "${e.harga_unit}",
+                  "Rp.${e.harga_unit},-",
                   style: TextStyle(fontSize: blockVertical * 2),
                 )),
-                DataCell(Text("${e.total_harga}",
+                DataCell(Text("Rp.${e.total_harga},-",
                     style: TextStyle(
                       fontSize: blockVertical * 2,
                     ))),
@@ -965,7 +965,7 @@ class StockPDF extends StatefulWidget {
 class _StockPDFState extends State<StockPDF> {
   int i = 1;
   StreamController<List> streamRiwayatStock = StreamController.broadcast();
-  List<historiM1model> riwayatStockList = [];
+  List<historimodel> riwayatStockList = [];
   getriwayat getriwayatstockM1 = getriwayat();
   Future<void> riwayatstockData() async {
     riwayatStockList = await getriwayatstockM1.gethistori(widget.mid!);
@@ -1677,3 +1677,4 @@ class _OEEPDFState extends State<OEEPDF> {
         });
   }
 }
+//---------------------------------------------------SINGLE MACHINE END-----------------------------------------------//

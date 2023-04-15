@@ -110,11 +110,6 @@ class _m1oeeState extends State<m1oee> {
     // UNTUK TINGGI TAMPILAN
     final MediaQueryheight = MediaQuery.of(context).size.height;
     double blockVertical = MediaQueryheight / 100;
-
-    // Mengetahui Orientasi Device
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

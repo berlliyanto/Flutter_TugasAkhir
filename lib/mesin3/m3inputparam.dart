@@ -6,13 +6,18 @@ import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Services/param_service.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
+import 'package:flutter_application_1/constant.dart';
 import 'package:flutter_application_1/models/param_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Services/quality_service.dart';
+import 'package:flutter_application_1/Services/availability_service.dart';
+import 'package:flutter_application_1/Services/oee_service.dart';
+import 'package:flutter_application_1/Services/param_service.dart';
+import 'package:flutter_application_1/Services/performance_service.dart';
+import 'package:flutter_application_1/Services/quality_service.dart';
+import 'package:flutter_application_1/Services/costprice_service.dart';
 
 class m3param extends StatefulWidget {
   static const nameRoute = '/m3param';
@@ -327,13 +332,17 @@ class _m3paramState extends State<m3param> {
                                             title: "Success",
                                             desc: "Success Input Parameter",
                                             btnOkOnPress: () {
-                                              Navigator.pop(context);
+                                              Navigator.pushNamed(context, mym3monitoring, arguments: "sukses" );
                                             },
                                           ).show()
                                         },
                                     },
                                   );
                               trigQuality.TriggerQuality(3, tipeValue.toString());
+                              trigAvailability.triggerAvai(3, 3);
+                              triggCost.trigCost(3);
+                              trigPerformance.triggerPerformance(3);
+                              trigOEE.triggerOEE(3);
                             } else {
                               AwesomeDialog(
                                       context: context,
@@ -400,7 +409,11 @@ class _m3paramState extends State<m3param> {
                                 final SharedPreferences shared = await SharedPreferences.getInstance();
                                 shared.remove('stateParamM3');
                                 shared.remove('tipeParamM3');
+                                resetPerformance.resPerformance(3);
+                                resetCost.resettCost(3);
                                 resetQuality.reset(3);
+                                resetAvailability.resetAvai(3);
+                                resetOEE.resOEE(3);
                                 resetParamM3.putParam(state0).then((value) {
                                   if(value.state==0){
                                     AwesomeDialog(

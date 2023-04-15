@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/costprice_service.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
-import 'package:flutter_application_1/mesin1/m1pricelist.dart';
+import 'package:flutter_application_1/additional/mpricelist.dart';
 import 'package:flutter_application_1/models/costprice_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shimmer/shimmer.dart';
@@ -134,7 +134,7 @@ class _m1costState extends State<m1cost> {
           title: Text(
             good,
             style: TextStyle(
-                fontSize: blockVertical * 3, fontWeight: FontWeight.bold),
+                fontSize: blockVertical * 2.5, fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
             tanggal.split(" ")[0],
@@ -299,7 +299,7 @@ class _m1costState extends State<m1cost> {
                                   if (e.good != 0) {
                                     return listHistory(
                                         context,
-                                        "${e.good}",
+                                        "Good: ${e.good}",
                                         "${e.tanggal}",
                                         "${e.tipe}",
                                         "Rp. ${e.total_harga},-",

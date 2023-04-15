@@ -113,7 +113,7 @@ class getriwayat{
       'Authorization': 'Basic $getToken'
     });
    Iterable it = (json.decode(hasilResponseGet.body)as Map<String, dynamic>)["data"];
-        List<historiM1model> historiM1List = it.map((e) =>  historiM1model.fromJSON(e)).toList();
+        List<historimodel> historiM1List = it.map((e) =>  historimodel.fromJSON(e)).toList();
         return historiM1List;
   }
 }

@@ -47,7 +47,7 @@ class m4alarm extends StatelessWidget {
                     end: Alignment.bottomRight,
                     colors: [
                       Color.fromARGB(255, 39, 214, 214),
-                                    Color.fromARGB(255, 1, 176, 182),
+                      Color.fromARGB(255, 1, 176, 182),
                     ]),
               ),
             ),

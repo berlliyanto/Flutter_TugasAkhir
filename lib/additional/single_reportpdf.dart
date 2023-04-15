@@ -215,7 +215,7 @@ class StockMPDF{
 
   int i = 1;
   StreamController<List> streamRiwayatStock = StreamController.broadcast();
-  List<historiM1model> riwayatStockList = [];
+  List<historimodel> riwayatStockList = [];
   getriwayat getriwayatstockM1 = getriwayat();
   Future<void> riwayatstockData() async {
     riwayatStockList = await getriwayatstockM1.gethistori(mid!);

@@ -47,7 +47,7 @@ class m3alarm extends StatelessWidget {
                     end: Alignment.bottomRight,
                     colors: [
                       Color.fromARGB(255, 58, 203, 172),
-                                    Color.fromARGB(255, 13, 177, 150)
+                      Color.fromARGB(255, 13, 177, 150)
                     ]),
               ),
             ),

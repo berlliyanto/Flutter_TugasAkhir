@@ -1,18 +1,58 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, must_be_immutable, unused_local_variable
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Services/status_service.dart';
 import 'package:flutter_application_1/drawer.dart';
+import 'package:flutter_application_1/models/status_model.dart';
 import 'package:flutter_application_1/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../constant.dart';
 
-class m2home extends StatelessWidget {
+class m2home extends StatefulWidget {
   static const nameRoute = '/m2home';
+
+  const m2home(String d, {super.key});
+
+  @override
+  State<m2home> createState() => _m2homeState();
+}
+
+class _m2homeState extends State<m2home> {
+  int? state;
+  //STREAMCONTROLLER STATUS MESIN
+  StreamController<List> streamStatusM2 = StreamController.broadcast();
+  List<status2Model> status = [];
+  getStatusM2 statusState = getStatusM2();
+  Future<void> getStatus() async {
+    status = await getStatusM2.readStatM2();
+    streamStatusM2.add(status);
+  }
+
+  late Timer timer;
+  int id = 0;
   double sizedheight = 20;
   double blurshadow = 10;
 
-  m2home(String d, {super.key});
+  @override
+  void initState() {
+    getStatus();
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      getStatus();
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (timer.isActive) timer.cancel();
+    super.dispose();
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     // UNTUK LEBAR TAMPILAN
@@ -125,13 +165,42 @@ class m2home extends StatelessWidget {
                                     Color.fromARGB(255, 58, 97, 203),
                                     Color.fromARGB(255, 13, 89, 177),
                                   ])),
-                          child: Text(
-                            "Machine 2 - Not Connected",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontSize: blockVertical * 3,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          child: StreamBuilder<Object>(
+                              stream: streamStatusM2.stream,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: status.map((e) {
+                                      return Text(
+                                        (e.status == 1)
+                                            ? "Machine ${e.machine_id} - Is Active"
+                                            : "Machine ${e.machine_id} - Not Active",
+                                        style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      );
+                                    }).toList(),
+                                  );
+                                } else if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Shimmer.fromColors(
+                                    baseColor: Colors.white,
+                                    highlightColor: Colors.grey,
+                                    child: Text(
+                                      'Loading',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: blockVertical * 2.5,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return Text("error");
+                              }),
                         ),
                       ),
                     ],

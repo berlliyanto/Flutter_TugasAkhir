@@ -167,8 +167,8 @@ class _m1homeState extends State<m1home> {
                                     children: status.map((e) {
                                       return Text(
                                         (e.status == 1)
-                                            ? "Machine ${e.machine_id} - Is Connected"
-                                            : "Machine ${e.machine_id} - Not Connected",
+                                            ? "Machine ${e.machine_id} - Is Active"
+                                            : "Machine ${e.machine_id} - Not Active",
                                         style: TextStyle(
                                             color: Color.fromARGB(
                                                 255, 255, 255, 255),

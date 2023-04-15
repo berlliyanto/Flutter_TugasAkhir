@@ -938,6 +938,7 @@ class _reportState extends State<report> {
               ],
             ),
           ),
+          SizedBox(height: blockVertical*2,)
         ],
       ),
     );

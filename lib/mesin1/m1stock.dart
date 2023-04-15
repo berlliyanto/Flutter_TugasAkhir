@@ -34,7 +34,7 @@ class _m1stockState extends State<m1stock> {
 
   //RIWAYAT STOCK IN
   StreamController<List> streamRiwayatStock = StreamController.broadcast();
-  List<historiM1model> riwayatStockList = [];
+  List<historimodel> riwayatStockList = [];
   getriwayat getriwayatstockM1 = getriwayat();
   Future<void> riwayatstockData() async {
     riwayatStockList = await getriwayatstockM1.gethistori(1);
@@ -89,17 +89,6 @@ class _m1stockState extends State<m1stock> {
     // UNTUK TINGGI TAMPILAN
     final MediaQueryheight = MediaQuery.of(context).size.height;
     double blockVertical = MediaQueryheight / 100;
-    final myappbar = AppBar(
-      title: Text("Media Query"),
-    );
-    final bodyheight = MediaQueryheight -
-        myappbar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
-
-    // Mengetahui Orientasi Device
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

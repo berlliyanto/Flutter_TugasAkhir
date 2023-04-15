@@ -7,12 +7,17 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
+import 'package:flutter_application_1/constant.dart';
 import 'package:flutter_application_1/models/param_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Services/param_service.dart';
-import '../Services/quality_service.dart';
+import 'package:flutter_application_1/Services/availability_service.dart';
+import 'package:flutter_application_1/Services/oee_service.dart';
+import 'package:flutter_application_1/Services/param_service.dart';
+import 'package:flutter_application_1/Services/performance_service.dart';
+import 'package:flutter_application_1/Services/quality_service.dart';
+import 'package:flutter_application_1/Services/costprice_service.dart';
 
 class m2param extends StatefulWidget {
   static const nameRoute = '/m2param';
@@ -337,13 +342,17 @@ class _m2paramState extends State<m2param> {
                                             title: "Success",
                                             desc: "Success Input Parameter",
                                             btnOkOnPress: () {
-                                              Navigator.pop(context);
+                                              Navigator.pushNamed(context, mym2monitoring, arguments: "sukses" );
                                             },
                                           ).show()
                                         },
                                     },
                                   );
                               trigQuality.TriggerQuality(2, tipeValue.toString());
+                              trigAvailability.triggerAvai(2, 2);
+                              triggCost.trigCost(2);
+                              trigPerformance.triggerPerformance(2);
+                              trigOEE.triggerOEE(2);
                             } else {
                               AwesomeDialog(
                                       context: context,
@@ -412,7 +421,11 @@ class _m2paramState extends State<m2param> {
                                 final SharedPreferences shared = await SharedPreferences.getInstance();
                                 shared.remove('stateParamM2');
                                 shared.remove('tipeParamM2');
+                                resetPerformance.resPerformance(2);
+                                resetCost.resettCost(2);
                                 resetQuality.reset(2);
+                                resetAvailability.resetAvai(2);
+                                resetOEE.resOEE(2);
                                 resetParamM2.putParam(state0).then((value) {
                                   if(value.state==0){
                                     AwesomeDialog(

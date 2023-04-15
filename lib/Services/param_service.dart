@@ -313,10 +313,10 @@ class readLatestParamM1 {
 
 //READ LATEST INPUT PARAMETER M2
 class readLatestParamM2 {
+  Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM2");
   Future getParamM2() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM2");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -327,14 +327,25 @@ class readLatestParamM2 {
         it.map((e) => ParamModel2.fromJSON(e)).toList();
     return paramList;
   }
+    Future getTipe() async{
+     final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    var response = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    final data = (json.decode(response.body)as Map<String, dynamic>)['data'];
+    final String tipe = data[0]['tipe_benda'];
+    return tipe;
+  }
 }
 
 //READ LATEST INPUT PARAMETER M3
 class readLatestParamM3 {
+      Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM3");
   Future getParamM3() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM3");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -345,14 +356,26 @@ class readLatestParamM3 {
         it.map((e) => ParamModel3.fromJSON(e)).toList();
     return paramList;
   }
+    Future getTipe() async{
+     final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    var response = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    final data = (json.decode(response.body)as Map<String, dynamic>)['data'];
+    final String tipe = data[0]['tipe_benda'];
+    return tipe;
+  }
 }
 
 //READ LATEST INPUT PARAMETER M2
 class readLatestParamM4 {
+  Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM4");
   Future getParamM4() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM4");
+
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -362,5 +385,16 @@ class readLatestParamM4 {
     List<ParamModel4> paramList =
         it.map((e) => ParamModel4.fromJSON(e)).toList();
     return paramList;
+  }
+  Future getTipe() async{
+     final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    var response = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    final data = (json.decode(response.body)as Map<String, dynamic>)['data'];
+    final String tipe = data[0]['tipe_benda'];
+    return tipe;
   }
 }

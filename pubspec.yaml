@@ -52,6 +52,7 @@ dependencies:
   percent_indicator: ^4.2.2
   shared_preferences: ^2.0.17
   shimmer: ^2.0.0
+  syncfusion_flutter_calendar: ^20.4.54
   syncfusion_flutter_gauges: ^20.4.50
   timezone: ^0.9.1
 

@@ -47,7 +47,7 @@ class m2alarm extends StatelessWidget {
                     end: Alignment.bottomRight,
                     colors: [
                       Color.fromARGB(255, 58, 97, 203),
-                  Color.fromARGB(255, 13, 89, 177)
+                      Color.fromARGB(255, 13, 89, 177)
                     ]),
               ),
             ),

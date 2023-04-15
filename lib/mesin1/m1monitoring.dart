@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/availability_service.dart';
+import 'package:flutter_application_1/Services/lifetime_service.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
 import 'package:flutter_application_1/mesin1/m1energy_usage.dart';
 import 'package:flutter_application_1/mesin1/m1pressure.dart';
@@ -47,7 +48,7 @@ class m1monitoring extends StatefulWidget {
 
 class _m1monitoringState extends State<m1monitoring> {
   late Timer timer;
-  int? state;
+  int? state,timevalue;
   String? tipe;
   TextEditingController jumlah = TextEditingController();
 
@@ -87,6 +88,13 @@ class _m1monitoringState extends State<m1monitoring> {
     streamTime.add(AList);
   }
 
+  //Life Time
+  Future<void> lifetime() async {
+    getOneLT().getOne(1).then((value) {
+        timevalue = value;
+    });
+  }
+
   @override
   void initState() {
     getLatestParamM1.getTipe().then((value) {
@@ -94,11 +102,13 @@ class _m1monitoringState extends State<m1monitoring> {
         tipe = value!;
       });
     });
+    lifetime();
     Avaidata();
     latestParam();
     QualityData();
     stockData();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      lifetime();
       Avaidata();
       latestParam();
       stockData();
@@ -119,9 +129,6 @@ class _m1monitoringState extends State<m1monitoring> {
     double blockHorizontal = MediaQuerywidth / 100;
     final MediaQueryheight = MediaQuery.of(context).size.height;
     double blockVertical = MediaQueryheight / 100;
-    // Mengetahui Orientasi Device
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -309,7 +316,7 @@ class _m1monitoringState extends State<m1monitoring> {
                                     blockHorizontal,
                                     blockVertical,
                                     "Life Time",
-                                    "92221 Minute",
+                                    "$timevalue Sec",
                                     FontAwesomeIcons.heartPulse)
                               ],
                             ),

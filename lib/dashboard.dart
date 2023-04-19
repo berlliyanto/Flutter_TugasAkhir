@@ -215,7 +215,7 @@ class _dashboardState extends State<dashboard> {
                                 backgroundImage:
                                     (name == "Berlliyanto Aji Nugraha")
                                         ? AssetImage('images/asset21.jpg')
-                                        : AssetImage('images/asset4.png'),
+                                        : AssetImage('images/asset11.png'),
                               ),
                               SizedBox(
                                 width: blockHorizontal * 2,
@@ -668,15 +668,15 @@ class _dashboardState extends State<dashboard> {
     return ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Shimmer.fromColors(
-          baseColor: Colors.grey,
-          highlightColor: Colors.white,
+          baseColor: Colors.white,
+          highlightColor: Colors.grey,
           child: Container(
             padding: EdgeInsets.symmetric(
                 horizontal: constraints.maxHeight * 0.05,
                 vertical: constraints.maxHeight * 0.05),
             height: constraints.maxHeight * 0.7,
             width: constraints.maxWidth * 0.7,
-            decoration: BoxDecoration(color: Colors.grey),
+            decoration: BoxDecoration(color: Colors.white),
           ),
         ));
   }

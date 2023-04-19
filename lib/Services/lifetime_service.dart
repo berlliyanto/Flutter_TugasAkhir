@@ -21,7 +21,7 @@ class getOneLT{
 }
 
 class getAllLT{
-  Future getOne(int machine_id) async {
+  Future getAll() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url = Uri.parse(

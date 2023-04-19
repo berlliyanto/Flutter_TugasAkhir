@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/additional/history_trouble.dart';
 import 'package:flutter_application_1/akun.dart';
 import 'package:flutter_application_1/constant.dart';
 import 'package:flutter_application_1/dashboard.dart';
@@ -232,6 +233,10 @@ class Routes {
       case mygetstarted:
       var au = settings.arguments as String;
       return BouncyPageRoute(page: getStarted(au));
+
+      case myhistoriTB:
+      var av = settings.arguments as String;
+      return BouncyPageRoute(page: historiTB(av));
       
       default:
     }

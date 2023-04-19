@@ -12,6 +12,7 @@ import 'package:flutter_application_1/mesin3/m3pressure.dart';
 import 'package:flutter_application_1/models/availability_model.dart';
 import 'package:flutter_application_1/models/quality_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../Services/param_service.dart';
@@ -47,6 +48,16 @@ class m3monitoring extends StatefulWidget {
 }
 
 class _m3monitoringState extends State<m3monitoring> {
+  String? name, otoritas;
+  Future<void> getValidUser() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getName = shared.getString("name");
+    var getOtoritas = shared.getString("otoritas");
+    setState(() {
+      name = getName!;
+      otoritas = getOtoritas!;
+    });
+  }
   late Timer timer;
   int? state,timevalue;
   String? tipe;
@@ -102,6 +113,7 @@ class _m3monitoringState extends State<m3monitoring> {
         tipe = value!;
       });
     });
+    getValidUser();
     lifetime();
     Avaidata();
     latestParam();
@@ -584,7 +596,7 @@ class _m3monitoringState extends State<m3monitoring> {
                                   horizontal: blockHorizontal * 5,
                                   vertical: blockVertical * 2),
                               child:
-                                  buttonDefect(blockHorizontal, blockVertical),
+                                  (otoritas=="Admin"||otoritas=="User-Production")?buttonDefect(blockHorizontal, blockVertical):buttonDefectDis(blockHorizontal, blockVertical),
                             ),
                           ],
                         ),
@@ -735,7 +747,7 @@ class _m3monitoringState extends State<m3monitoring> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            "Masukkan Defect Unit",
+                            "Input Defect Unit",
                             style: TextStyle(
                                 fontSize: blockVertical * 2.5,
                                 fontWeight: FontWeight.bold),
@@ -747,13 +759,13 @@ class _m3monitoringState extends State<m3monitoring> {
                             controller: jumlah,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                                hintText: "Isi Jumlah Defect (unit)"),
+                                hintText: "Input Defect (unit)"),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                "*Jika Tidak Ada Defect Mohon Masukan nilai 0",
+                                "*If there is no defect, please enter a value 0",
                                 style: TextStyle(fontSize: blockVertical * 1.3),
                               ),
                             ],
@@ -764,7 +776,7 @@ class _m3monitoringState extends State<m3monitoring> {
                       btnOkIcon: FontAwesomeIcons.plus,
                       btnOkOnPress: () {
                         inputDefect.defectQuality(
-                            int.parse(jumlah.text), 1, "$tipe");
+                            int.parse(jumlah.text), 3, "$tipe");
                       },
                       btnCancelIcon: FontAwesomeIcons.ban,
                       btnCancelOnPress: () {})
@@ -784,7 +796,34 @@ class _m3monitoringState extends State<m3monitoring> {
       ),
     );
   }
-
+    Widget buttonDefectDis(double blockHorizontal, double blockVertical) {
+    return Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        width: blockHorizontal * 100,
+        height: blockVertical * 5,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color.fromARGB(210, 158, 158, 158),
+                  Color.fromARGB(235, 124, 124, 124)
+                ])),
+        child: Center(
+          child: Text(
+            "Input Defect Unit",
+            style: TextStyle(
+                fontSize: blockVertical * 2,
+                color: Colors.white,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
   Widget bodyCard(double blockHorizontal, double blockVertical, String title,
       String Value, IconData icon) {
     return Container(

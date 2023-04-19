@@ -10,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class report extends StatefulWidget {
   static const nameRoute = '/report';
@@ -38,6 +39,23 @@ class _reportState extends State<report> {
     "Stock",
     "Cost Price",
   ];
+  String? name, otoritas;
+  Future<void> getValidUser() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getName = shared.getString("name");
+    var getOtoritas = shared.getString("otoritas");
+    setState(() {
+      name = getName!;
+      otoritas = getOtoritas!;
+    });
+  }
+
+  @override
+  void initState() {
+    getValidUser();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final MediaQuerywidth = MediaQuery.of(context).size.width;
@@ -153,234 +171,273 @@ class _reportState extends State<report> {
                                 fontSize: blockVertical * 2.5,
                                 fontWeight: FontWeight.bold),
                           ),
-                          IconButton(
-                            onPressed: () async {
-                              //-----------------------ALL MACHINE ------------------------//
-                              (mesinValue == "All Machine") // IF()
-                                  ? (reportValue == "All Report") //IF()
-                                      //All Machine & All Report
-                                      ? allmachinePDF()
-                                      //ALL MACHINE & PARAMETER
-                                      : (reportValue == "Parameter")
-                                          ? //ELSE IF()
-                                          AMRPARAM()
-                                          //ALL MACHINE & OEE
-                                          : (reportValue == "OEE")
-                                              ? //ELSE IF()
-                                              AMROEE()
-                                              //ALL MACHINE & PRODUCTION
-                                              : (reportValue == "Production")
-                                                  ? //ELSE IF()
-                                                  AMRP()
-                                                  //ALL MACHINE & STOCK
-                                                  : (reportValue == "Stock")
-                                                      ? //ELSE IF()
-                                                      AMRS()
-                                                      //ALL MACHINE & STOCK
-                                                      : (reportValue ==
-                                                              "Cost Price")
-                                                          ? //ELSE IF()
-                                                          AMRCS()
-                                                          //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN REPORT //ELSE ()
-                                                          : AwesomeDialog(
-                                                              context: context,
-                                                              animType: AnimType
-                                                                  .leftSlide,
-                                                              dialogType:
-                                                                  DialogType
-                                                                      .warning,
-                                                              title:
-                                                                  "Choose Report First!",
-                                                              useRootNavigator:
-                                                                  true,
-                                                              autoHide:
-                                                                  Duration(
-                                                                      seconds:
-                                                                          2),
-                                                            ).show()
-                                  //-----------------------MACHINE 1------------------------//
-                                  : (mesinValue == "Machine 1") // ELSE IF()
-                                      ? (reportValue == "Parameter")
-                                          ? //ELSE IF()
-                                          ParameterMPDF(mid: 1).AMRPARAM()
-                                          //MACHINE 1 & OEE
-                                          : (reportValue == "OEE")
-                                              ? //ELSE IF()
-                                              OEEMPDF(mid: 1).AMROEE()
-                                              //MACHINE 1 & PRODUCTION
-                                              : (reportValue == "Production")
-                                                  ? //ELSE IF()
-                                                  ProductionMPDF(mid: 1).AMRP()
-                                                  //MACHINE 1 & STOCK
-                                                  : (reportValue == "Stock")
-                                                      ? //ELSE IF()
-                                                      StockMPDF(mid: 1).AMRS()
-                                                      //MACHINE 1 & STOCK
-                                                      : (reportValue ==
-                                                              "Cost Price")
-                                                          ? //ELSE IF()
-                                                          CostMPDF(mid: 1).AMRCS()
-                                                          //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN REPORT //ELSE ()
-                                                          : AwesomeDialog(
-                                                              context: context,
-                                                              animType: AnimType
-                                                                  .leftSlide,
-                                                              dialogType:
-                                                                  DialogType
-                                                                      .warning,
-                                                              title:
-                                                                  "Choose Report First!",
-                                                              useRootNavigator:
-                                                                  true,
-                                                              autoHide:
-                                                                  Duration(
-                                                                      seconds:
-                                                                          2),
-                                                            ).show()
-                                      //-----------------------MACHINE 2------------------------//
-                                      : (mesinValue == "Machine 2") // ELSE IF()
-                                          ? (reportValue == "Parameter")
-                                              ? //ELSE IF()
-                                              ParameterMPDF(mid: 2).AMRPARAM()
-                                              //MACHINE 2 & OEE
-                                              : (reportValue == "OEE")
-                                                  ? //ELSE IF()
-                                                  OEEMPDF(mid: 2).AMROEE()
-                                                  //MACHINE 2 & PRODUCTION
-                                                  : (reportValue ==
-                                                          "Production")
-                                                      ? //ELSE IF()
-                                                      ProductionMPDF(mid: 2).AMRP()
-                                                      //MACHINE 2 & STOCK
-                                                      : (reportValue == "Stock")
-                                                          ? //ELSE IF()
-                                                          StockMPDF(mid: 2).AMRS()
-                                                          //MACHINE 2 & STOCK
-                                                          : (reportValue ==
-                                                                  "Cost Price")
-                                                              ? //ELSE IF()
-                                                              CostMPDF(mid: 2).AMRCS()
-                                                              //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN REPORT //ELSE ()
-                                                              : AwesomeDialog(
-                                                                  context:
-                                                                      context,
-                                                                  animType: AnimType
-                                                                      .leftSlide,
-                                                                  dialogType:
-                                                                      DialogType
-                                                                          .warning,
-                                                                  title:
-                                                                      "Choose Report First!",
-                                                                  useRootNavigator:
-                                                                      true,
-                                                                  autoHide:
-                                                                      Duration(
-                                                                          seconds:
-                                                                              2),
-                                                                ).show()
-                                          //-----------------------MACHINE 3------------------------//
-                                          : (mesinValue ==
-                                                  "Machine 3") // ELSE IF()
-                                              ? (reportValue == "Parameter")
-                                                  ? //ELSE IF()
-                                                  ParameterMPDF(mid: 3).AMRPARAM()
-                                                  //MACHINE 3 & OEE
-                                                  : (reportValue == "OEE")
-                                                      ? //ELSE IF()
-                                                      OEEMPDF(mid: 3).AMROEE()
-                                                      //MACHINE 3 & PRODUCTION
-                                                      : (reportValue ==
-                                                              "Production")
-                                                          ? //ELSE IF()
-                                                          ProductionMPDF(mid: 3).AMRP()
-                                                          //MACHINE 3 & STOCK
-                                                          : (reportValue ==
-                                                                  "Stock")
-                                                              ? //ELSE IF()
-                                                              StockMPDF(mid: 3).AMRS()
-                                                              //MACHINE 3 & STOCK
-                                                              : (reportValue ==
-                                                                      "Cost Price")
-                                                                  ? //ELSE IF()
-                                                                  CostMPDF(mid: 3).AMRCS()
-                                                                  //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN REPORT //ELSE ()
-                                                                  : AwesomeDialog(
-                                                                      context:
-                                                                          context,
-                                                                      animType:
-                                                                          AnimType
-                                                                              .leftSlide,
-                                                                      dialogType:
-                                                                          DialogType
-                                                                              .warning,
-                                                                      title:
-                                                                          "Choose Report First!",
-                                                                      useRootNavigator:
-                                                                          true,
-                                                                      autoHide: Duration(
-                                                                          seconds:
-                                                                              2),
-                                                                    ).show()
-                                              //-----------------------MACHINE 4------------------------//
-                                              : (mesinValue ==
-                                                      "Machine 4") // ELSE IF()
-                                                  ? (reportValue == "Parameter")
-                                                      ? //ELSE IF()
-                                                      ParameterMPDF(mid: 4).AMRPARAM()
-                                                      //MACHINE 4 & OEE
-                                                      : (reportValue == "OEE")
-                                                          ? //ELSE IF()
-                                                          OEEMPDF(mid: 4).AMROEE()
-                                                          //MACHINE 4 & PRODUCTION
-                                                          : (reportValue ==
-                                                                  "Production")
-                                                              ? //ELSE IF()
-                                                              ProductionMPDF(mid: 4).AMRP()
-                                                              //MACHINE 4 & STOCK
-                                                              : (reportValue ==
-                                                                      "Stock")
-                                                                  ? //ELSE IF()
-                                                                  StockMPDF(mid: 4).AMRS()
-                                                                  //MACHINE 4 & STOCK
-                                                                  : (reportValue ==
-                                                                          "Cost Price")
-                                                                      ? //ELSE IF()
-                                                                      CostMPDF(mid: 4).AMRCS()
-                                                                      //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN REPORT //ELSE ()
-                                                                      : AwesomeDialog(
-                                                                          context:
-                                                                              context,
-                                                                          animType:
-                                                                              AnimType.leftSlide,
-                                                                          dialogType:
-                                                                              DialogType.warning,
-                                                                          title:
-                                                                              "Choose Report First!",
-                                                                          useRootNavigator:
-                                                                              true,
-                                                                          autoHide:
-                                                                              Duration(seconds: 2),
-                                                                        ).show()
-                                                  //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN MACHINE //ELSE ()
-                                                  : AwesomeDialog(
-                                                      context: context,
-                                                      animType:
-                                                          AnimType.leftSlide,
-                                                      dialogType:
-                                                          DialogType.warning,
-                                                      title:
-                                                          "Choose Machine First!",
-                                                      useRootNavigator: true,
-                                                      autoHide:
-                                                          Duration(seconds: 2),
-                                                    ).show();
-                            },
-                            icon: Icon(
-                              Icons.download,
-                              size: blockVertical * 3,
-                              color: Colors.black87,
-                            ),
-                          )
+                          (otoritas == "Admin" || otoritas == "User-Management")
+                              ? IconButton(
+                                  onPressed: () async {
+                                    //-----------------------ALL MACHINE ------------------------//
+                                    (mesinValue == "All Machine") // IF()
+                                        ? (reportValue == "All Report") //IF()
+                                            //All Machine & All Report
+                                            ? allmachinePDF()
+                                            //ALL MACHINE & PARAMETER
+                                            : (reportValue == "Parameter")
+                                                ? //ELSE IF()
+                                                AMRPARAM()
+                                                //ALL MACHINE & OEE
+                                                : (reportValue == "OEE")
+                                                    ? //ELSE IF()
+                                                    AMROEE()
+                                                    //ALL MACHINE & PRODUCTION
+                                                    : (reportValue ==
+                                                            "Production")
+                                                        ? //ELSE IF()
+                                                        AMRP()
+                                                        //ALL MACHINE & STOCK
+                                                        : (reportValue ==
+                                                                "Stock")
+                                                            ? //ELSE IF()
+                                                            AMRS()
+                                                            //ALL MACHINE & STOCK
+                                                            : (reportValue ==
+                                                                    "Cost Price")
+                                                                ? //ELSE IF()
+                                                                AMRCS()
+                                                                //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN REPORT //ELSE ()
+                                                                : AwesomeDialog(
+                                                                    context:
+                                                                        context,
+                                                                    animType:
+                                                                        AnimType
+                                                                            .leftSlide,
+                                                                    dialogType:
+                                                                        DialogType
+                                                                            .warning,
+                                                                    title:
+                                                                        "Choose Report First!",
+                                                                    useRootNavigator:
+                                                                        true,
+                                                                    autoHide: Duration(
+                                                                        seconds:
+                                                                            2),
+                                                                  ).show()
+                                        //-----------------------MACHINE 1------------------------//
+                                        : (mesinValue ==
+                                                "Machine 1") // ELSE IF()
+                                            ? (reportValue == "Parameter")
+                                                ? //ELSE IF()
+                                                ParameterMPDF(mid: 1).AMRPARAM()
+                                                //MACHINE 1 & OEE
+                                                : (reportValue == "OEE")
+                                                    ? //ELSE IF()
+                                                    OEEMPDF(mid: 1).AMROEE()
+                                                    //MACHINE 1 & PRODUCTION
+                                                    : (reportValue ==
+                                                            "Production")
+                                                        ? //ELSE IF()
+                                                        ProductionMPDF(mid: 1)
+                                                            .AMRP()
+                                                        //MACHINE 1 & STOCK
+                                                        : (reportValue ==
+                                                                "Stock")
+                                                            ? //ELSE IF()
+                                                            StockMPDF(mid: 1)
+                                                                .AMRS()
+                                                            //MACHINE 1 & STOCK
+                                                            : (reportValue ==
+                                                                    "Cost Price")
+                                                                ? //ELSE IF()
+                                                                CostMPDF(mid: 1)
+                                                                    .AMRCS()
+                                                                //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN REPORT //ELSE ()
+                                                                : AwesomeDialog(
+                                                                    context:
+                                                                        context,
+                                                                    animType:
+                                                                        AnimType
+                                                                            .leftSlide,
+                                                                    dialogType:
+                                                                        DialogType
+                                                                            .warning,
+                                                                    title:
+                                                                        "Choose Report First!",
+                                                                    useRootNavigator:
+                                                                        true,
+                                                                    autoHide: Duration(
+                                                                        seconds:
+                                                                            2),
+                                                                  ).show()
+                                            //-----------------------MACHINE 2------------------------//
+                                            : (mesinValue ==
+                                                    "Machine 2") // ELSE IF()
+                                                ? (reportValue == "Parameter")
+                                                    ? //ELSE IF()
+                                                    ParameterMPDF(mid: 2)
+                                                        .AMRPARAM()
+                                                    //MACHINE 2 & OEE
+                                                    : (reportValue == "OEE")
+                                                        ? //ELSE IF()
+                                                        OEEMPDF(mid: 2).AMROEE()
+                                                        //MACHINE 2 & PRODUCTION
+                                                        : (reportValue ==
+                                                                "Production")
+                                                            ? //ELSE IF()
+                                                            ProductionMPDF(
+                                                                    mid: 2)
+                                                                .AMRP()
+                                                            //MACHINE 2 & STOCK
+                                                            : (reportValue ==
+                                                                    "Stock")
+                                                                ? //ELSE IF()
+                                                                StockMPDF(mid: 2)
+                                                                    .AMRS()
+                                                                //MACHINE 2 & STOCK
+                                                                : (reportValue ==
+                                                                        "Cost Price")
+                                                                    ? //ELSE IF()
+                                                                    CostMPDF(mid: 2)
+                                                                        .AMRCS()
+                                                                    //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN REPORT //ELSE ()
+                                                                    : AwesomeDialog(
+                                                                        context:
+                                                                            context,
+                                                                        animType:
+                                                                            AnimType.leftSlide,
+                                                                        dialogType:
+                                                                            DialogType.warning,
+                                                                        title:
+                                                                            "Choose Report First!",
+                                                                        useRootNavigator:
+                                                                            true,
+                                                                        autoHide:
+                                                                            Duration(seconds: 2),
+                                                                      ).show()
+                                                //-----------------------MACHINE 3------------------------//
+                                                : (mesinValue ==
+                                                        "Machine 3") // ELSE IF()
+                                                    ? (reportValue ==
+                                                            "Parameter")
+                                                        ? //ELSE IF()
+                                                        ParameterMPDF(mid: 3)
+                                                            .AMRPARAM()
+                                                        //MACHINE 3 & OEE
+                                                        : (reportValue == "OEE")
+                                                            ? //ELSE IF()
+                                                            OEEMPDF(mid: 3)
+                                                                .AMROEE()
+                                                            //MACHINE 3 & PRODUCTION
+                                                            : (reportValue ==
+                                                                    "Production")
+                                                                ? //ELSE IF()
+                                                                ProductionMPDF(
+                                                                        mid: 3)
+                                                                    .AMRP()
+                                                                //MACHINE 3 & STOCK
+                                                                : (reportValue ==
+                                                                        "Stock")
+                                                                    ? //ELSE IF()
+                                                                    StockMPDF(mid: 3)
+                                                                        .AMRS()
+                                                                    //MACHINE 3 & STOCK
+                                                                    : (reportValue ==
+                                                                            "Cost Price")
+                                                                        ? //ELSE IF()
+                                                                        CostMPDF(mid: 3)
+                                                                            .AMRCS()
+                                                                        //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN REPORT //ELSE ()
+                                                                        : AwesomeDialog(
+                                                                            context:
+                                                                                context,
+                                                                            animType:
+                                                                                AnimType.leftSlide,
+                                                                            dialogType:
+                                                                                DialogType.warning,
+                                                                            title:
+                                                                                "Choose Report First!",
+                                                                            useRootNavigator:
+                                                                                true,
+                                                                            autoHide:
+                                                                                Duration(seconds: 2),
+                                                                          )
+                                                                            .show()
+                                                    //-----------------------MACHINE 4------------------------//
+                                                    : (mesinValue ==
+                                                            "Machine 4") // ELSE IF()
+                                                        ? (reportValue ==
+                                                                "Parameter")
+                                                            ? //ELSE IF()
+                                                            ParameterMPDF(mid: 4)
+                                                                .AMRPARAM()
+                                                            //MACHINE 4 & OEE
+                                                            : (reportValue ==
+                                                                    "OEE")
+                                                                ? //ELSE IF()
+                                                                OEEMPDF(mid: 4)
+                                                                    .AMROEE()
+                                                                //MACHINE 4 & PRODUCTION
+                                                                : (reportValue ==
+                                                                        "Production")
+                                                                    ? //ELSE IF()
+                                                                    ProductionMPDF(
+                                                                            mid:
+                                                                                4)
+                                                                        .AMRP()
+                                                                    //MACHINE 4 & STOCK
+                                                                    : (reportValue ==
+                                                                            "Stock")
+                                                                        ? //ELSE IF()
+                                                                        StockMPDF(mid: 4)
+                                                                            .AMRS()
+                                                                        //MACHINE 4 & STOCK
+                                                                        : (reportValue == "Cost Price")
+                                                                            ? //ELSE IF()
+                                                                            CostMPDF(mid: 4).AMRCS()
+                                                                            //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN REPORT //ELSE ()
+                                                                            : AwesomeDialog(
+                                                                                context: context,
+                                                                                animType: AnimType.leftSlide,
+                                                                                dialogType: DialogType.warning,
+                                                                                title: "Choose Report First!",
+                                                                                useRootNavigator: true,
+                                                                                autoHide: Duration(seconds: 2),
+                                                                              ).show()
+                                                        //ELSE KONDISI DIMANA TIDAK TERPILIH SATU PUN MACHINE //ELSE ()
+                                                        : AwesomeDialog(
+                                                            context: context,
+                                                            animType: AnimType
+                                                                .leftSlide,
+                                                            dialogType:
+                                                                DialogType
+                                                                    .warning,
+                                                            title:
+                                                                "Choose Machine First!",
+                                                            useRootNavigator:
+                                                                true,
+                                                            autoHide: Duration(
+                                                                seconds: 2),
+                                                          ).show();
+                                  },
+                                  icon: Icon(
+                                    Icons.download,
+                                    size: blockVertical * 3,
+                                    color: Colors.black87,
+                                  ),
+                                )
+                              : IconButton(
+                                  onPressed: () {
+                                    AwesomeDialog(
+                                      context: context,
+                                      animType: AnimType.leftSlide,
+                                      dialogType: DialogType.warning,
+                                      title:"Your Authorities Do Not Have The Right To Perform This Action!",
+                                      useRootNavigator: true,
+                                      autoHide: Duration(seconds: 2),
+                                    ).show();
+                                  },
+                                  icon: Icon(
+                                    Icons.download,
+                                    size: blockVertical * 3,
+                                    color: Colors.black87,
+                                  ))
                         ],
                       ),
 //---------------------------------------------ISI PREVIEW CONTENT-----------------------------------------------//
@@ -592,11 +649,15 @@ class _reportState extends State<report> {
                                         //Machine 1 & PARAMETER
                                         : (reportValue == "Parameter")
                                             ? //ELSE IF()
-                                            ParameterPDF(mid: 1,)
+                                            ParameterPDF(
+                                                mid: 1,
+                                              )
                                             //Machine 1 & OEE
                                             : (reportValue == "OEE")
                                                 ? //ELSE IF()
-                                                OEEPDF(mid: 1,)
+                                                OEEPDF(
+                                                    mid: 1,
+                                                  )
                                                 //Machine 1 & PRODUCTION
                                                 : (reportValue == "Production")
                                                     ? //ELSE IF()
@@ -650,11 +711,15 @@ class _reportState extends State<report> {
                                             //Machine 2 & PARAMETER
                                             : (reportValue == "Parameter")
                                                 ? //ELSE IF()
-                                                ParameterPDF(mid: 2,)
+                                                ParameterPDF(
+                                                    mid: 2,
+                                                  )
                                                 //Machine 2 & OEE
                                                 : (reportValue == "OEE")
                                                     ? //ELSE IF()
-                                                    OEEPDF(mid: 2,)
+                                                    OEEPDF(
+                                                        mid: 2,
+                                                      )
                                                     //Machine 2 & PRODUCTION
                                                     : (reportValue ==
                                                             "Production")
@@ -713,11 +778,15 @@ class _reportState extends State<report> {
                                                 //Machine 3 & PARAMETER
                                                 : (reportValue == "Parameter")
                                                     ? //ELSE IF()
-                                                    ParameterPDF(mid: 3,)
+                                                    ParameterPDF(
+                                                        mid: 3,
+                                                      )
                                                     //Machine 3 & OEE
                                                     : (reportValue == "OEE")
                                                         ? //ELSE IF()
-                                                        OEEPDF(mid: 3,)
+                                                        OEEPDF(
+                                                            mid: 3,
+                                                          )
                                                         //Machine 3 & PRODUCTION
                                                         : (reportValue ==
                                                                 "Production")
@@ -774,11 +843,15 @@ class _reportState extends State<report> {
                                                     : (reportValue ==
                                                             "Parameter")
                                                         ? //ELSE IF()
-                                                        ParameterPDF(mid: 4,)
+                                                        ParameterPDF(
+                                                            mid: 4,
+                                                          )
                                                         //Machine 4 & OEE
                                                         : (reportValue == "OEE")
                                                             ? //ELSE IF()
-                                                           OEEPDF(mid: 4,)
+                                                            OEEPDF(
+                                                                mid: 4,
+                                                              )
                                                             //Machine 4 & PRODUCTION
                                                             : (reportValue ==
                                                                     "Production")
@@ -938,7 +1011,9 @@ class _reportState extends State<report> {
               ],
             ),
           ),
-          SizedBox(height: blockVertical*2,)
+          SizedBox(
+            height: blockVertical * 2,
+          )
         ],
       ),
     );
@@ -972,6 +1047,9 @@ class _reportState extends State<report> {
             ),
           ),
           child: DropdownSearch<String>(
+            enabled: (otoritas == "Admin" || otoritas == "User-Management")
+                ? true
+                : false,
             clearButtonProps: ClearButtonProps(
               isVisible: true,
             ),

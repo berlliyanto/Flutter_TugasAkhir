@@ -6,12 +6,6 @@ import 'package:flutter_application_1/constant.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_application_1/Services/availability_service.dart';
-import 'package:flutter_application_1/Services/oee_service.dart';
-import 'package:flutter_application_1/Services/param_service.dart';
-import 'package:flutter_application_1/Services/performance_service.dart';
-import 'package:flutter_application_1/Services/quality_service.dart';
-import 'package:flutter_application_1/Services/costprice_service.dart';
 
 class drawer extends StatefulWidget {
   const drawer({super.key});
@@ -275,29 +269,14 @@ class _drawerState extends State<drawer> {
                         btnCancelOnPress: () {},
                         btnOkIcon: FontAwesomeIcons.arrowRightFromBracket,
                         btnOkOnPress: () async {
-                          final SharedPreferences shared =
-                              await SharedPreferences.getInstance();
+                          final SharedPreferences shared = await SharedPreferences.getInstance();
                           shared.remove("name");
                           shared.remove("otoritas");
-                          shared.remove("stateParamM1");
-                          shared.remove("tipeParamM1");
-                          shared.remove("stateParamM2");
-                          shared.remove("tipeParamM2");
-                          shared.remove("stateParamM3");
-                          shared.remove("tipeParamM3");
-                          shared.remove("stateParamM4");
-                          shared.remove("tipeParamM4");
                           // ignore: use_build_context_synchronously
                           Navigator.pushNamedAndRemoveUntil(
                               context, mylogin, (route) => false,
                               arguments: "from drawer");
                         }).show();
-                    resetParam.putParam(state0);
-                    resetPerformance.resPerformance(1);
-                                resetCost.resettCost(1);
-                                resetQuality.reset(1);
-                                resetAvailability.resetAvai(1);
-                                resetOEE.resOEE(1);
                   },
                 ),
                 ListTile(
@@ -344,7 +323,7 @@ class _drawerState extends State<drawer> {
                           shape: BoxShape.circle,
                         ),
                         child: CircleAvatar(
-                          backgroundImage: AssetImage('images/asset4.png'),
+                          backgroundImage: AssetImage('images/asset11.png'),
                           radius: blockVertical * 4,
                         ),
                       ),
@@ -523,15 +502,9 @@ class _drawerState extends State<drawer> {
                         btnCancelOnPress: () {},
                         btnOkIcon: FontAwesomeIcons.arrowRightFromBracket,
                         btnOkOnPress: () async {
-                          final SharedPreferences shared =
-                              await SharedPreferences.getInstance();
+                          final SharedPreferences shared = await SharedPreferences.getInstance();
                           shared.remove("name");
                           shared.remove("otoritas");
-                          shared.remove("A");
-                          shared.remove("B");
-                          shared.remove("C");
-                          shared.remove("stateParamM1");
-                          shared.remove("tipeParamM1");
                           // ignore: use_build_context_synchronously
                           Navigator.pushNamedAndRemoveUntil(
                               context, mylogin, (route) => false,

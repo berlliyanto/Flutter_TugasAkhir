@@ -15,3 +15,15 @@ class userModel{
   }
 }
 
+class userMTModel{
+  late String? name;
+
+  userMTModel({this.name});
+
+  factory userMTModel.fromJSON(Map<String,  dynamic> json){
+    return userMTModel(
+      name: json['name'],
+    );
+  }
+}
+

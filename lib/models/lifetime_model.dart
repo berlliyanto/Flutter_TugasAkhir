@@ -7,7 +7,6 @@ class lifetimeModel{
     return lifetimeModel(
       machine_id: json['machine_id'],
       timevalue: json['timevalue']
-    );
-    
+    ); 
   }
 }

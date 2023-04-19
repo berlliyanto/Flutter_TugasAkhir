@@ -90,6 +90,23 @@ class allUserGet{
       
     }
   }
+  Future getuserMT() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    const url2 = 'https://aplikasi-pms-berli.onrender.com/api/userMT';
+    var responseGetAll = await http.get(Uri.parse(url2), headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    Iterable it = (json.decode(responseGetAll.body)as Map<String, dynamic>)["data"];
+    List<String> userMtList = [];
+    for (var item in it){
+      String name = item['name'];
+      userMtList.add(name);
+    }
+    return userMtList;
+  }
+  //
 }
 
 //class UPDATE DATA---------------------------------------------------------------------------------------------------------------------
@@ -154,3 +171,5 @@ class HttpUserDelete {
     }
   }
 }
+
+

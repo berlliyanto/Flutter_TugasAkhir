@@ -30,6 +30,7 @@ class _tambahuserState extends State<tambahuser> {
     "User-Management",
     "User-Maintenance",
     "User-Production",
+    "User-Operator",
   ];
   late String? otoValue;
   @override

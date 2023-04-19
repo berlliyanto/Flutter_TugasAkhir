@@ -28,6 +28,17 @@ class m3param extends StatefulWidget {
 }
 
 class _m3paramState extends State<m3param> {
+  String? name, otoritas;
+  Future<void> getValidUser() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getName = shared.getString("name");
+    var getOtoritas = shared.getString("otoritas");
+    setState(() {
+      name = getName!;
+      otoritas = getOtoritas!;
+    });
+  }
+
   //KONTROLER REALTIME DATA (STREAMBUILDER)
   StreamController<List> streamParam = StreamController();
   late Timer timer;
@@ -37,13 +48,13 @@ class _m3paramState extends State<m3param> {
     paramList = await getLatestParamM3.getParamM3();
     streamParam.add(paramList);
   }
+
   int state0 = 0;
   int state = 1;
   String machine_id = "3";
   TextEditingController loading = TextEditingController();
   TextEditingController cycle = TextEditingController();
   TextEditingController oee = TextEditingController();
-  TextEditingController harga = TextEditingController();
   final List<String> tipeBenda = [
     "A",
     "B",
@@ -53,6 +64,7 @@ class _m3paramState extends State<m3param> {
 
   @override
   void initState() {
+    getValidUser();
     latestParam();
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
       latestParam();
@@ -65,9 +77,9 @@ class _m3paramState extends State<m3param> {
     if (timer.isActive) timer.cancel();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-
     final MediaQuerywidth = MediaQuery.of(context).size.width;
     double blockHorizontal = MediaQuerywidth / 100;
 
@@ -78,7 +90,10 @@ class _m3paramState extends State<m3param> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Machine 3 Input Parameter",style: TextStyle(fontSize: blockVertical * 2.5),),
+          title: Text(
+            "Machine 3 Input Parameter",
+            style: TextStyle(fontSize: blockVertical * 2.5),
+          ),
           centerTitle: true,
           backgroundColor: Color.fromARGB(255, 1, 94, 74),
           toolbarHeight: blockVertical * 8,
@@ -93,7 +108,7 @@ class _m3paramState extends State<m3param> {
                 end: Alignment.bottomRight,
                 colors: [
                   Color.fromARGB(255, 58, 203, 172),
-                                    Color.fromARGB(255, 13, 177, 150)
+                  Color.fromARGB(255, 13, 177, 150)
                 ]),
           ),
           child: SingleChildScrollView(
@@ -192,7 +207,10 @@ class _m3paramState extends State<m3param> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text((e.state==1)?"${e.loading_time} Minute" : "0.0 Minute",
+                                              Text(
+                                                  (e.state == 1)
+                                                      ? "${e.loading_time} Minute"
+                                                      : "0.0 Minute",
                                                   style: TextStyle(
                                                       fontSize:
                                                           blockVertical * 1.5)),
@@ -211,7 +229,10 @@ class _m3paramState extends State<m3param> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text((e.state==1)?"${e.cycle_time} Minute" : "0.0 Minute",
+                                              Text(
+                                                  (e.state == 1)
+                                                      ? "${e.cycle_time} Minute"
+                                                      : "0.0 Minute",
                                                   style: TextStyle(
                                                       fontSize:
                                                           blockVertical * 1.5)),
@@ -230,7 +251,10 @@ class _m3paramState extends State<m3param> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text((e.state==1)?"${e.oee_target} %":"0.0 %",
+                                              Text(
+                                                  (e.state == 1)
+                                                      ? "${e.oee_target} %"
+                                                      : "0.0 %",
                                                   style: TextStyle(
                                                       fontSize:
                                                           blockVertical * 1.5)),
@@ -249,7 +273,10 @@ class _m3paramState extends State<m3param> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              Text((e.state==1)?"Type ${e.tipe_benda}":"Undefined Type",
+                                              Text(
+                                                  (e.state == 1)
+                                                      ? "Type ${e.tipe_benda}"
+                                                      : "Undefined Type",
                                                   style: TextStyle(
                                                       fontSize:
                                                           blockVertical * 1.5)),
@@ -280,172 +307,15 @@ class _m3paramState extends State<m3param> {
                   context,
                 ),
                 //BUTTON INPUT--------------------------------------------------------------------
-                Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: blockHorizontal * 2, vertical: blockVertical * 1),
-                        child: Material(
-                          elevation: 5,
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            width: MediaQuerywidth,
-                            height: MediaQueryheight * 0.05,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                gradient: LinearGradient(
-                                    begin: Alignment.topRight,
-                                    end: Alignment.bottomLeft,
-                                    colors: [
-                                      Color.fromARGB(211, 10, 179, 69),
-                                      Color.fromARGB(235, 2, 139, 146)
-                                    ])),
-                            child: Material(
-                              type: MaterialType.canvas,
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(20),
-                              child: InkWell(
-                                splashColor: Color.fromARGB(19, 3, 191, 233),
-                                radius: 100,
-                                borderRadius: BorderRadius.circular(20),
-                                onTap: () {
-                                  if (loading.text.isNotEmpty &&
-                                cycle.text.isNotEmpty &&
-                                oee.text.isNotEmpty &&
-                                harga.text.isNotEmpty &&
-                                tipeValue!.isNotEmpty) {
-                              inputParameter
-                                  .insertParam3(
-                                      machine_id,
-                                      loading.text,
-                                      cycle.text,
-                                      oee.text,
-                                      harga.text,
-                                      tipeValue.toString(),
-                                      state)
-                                  .then(
-                                    (value) => {
-                                      // ignore: unnecessary_null_comparison
-                                      if (value != null)
-                                        {
-                                          AwesomeDialog(
-                                            context: context,
-                                            dialogType: DialogType.success,
-                                            animType: AnimType.leftSlide,
-                                            title: "Success",
-                                            desc: "Success Input Parameter",
-                                            btnOkOnPress: () {
-                                              Navigator.pushNamed(context, mym3monitoring, arguments: "sukses" );
-                                            },
-                                          ).show()
-                                        },
-                                    },
-                                  );
-                              trigQuality.TriggerQuality(3, tipeValue.toString());
-                              trigAvailability.triggerAvai(3, 3);
-                              triggCost.trigCost(3);
-                              trigPerformance.triggerPerformance(3);
-                              trigOEE.triggerOEE(3);
-                            } else {
-                              AwesomeDialog(
-                                      context: context,
-                                      dialogType: DialogType.warning,
-                                      animType: AnimType.leftSlide,
-                                      title: "Fail",
-                                      desc:
-                                          "Parameters Can't Be Empty",
-                                      autoHide: Duration(seconds: 2))
-                                  .show();
-                              print("ok");
-                            }
-                                },
-                                child: Center(
-                                  child: Text(
-                                    "INPUT DATA",
-                                    style: TextStyle(
-                                        fontSize: MediaQueryheight * 0.02,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      //BUTTON RESET---------------------------------------------------------
-                      Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: blockHorizontal * 2,),
-                        child: Material(
-                          elevation: 5,
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            width: MediaQuerywidth,
-                            height: MediaQueryheight * 0.05,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                gradient: LinearGradient(
-                                    begin: Alignment.topRight,
-                                    end: Alignment.bottomLeft,
-                                    colors: [
-                                      Color.fromARGB(210, 179, 117, 10),
-                                      Color.fromARGB(235, 146, 2, 2)
-                                    ])),
-                            child: Material(
-                              type: MaterialType.canvas,
-                              color: Colors.transparent,
-                              borderRadius: BorderRadius.circular(20),
-                              child: InkWell(
-                                splashColor: Color.fromARGB(19, 3, 191, 233),
-                                radius: 100,
-                                borderRadius: BorderRadius.circular(20),
-                                onTap: () {
-                                  AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.question,
-                              animType: AnimType.leftSlide,
-                              title: "Reset",
-                              desc: "Are You Sure You Want To Delete The Current Parameter Data?",
-                              useRootNavigator: true,
-                              btnOkIcon: FontAwesomeIcons.check,
-                              btnOkOnPress: ()async {
-                                final SharedPreferences shared = await SharedPreferences.getInstance();
-                                shared.remove('stateParamM3');
-                                shared.remove('tipeParamM3');
-                                resetPerformance.resPerformance(3);
-                                resetCost.resettCost(3);
-                                resetQuality.reset(3);
-                                resetAvailability.resetAvai(3);
-                                resetOEE.resOEE(3);
-                                resetParamM3.putParam(state0).then((value) {
-                                  if(value.state==0){
-                                    AwesomeDialog(
-                                      context: context,
-                                      dialogType: DialogType.success,
-                                      animType: AnimType.leftSlide,
-                                      title: "Success",
-                                      desc: "Success Reset Parameter",
-                                      useRootNavigator: true,
-                                      autoHide: Duration(seconds: 2),
-                                    );
-                                  }
-                                });
-                              },
-                              btnCancelIcon: FontAwesomeIcons.x,
-                              btnCancelOnPress: (){}
-                            ).show();
-                                },
-                                child: Center(
-                                  child: Text(
-                                    "RESET DATA",
-                                    style: TextStyle(
-                                        fontSize: MediaQueryheight * 0.02,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                (otoritas == "Admin" || otoritas == "User-Operator")
+                    ? buttonInput(MediaQueryheight, MediaQuerywidth,
+                        blockHorizontal, blockVertical)
+                    : buttonInputDis(MediaQueryheight, MediaQuerywidth, blockHorizontal, blockVertical),
+                //Button Reset Data---------------------------------------------------------------------------------------------------
+                (otoritas == "Admin" || otoritas == "User-Operator")
+                    ? buttonReset(MediaQueryheight, MediaQuerywidth,
+                        blockHorizontal, blockVertical)
+                    : buttonResetDis(MediaQueryheight, MediaQuerywidth, blockHorizontal, blockVertical),
               ],
             ),
           ),
@@ -541,8 +411,8 @@ class _m3paramState extends State<m3param> {
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 106, 106, 107)),
                           labelText: "Loading Time (Minute)",
-                          labelStyle:
-                              TextStyle(color: Color.fromARGB(255, 98, 97, 100))),
+                          labelStyle: TextStyle(
+                              color: Color.fromARGB(255, 98, 97, 100))),
                     ),
                   ),
                   Padding(
@@ -561,8 +431,8 @@ class _m3paramState extends State<m3param> {
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 106, 106, 107)),
                           labelText: "Cycle Time (Minute)",
-                          labelStyle:
-                              TextStyle(color: Color.fromARGB(255, 98, 97, 100))),
+                          labelStyle: TextStyle(
+                              color: Color.fromARGB(255, 98, 97, 100))),
                     ),
                   ),
                   Padding(
@@ -581,67 +451,51 @@ class _m3paramState extends State<m3param> {
                           hintStyle: TextStyle(
                               color: Color.fromARGB(255, 106, 106, 107)),
                           labelText: "OEE Target (%)",
-                          labelStyle:
-                              TextStyle(color: Color.fromARGB(255, 98, 97, 100))),
+                          labelStyle: TextStyle(
+                              color: Color.fromARGB(255, 98, 97, 100))),
                     ),
                   ),
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: blockHorizontal * 2,
-                          vertical: blockVertical * 1),
-                      child: TextFormField(
-                        controller: harga,
-                        keyboardType: TextInputType.numberWithOptions(),
-                        style: TextStyle(),
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xFF605F64))),
-                            hintText: "Input Value...",
-                            hintStyle: TextStyle(
-                                color: Color.fromARGB(255, 106, 106, 107)),
-                            labelText: "Harga per Unit (Rp)",
-                            labelStyle:
-                                TextStyle(color: Color.fromARGB(255, 98, 97, 100))),
-                      ),
-                    ),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: blockHorizontal * 2,
                         vertical: blockVertical * 1),
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: blockHorizontal*2.5, vertical: blockVertical*0.5),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: blockHorizontal * 2.5,
+                          vertical: blockVertical * 0.5),
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.black.withOpacity(0.3)),
+                        border:
+                            Border.all(color: Colors.black.withOpacity(0.3)),
                       ),
                       child: DropdownSearch<String>(
-                                clearButtonProps: ClearButtonProps(
-                                  isVisible: true,
-                                ),
-                                popupProps: PopupProps.bottomSheet(
-                                  constraints: BoxConstraints(maxHeight: blockVertical * 21.5),
-                                  showSelectedItems: true,
-                                  
-                                ),
-                                items: tipeBenda,
-                                dropdownDecoratorProps: DropDownDecoratorProps(
-                                  dropdownSearchDecoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    labelText: "Choose Object Type",
-                                    labelStyle: TextStyle(color: Color.fromARGB(255, 98, 97, 100)),
-                                    hintText: "Object Type",
-                                    hintStyle: TextStyle(color: Color.fromARGB(255, 98, 97, 100))
-                                  ),
-                                ),
-                                onChanged: (value){
-                                  setState(() {
-                                    tipeValue = value;
-                                  });
-                                  print(tipeValue);
-                                },
-                              ),
+                        clearButtonProps: ClearButtonProps(
+                          isVisible: true,
+                        ),
+                        popupProps: PopupProps.bottomSheet(
+                          constraints:
+                              BoxConstraints(maxHeight: blockVertical * 21.5),
+                          showSelectedItems: true,
+                        ),
+                        items: tipeBenda,
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                              border: InputBorder.none,
+                              labelText: "Choose Object Type",
+                              labelStyle: TextStyle(
+                                  color: Color.fromARGB(255, 98, 97, 100)),
+                              hintText: "Object Type",
+                              hintStyle: TextStyle(
+                                  color: Color.fromARGB(255, 98, 97, 100))),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            tipeValue = value;
+                          });
+                          print(tipeValue);
+                        },
+                      ),
                     ),
                   ),
                 ],
@@ -650,6 +504,246 @@ class _m3paramState extends State<m3param> {
           ),
         )
       ],
+    );
+  }
+
+  Widget buttonInput(double MediaQueryheight, double MediaQuerywidth,
+      double blockHorizontal, double blockVertical) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: blockHorizontal * 2, vertical: blockVertical * 1),
+      child: Material(
+        elevation: 5,
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          width: MediaQuerywidth,
+          height: MediaQueryheight * 0.05,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color.fromARGB(211, 10, 179, 69),
+                    Color.fromARGB(235, 2, 139, 146)
+                  ])),
+          child: Material(
+            type: MaterialType.canvas,
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(20),
+            child: InkWell(
+              splashColor: Color.fromARGB(19, 3, 191, 233),
+              radius: 100,
+              borderRadius: BorderRadius.circular(20),
+              onTap: () {
+                if (loading.text.isNotEmpty &&
+                    cycle.text.isNotEmpty &&
+                    oee.text.isNotEmpty &&
+                    tipeValue!.isNotEmpty) {
+                  inputParameter
+                      .insertParam3(machine_id, loading.text, cycle.text,
+                          oee.text, tipeValue.toString(), state)
+                      .then(
+                        (value) => {
+                          // ignore: unnecessary_null_comparison
+                          if (value != null)
+                            {
+                              AwesomeDialog(
+                                context: context,
+                                dialogType: DialogType.success,
+                                animType: AnimType.leftSlide,
+                                title: "Success",
+                                desc: "Success Input Parameter",
+                                btnOkOnPress: () {
+                                  Navigator.pushNamed(context, mym3monitoring,
+                                      arguments: "sukses");
+                                },
+                              ).show()
+                            },
+                        },
+                      );
+                  trigQuality.TriggerQuality(3, tipeValue.toString());
+                  trigAvailability.triggerAvai(3, 3);
+                  triggCost.trigCost(3);
+                  trigPerformance.triggerPerformance(3);
+                  trigOEE.triggerOEE(3);
+                } else {
+                  AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.warning,
+                          animType: AnimType.leftSlide,
+                          title: "Fail",
+                          desc: "Parameters Can't Be Empty",
+                          autoHide: Duration(seconds: 2))
+                      .show();
+                  print("ok");
+                }
+              },
+              child: Center(
+                child: Text(
+                  "INPUT DATA",
+                  style: TextStyle(
+                      fontSize: MediaQueryheight * 0.02,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buttonReset(double MediaQueryheight, double MediaQuerywidth,
+      double blockHorizontal, double blockVertical) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: blockHorizontal * 2,
+      ),
+      child: Material(
+        elevation: 5,
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          width: MediaQuerywidth,
+          height: MediaQueryheight * 0.05,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color.fromARGB(210, 179, 117, 10),
+                    Color.fromARGB(235, 146, 2, 2)
+                  ])),
+          child: Material(
+            type: MaterialType.canvas,
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(20),
+            child: InkWell(
+              splashColor: Color.fromARGB(19, 3, 191, 233),
+              radius: 100,
+              borderRadius: BorderRadius.circular(20),
+              onTap: () {
+                AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.question,
+                        animType: AnimType.leftSlide,
+                        title: "Reset",
+                        desc:
+                            "Are You Sure You Want To Delete The Current Parameter Data?",
+                        useRootNavigator: true,
+                        btnOkIcon: FontAwesomeIcons.check,
+                        btnOkOnPress: () async {
+                          final SharedPreferences shared =
+                              await SharedPreferences.getInstance();
+                          shared.remove('stateParamM3');
+                          shared.remove('tipeParamM3');
+                          resetPerformance.resPerformance(3);
+                          resetCost.resettCost(3);
+                          resetQuality.reset(3);
+                          resetAvailability.resetAvai(3);
+                          resetOEE.resOEE(3);
+                          resetParamM3.putParam(state0).then((value) {
+                            if (value.state == 0) {
+                              AwesomeDialog(
+                                context: context,
+                                dialogType: DialogType.success,
+                                animType: AnimType.leftSlide,
+                                title: "Success",
+                                desc: "Success Reset Parameter",
+                                useRootNavigator: true,
+                                autoHide: Duration(seconds: 2),
+                              );
+                            }
+                          });
+                        },
+                        btnCancelIcon: FontAwesomeIcons.x,
+                        btnCancelOnPress: () {})
+                    .show();
+              },
+              child: Center(
+                child: Text(
+                  "RESET DATA",
+                  style: TextStyle(
+                      fontSize: MediaQueryheight * 0.02,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buttonResetDis(double MediaQueryheight, double MediaQuerywidth,
+      double blockHorizontal, double blockVertical) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: blockHorizontal * 2,
+      ),
+      child: Material(
+        elevation: 5,
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          width: MediaQuerywidth,
+          height: MediaQueryheight * 0.05,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color.fromARGB(210, 165, 165, 165),
+                    Color.fromARGB(235, 102, 102, 102)
+                  ])),
+          child: Center(
+            child: Text(
+              "RESET DATA",
+              style: TextStyle(
+                  fontSize: MediaQueryheight * 0.02,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buttonInputDis(double MediaQueryheight, double MediaQuerywidth,
+      double blockHorizontal, double blockVertical) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: blockHorizontal * 2, vertical: blockVertical * 1),
+      child: Material(
+        elevation: 5,
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          width: MediaQuerywidth,
+          height: MediaQueryheight * 0.05,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color.fromARGB(210, 165, 165, 165),
+                    Color.fromARGB(235, 102, 102, 102)
+                  ])),
+          child: Center(
+            child: Text(
+              "INPUT DATA",
+              style: TextStyle(
+                  fontSize: MediaQueryheight * 0.02,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

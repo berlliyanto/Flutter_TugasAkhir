@@ -23,13 +23,10 @@ class inputParameter {
       String loading_time,
       String cycle_time,
       String oee_target,
-      String harga_perUnit,
       String tipe_benda,
       int state) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-        shared.setInt('stateParamM1',state);
-        shared.setString('tipeParamM1',tipe_benda);
     Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
 
     var hasilResponsePost = await http.post(url,
@@ -39,7 +36,6 @@ class inputParameter {
           "loading_time": loading_time,
           "cycle_time": cycle_time,
           "oee_target": oee_target,
-          "harga_perUnit": harga_perUnit,
           "tipe_benda": tipe_benda,
           "state": state
         }));
@@ -52,13 +48,10 @@ class inputParameter {
       String loading_time,
       String cycle_time,
       String oee_target,
-      String harga_perUnit,
       String tipe_benda,
       int state) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-        shared.setInt('stateParamM2',state);
-        shared.setString('tipeParamM2',tipe_benda);
     Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
 
     var hasilResponsePost = await http.post(url,
@@ -68,7 +61,6 @@ class inputParameter {
           "loading_time": loading_time,
           "cycle_time": cycle_time,
           "oee_target": oee_target,
-          "harga_perUnit": harga_perUnit,
           "tipe_benda": tipe_benda,
           "state": state
         }));
@@ -81,13 +73,10 @@ class inputParameter {
       String loading_time,
       String cycle_time,
       String oee_target,
-      String harga_perUnit,
       String tipe_benda,
       int state) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-        shared.setInt('stateParamM3',state);
-        shared.setString('tipeParamM3',tipe_benda);
     Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
 
     var hasilResponsePost = await http.post(url,
@@ -97,7 +86,6 @@ class inputParameter {
           "loading_time": loading_time,
           "cycle_time": cycle_time,
           "oee_target": oee_target,
-          "harga_perUnit": harga_perUnit,
           "tipe_benda": tipe_benda,
           "state": state
         }));
@@ -110,13 +98,10 @@ class inputParameter {
       String loading_time,
       String cycle_time,
       String oee_target,
-      String harga_perUnit,
       String tipe_benda,
       int state) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-        shared.setInt('stateParamM4',state);
-        shared.setString('tipeParamM4',tipe_benda);
     Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
 
     var hasilResponsePost = await http.post(url,
@@ -126,7 +111,6 @@ class inputParameter {
           "loading_time": loading_time,
           "cycle_time": cycle_time,
           "oee_target": oee_target,
-          "harga_perUnit": harga_perUnit,
           "tipe_benda": tipe_benda,
           "state": state
         }));

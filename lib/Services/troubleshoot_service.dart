@@ -31,6 +31,24 @@ class PostData {
     var data = (json.decode(responsePost.body) as Map<String, dynamic>)['data'];
     return PostData();
   }
+  static Future sendMessage(int machine_id,String to, String message,String from) async{
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/sendMessageTB?machine_id=$machine_id");
+    var response = await http.post(url,headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic $getToken'
+      },body: jsonEncode({
+         "from": from,
+         "to": to,
+         "message": message,
+      }));
+    if(response.statusCode==200){
+      print(200);
+    }else{
+      print("fail");
+    }
+  }
 }
 
 class GetData {
@@ -50,7 +68,7 @@ class GetData {
 }
 
 class UpdateData{
-  static Future<UpdateData> updateTB(int machine_id,int idorder,String keterangan, bool solved) async {
+  static Future<UpdateData> updateTB(int machine_id,int idorder,String keterangan, bool solved, String to) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/updateTB?machine_id=$machine_id&idorder=$idorder");
@@ -62,6 +80,7 @@ class UpdateData{
         'Authorization': 'Basic $getToken'
       },
       body: jsonEncode({
+        "to": to,
         "keterangan": keterangan,
         "solved": solved,
       }),

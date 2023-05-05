@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, must_be_immutable
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class drawer extends StatefulWidget {
-  const drawer({super.key});
+  late String? mode;
+  drawer({this.mode, super.key});
 
   @override
   State<drawer> createState() => _drawerState();
@@ -103,16 +104,26 @@ class _drawerState extends State<drawer> {
                 // LIST DRAWER----------------------------------------------------------------------------------------------------------------
                 //Dashboard
                 ListTile(
+                  tileColor: (widget.mode == "Dashboard")
+                      ? Colors.grey[200]
+                      : Colors.transparent,
                   contentPadding: EdgeInsets.only(
                       left: blockHorizontal * 15, bottom: blockVertical * 0.01),
                   leading: Icon(
                     FontAwesomeIcons.house,
-                    color: Colors.black,
+                    color: (widget.mode == "Dashboard")
+                        ? Color.fromARGB(255, 1, 123, 180)
+                        : Colors.black,
                     size: blockVertical * 3,
                   ),
                   title: Text(
                     "Dashboard ",
-                    style: TextStyle(fontSize: blockVertical * 2.5),
+                    style: TextStyle(
+                      fontSize: blockVertical * 2.5,
+                      color: (widget.mode == "Dashboard")
+                          ? Color.fromARGB(255, 1, 123, 180)
+                          : Colors.black,
+                    ),
                   ),
                   onTap: () {
                     Navigator.pushReplacementNamed(context, mydashboard,
@@ -120,12 +131,16 @@ class _drawerState extends State<drawer> {
                   },
                 ),
                 ExpansionTile(
+                  initiallyExpanded: (widget.mode=="Mesin1"||widget.mode=="Mesin2"||widget.mode=="Mesin3"||widget.mode=="Mesin4")?true:false,
                   maintainState: true,
                   tilePadding: EdgeInsets.only(
-                          left: blockHorizontal * 15,
-                          bottom: blockVertical * 0.01,
-                          right: blockHorizontal*2),
-                  title: Text("Main",style: TextStyle(fontSize: blockVertical * 2.5)),
+                      left: blockHorizontal * 15,
+                      bottom: blockVertical * 0.01,
+                      right: blockHorizontal * 2),
+                  title: Text("Main",
+                      style: TextStyle(
+                        fontSize: blockVertical * 2.5,
+                      )),
                   leading: Icon(
                     FontAwesomeIcons.gauge,
                     color: Colors.black,
@@ -134,17 +149,27 @@ class _drawerState extends State<drawer> {
                   children: [
                     //Mesin 1
                     ListTile(
+                      tileColor: (widget.mode == "Mesin1")
+                          ? Colors.grey[200]
+                          : Colors.transparent,
                       contentPadding: EdgeInsets.only(
                           left: blockHorizontal * 18,
                           bottom: blockVertical * 0.01),
                       leading: Icon(
                         FontAwesomeIcons.display,
-                        color: Colors.black,
+                        color: (widget.mode == "Mesin1")
+                            ? Color.fromARGB(255, 1, 123, 180)
+                            : Colors.black,
                         size: blockVertical * 2.5,
                       ),
                       title: Text(
                         "Machine 1",
-                        style: TextStyle(fontSize: blockVertical * 2),
+                        style: TextStyle(
+                          fontSize: blockVertical * 2,
+                          color: (widget.mode == "Mesin1")
+                              ? Color.fromARGB(255, 1, 123, 180)
+                              : Colors.black,
+                        ),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, mym1home,
@@ -153,14 +178,25 @@ class _drawerState extends State<drawer> {
                     ),
                     //Mesin 2
                     ListTile(
+                      tileColor: (widget.mode == "Mesin2")
+                          ? Colors.grey[200]
+                          : Colors.transparent,
                       contentPadding: EdgeInsets.only(
                           left: blockHorizontal * 18,
                           bottom: blockVertical * 0.01),
                       leading: Icon(FontAwesomeIcons.display,
-                          color: Colors.black, size: blockVertical * 2.5),
+                          color: (widget.mode == "Mesin2")
+                              ? Color.fromARGB(255, 1, 123, 180)
+                              : Colors.black,
+                          size: blockVertical * 2.5),
                       title: Text(
                         "Machine 2",
-                        style: TextStyle(fontSize: blockVertical * 2),
+                        style: TextStyle(
+                          fontSize: blockVertical * 2,
+                          color: (widget.mode == "Mesin2")
+                              ? Color.fromARGB(255, 1, 123, 180)
+                              : Colors.black,
+                        ),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, mym2home,
@@ -169,14 +205,25 @@ class _drawerState extends State<drawer> {
                     ),
                     //Mesin 3
                     ListTile(
+                      tileColor: (widget.mode == "Mesin3")
+                          ? Colors.grey[200]
+                          : Colors.transparent,
                       contentPadding: EdgeInsets.only(
                           left: blockHorizontal * 18,
                           bottom: blockVertical * 0.01),
                       leading: Icon(FontAwesomeIcons.display,
-                          color: Colors.black, size: blockVertical * 2.5),
+                          color: (widget.mode == "Mesin3")
+                              ? Color.fromARGB(255, 1, 123, 180)
+                              : Colors.black,
+                          size: blockVertical * 2.5),
                       title: Text(
                         "Machine 3",
-                        style: TextStyle(fontSize: blockVertical * 2),
+                        style: TextStyle(
+                          fontSize: blockVertical * 2,
+                          color: (widget.mode == "Mesin3")
+                              ? Color.fromARGB(255, 1, 123, 180)
+                              : Colors.black,
+                        ),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, mym3home,
@@ -185,14 +232,25 @@ class _drawerState extends State<drawer> {
                     ),
                     //Mesin 4
                     ListTile(
+                      tileColor: (widget.mode == "Mesin4")
+                          ? Colors.grey[200]
+                          : Colors.transparent,
                       contentPadding: EdgeInsets.only(
                           left: blockHorizontal * 18,
                           bottom: blockVertical * 0.01),
                       leading: Icon(FontAwesomeIcons.display,
-                          color: Colors.black, size: blockVertical * 2.5),
+                          color: (widget.mode == "Mesin4")
+                              ? Color.fromARGB(255, 1, 123, 180)
+                              : Colors.black,
+                          size: blockVertical * 2.5),
                       title: Text(
                         "Machine 4",
-                        style: TextStyle(fontSize: blockVertical * 2),
+                        style: TextStyle(
+                          fontSize: blockVertical * 2,
+                          color: (widget.mode == "Mesin4")
+                              ? Color.fromARGB(255, 1, 123, 180)
+                              : Colors.black,
+                        ),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, mym4home,
@@ -203,13 +261,24 @@ class _drawerState extends State<drawer> {
                 ),
                 // Preventive
                 ListTile(
+                  tileColor: (widget.mode == "Preventive")
+                      ? Colors.grey[200]
+                      : Colors.transparent,
                   contentPadding: EdgeInsets.only(
                       left: blockHorizontal * 15, bottom: blockVertical * 0.01),
                   leading: Icon(FontAwesomeIcons.chartArea,
-                      color: Colors.black, size: blockVertical * 3),
+                      color: (widget.mode == "Preventive")
+                          ? Color.fromARGB(255, 1, 123, 180)
+                          : Colors.black,
+                      size: blockVertical * 3),
                   title: Text(
                     "Preventive Maintenance",
-                    style: TextStyle(fontSize: blockVertical * 2.5),
+                    style: TextStyle(
+                      fontSize: blockVertical * 2.5,
+                      color: (widget.mode == "Preventive")
+                          ? Color.fromARGB(255, 1, 123, 180)
+                          : Colors.black,
+                    ),
                   ),
                   onTap: () {
                     Navigator.pushNamed(context, mypreventive,
@@ -218,13 +287,24 @@ class _drawerState extends State<drawer> {
                 ),
                 //Report
                 ListTile(
+                  tileColor: (widget.mode == "Report")
+                      ? Colors.grey[200]
+                      : Colors.transparent,
                   contentPadding: EdgeInsets.only(
                       left: blockHorizontal * 15, bottom: blockVertical * 0.01),
                   leading: Icon(Icons.picture_as_pdf,
-                      color: Colors.black, size: blockVertical * 3),
+                      color: (widget.mode == "Report")
+                          ? Color.fromARGB(255, 1, 123, 180)
+                          : Colors.black,
+                      size: blockVertical * 3),
                   title: Text(
                     "Report",
-                    style: TextStyle(fontSize: blockVertical * 2.5),
+                    style: TextStyle(
+                      fontSize: blockVertical * 2.5,
+                      color: (widget.mode == "Report")
+                          ? Color.fromARGB(255, 1, 123, 180)
+                          : Colors.black,
+                    ),
                   ),
                   onTap: () {
                     Navigator.pushNamed(context, myreport,
@@ -233,13 +313,24 @@ class _drawerState extends State<drawer> {
                 ),
                 // Kelola Akun
                 ListTile(
+                  tileColor: (widget.mode == "Account")
+                      ? Colors.grey[200]
+                      : Colors.transparent,
                   contentPadding: EdgeInsets.only(
                       left: blockHorizontal * 15, bottom: blockVertical * 0.01),
                   leading: Icon(FontAwesomeIcons.userGroup,
-                      color: Colors.black, size: blockVertical * 3),
+                      color: (widget.mode == "Account")
+                          ? Color.fromARGB(255, 1, 123, 180)
+                          : Colors.black,
+                      size: blockVertical * 3),
                   title: Text(
                     "Manage Accounts",
-                    style: TextStyle(fontSize: blockVertical * 2.5),
+                    style: TextStyle(
+                      fontSize: blockVertical * 2.5,
+                      color: (widget.mode == "Account")
+                          ? Color.fromARGB(255, 1, 123, 180)
+                          : Colors.black,
+                    ),
                   ),
                   onTap: () {
                     Navigator.pushNamed(context, myakun,
@@ -269,7 +360,8 @@ class _drawerState extends State<drawer> {
                         btnCancelOnPress: () {},
                         btnOkIcon: FontAwesomeIcons.arrowRightFromBracket,
                         btnOkOnPress: () async {
-                          final SharedPreferences shared = await SharedPreferences.getInstance();
+                          final SharedPreferences shared =
+                              await SharedPreferences.getInstance();
                           shared.remove("name");
                           shared.remove("otoritas");
                           // ignore: use_build_context_synchronously
@@ -351,16 +443,25 @@ class _drawerState extends State<drawer> {
                 // LIST DRAWER----------------------------------------------------------------------------------------------------------------
                 //Dashboard
                 ListTile(
+                  tileColor: (widget.mode == "Dashboard")
+                      ? Colors.grey[200]
+                      : Colors.transparent,
                   contentPadding: EdgeInsets.only(
                       left: blockHorizontal * 15, bottom: blockVertical * 0.01),
                   leading: Icon(
                     FontAwesomeIcons.house,
-                    color: Colors.black,
+                    color: (widget.mode == "Dashboard")
+                        ? Color.fromARGB(255, 1, 123, 180)
+                        : Colors.black,
                     size: blockVertical * 3,
                   ),
                   title: Text(
                     "Dashboard ",
-                    style: TextStyle(fontSize: blockVertical * 2.5),
+                    style: TextStyle(
+                        fontSize: blockVertical * 2.5,
+                        color: (widget.mode == "Dashboard")
+                            ? Color.fromARGB(255, 1, 123, 180)
+                            : Colors.black),
                   ),
                   onTap: () {
                     Navigator.pushReplacementNamed(context, mydashboard,
@@ -368,13 +469,15 @@ class _drawerState extends State<drawer> {
                   },
                 ),
                 ExpansionTile(
+                  initiallyExpanded: (widget.mode=="Mesin1"||widget.mode=="Mesin2"||widget.mode=="Mesin3"||widget.mode=="Mesin4")?true:false,
                   backgroundColor: Colors.transparent,
                   maintainState: true,
                   tilePadding: EdgeInsets.only(
-                          left: blockHorizontal * 15,
-                          bottom: blockVertical * 0.01,
-                          right: blockHorizontal*2),
-                  title: Text("Main",style: TextStyle(fontSize: blockVertical * 2.5)),
+                      left: blockHorizontal * 15,
+                      bottom: blockVertical * 0.01,
+                      right: blockHorizontal * 2),
+                  title: Text("Main",
+                      style: TextStyle(fontSize: blockVertical * 2.5)),
                   leading: Icon(
                     FontAwesomeIcons.gauge,
                     color: Colors.black,
@@ -383,17 +486,26 @@ class _drawerState extends State<drawer> {
                   children: [
                     //Mesin 1
                     ListTile(
+                      tileColor: (widget.mode == "Mesin1")
+                          ? Colors.grey[200]
+                          : Colors.transparent,
                       contentPadding: EdgeInsets.only(
                           left: blockHorizontal * 18,
                           bottom: blockVertical * 0.01),
                       leading: Icon(
                         FontAwesomeIcons.display,
-                        color: Colors.black,
+                        color: (widget.mode == "Mesin1")
+                            ? Color.fromARGB(255, 1, 123, 180)
+                            : Colors.black,
                         size: blockVertical * 2.5,
                       ),
                       title: Text(
                         "Machine 1",
-                        style: TextStyle(fontSize: blockVertical * 2),
+                        style: TextStyle(
+                            fontSize: blockVertical * 2,
+                            color: (widget.mode == "Mesin1")
+                                ? Color.fromARGB(255, 1, 123, 180)
+                                : Colors.black),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, mym1home,
@@ -402,14 +514,24 @@ class _drawerState extends State<drawer> {
                     ),
                     //Mesin 2
                     ListTile(
+                      tileColor: (widget.mode == "Mesin2")
+                          ? Colors.grey[200]
+                          : Colors.transparent,
                       contentPadding: EdgeInsets.only(
                           left: blockHorizontal * 18,
                           bottom: blockVertical * 0.01),
                       leading: Icon(FontAwesomeIcons.display,
-                          color: Colors.black, size: blockVertical * 2.5),
+                          color: (widget.mode == "Mesin2")
+                              ? Color.fromARGB(255, 1, 123, 180)
+                              : Colors.black,
+                          size: blockVertical * 2.5),
                       title: Text(
                         "Machine 2",
-                        style: TextStyle(fontSize: blockVertical * 2),
+                        style: TextStyle(
+                            fontSize: blockVertical * 2,
+                            color: (widget.mode == "Mesin2")
+                                ? Color.fromARGB(255, 1, 123, 180)
+                                : Colors.black),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, mym2home,
@@ -418,14 +540,24 @@ class _drawerState extends State<drawer> {
                     ),
                     //Mesin 3
                     ListTile(
+                      tileColor: (widget.mode == "Mesin3")
+                          ? Colors.grey[200]
+                          : Colors.transparent,
                       contentPadding: EdgeInsets.only(
                           left: blockHorizontal * 18,
                           bottom: blockVertical * 0.01),
                       leading: Icon(FontAwesomeIcons.display,
-                          color: Colors.black, size: blockVertical * 2.5),
+                          color: (widget.mode == "Mesin3")
+                              ? Color.fromARGB(255, 1, 123, 180)
+                              : Colors.black,
+                          size: blockVertical * 2.5),
                       title: Text(
                         "Machine 3",
-                        style: TextStyle(fontSize: blockVertical * 2),
+                        style: TextStyle(
+                            fontSize: blockVertical * 2,
+                            color: (widget.mode == "Mesin3")
+                                ? Color.fromARGB(255, 1, 123, 180)
+                                : Colors.black),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, mym3home,
@@ -434,14 +566,24 @@ class _drawerState extends State<drawer> {
                     ),
                     //Mesin 4
                     ListTile(
+                      tileColor: (widget.mode == "Mesin4")
+                          ? Colors.grey[200]
+                          : Colors.transparent,
                       contentPadding: EdgeInsets.only(
                           left: blockHorizontal * 18,
                           bottom: blockVertical * 0.01),
                       leading: Icon(FontAwesomeIcons.display,
-                          color: Colors.black, size: blockVertical * 2.5),
+                          color: (widget.mode == "Mesin4")
+                              ? Color.fromARGB(255, 1, 123, 180)
+                              : Colors.black,
+                          size: blockVertical * 2.5),
                       title: Text(
                         "Machine 4",
-                        style: TextStyle(fontSize: blockVertical * 2),
+                        style: TextStyle(
+                            fontSize: blockVertical * 2,
+                            color: (widget.mode == "Mesin4")
+                                ? Color.fromARGB(255, 1, 123, 180)
+                                : Colors.black),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, mym4home,
@@ -452,13 +594,23 @@ class _drawerState extends State<drawer> {
                 ),
                 // Preventive
                 ListTile(
+                  tileColor: (widget.mode == "Preventive")
+                      ? Colors.grey[200]
+                      : Colors.transparent,
                   contentPadding: EdgeInsets.only(
                       left: blockHorizontal * 15, bottom: blockVertical * 0.01),
                   leading: Icon(FontAwesomeIcons.chartArea,
-                      color: Colors.black, size: blockVertical * 3),
+                      color: (widget.mode == "Preventive")
+                          ? Color.fromARGB(255, 1, 123, 180)
+                          : Colors.black,
+                      size: blockVertical * 3),
                   title: Text(
                     "Preventive Maintenance",
-                    style: TextStyle(fontSize: blockVertical * 2.5),
+                    style: TextStyle(
+                        fontSize: blockVertical * 2.5,
+                        color: (widget.mode == "Preventive")
+                            ? Color.fromARGB(255, 1, 123, 180)
+                            : Colors.black),
                   ),
                   onTap: () {
                     Navigator.pushNamed(context, mypreventive,
@@ -467,13 +619,23 @@ class _drawerState extends State<drawer> {
                 ),
                 //Report
                 ListTile(
+                  tileColor: (widget.mode == "Report")
+                      ? Colors.grey[200]
+                      : Colors.transparent,
                   contentPadding: EdgeInsets.only(
                       left: blockHorizontal * 15, bottom: blockVertical * 0.01),
                   leading: Icon(Icons.picture_as_pdf,
-                      color: Colors.black, size: blockVertical * 3),
+                      color: (widget.mode == "Report")
+                          ? Color.fromARGB(255, 1, 123, 180)
+                          : Colors.black,
+                      size: blockVertical * 3),
                   title: Text(
                     "Report",
-                    style: TextStyle(fontSize: blockVertical * 2.5),
+                    style: TextStyle(
+                        fontSize: blockVertical * 2.5,
+                        color: (widget.mode == "Report")
+                            ? Color.fromARGB(255, 1, 123, 180)
+                            : Colors.black),
                   ),
                   onTap: () {
                     Navigator.pushNamed(context, myreport,
@@ -502,7 +664,8 @@ class _drawerState extends State<drawer> {
                         btnCancelOnPress: () {},
                         btnOkIcon: FontAwesomeIcons.arrowRightFromBracket,
                         btnOkOnPress: () async {
-                          final SharedPreferences shared = await SharedPreferences.getInstance();
+                          final SharedPreferences shared =
+                              await SharedPreferences.getInstance();
                           shared.remove("name");
                           shared.remove("otoritas");
                           // ignore: use_build_context_synchronously

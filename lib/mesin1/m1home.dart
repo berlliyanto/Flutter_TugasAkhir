@@ -105,7 +105,7 @@ class _m1homeState extends State<m1home> {
           ],
         ),
         //DRAWER------------------------------------------------------------------------------------
-        drawer: drawer(),
+        drawer: drawer(mode: "Mesin1"),
         //BODY---------------------------------------------------------------------------------------------------------------------------------
         body: Container(
           height: double.infinity,
@@ -113,7 +113,7 @@ class _m1homeState extends State<m1home> {
           decoration: BoxDecoration(
               color: Colors.white,
               image: DecorationImage(
-                  image: AssetImage("images/asset19.jpg"), fit: BoxFit.cover)),
+                  image: AssetImage("images/asset13.jpg"), fit: BoxFit.cover)),
           child: Container(
             padding: EdgeInsets.only(top: blockVertical * 8),
             height: double.infinity,

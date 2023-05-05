@@ -61,8 +61,8 @@ class getDashCost {
   Future getCostDash() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse(
-        "https://aplikasi-pms-berli.onrender.com/api/getDashCost");
+    Uri url =
+        Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getDashCost");
     var hasilResponseGet = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -107,5 +107,32 @@ class resetCost {
       print(200);
     }
     return resetCost();
+  }
+}
+
+class updateHarga {
+  static Future<updateHarga> newHarga(
+      String tipe, int baku1, int baku2, int baku3) async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    Uri url =
+        Uri.parse("https://aplikasi-pms-berli.onrender.com/api/updatePrice");
+    var response = await http.put(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic $getToken'
+        },
+        body: jsonEncode({
+          "tipe": tipe,
+          "price_baku1": baku1,
+          "price_baku2": baku2,
+          "price_baku3": baku3,
+        }));
+    if (response.statusCode == 200) {
+      print(200);
+    } else {
+      print(response.statusCode);
+    }
+    return updateHarga();
   }
 }

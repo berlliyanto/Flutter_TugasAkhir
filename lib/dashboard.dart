@@ -3,6 +3,8 @@
 import 'dart:async';
 
 import 'package:flutter_application_1/Services/availability_service.dart';
+import 'package:flutter_application_1/Services/oee_service.dart';
+import 'package:flutter_application_1/models/oee_model.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +31,7 @@ class dashboard extends StatefulWidget {
 class _dashboardState extends State<dashboard> {
   late Timer timer;
   int? stateA1;
-  int? stateA2,stateA3,stateA4;
-  // int stateA2 = 0;
-  // int stateA3 = 0;
-  // int stateA4 = 0;
+  int? stateA2, stateA3, stateA4;
   //AVAILABILITY STATE
   getAvailability getAvaiState = getAvailability();
   Future<void> avaiState() async {
@@ -41,30 +40,39 @@ class _dashboardState extends State<dashboard> {
         stateA1 = value!;
       });
     });
-        getAvaiState.getState(2).then((value) {
+    getAvaiState.getState(2).then((value) {
       setState(() {
         stateA2 = value!;
       });
     });
-        getAvaiState.getState(3).then((value) {
+    getAvaiState.getState(3).then((value) {
       setState(() {
         stateA3 = value!;
       });
     });
-        getAvaiState.getState(4).then((value) {
+    getAvaiState.getState(4).then((value) {
       setState(() {
         stateA4 = value!;
       });
     });
   }
 
-  //PRODUCTION 
+  //PRODUCTION
   StreamController<List> streamProd = StreamController.broadcast();
   List<dashQuality> QList = [];
   dashQualityy Quality = dashQualityy();
   Future<void> QualityData() async {
     QList = await Quality.dashQualityM();
     streamProd.add(QList);
+  }
+
+  //PRODUCTION
+  StreamController<List> streamOEE = StreamController.broadcast();
+  List<OEEdashModel> OEEList = [];
+  getOEE OEE = getOEE();
+  Future<void> OEEData() async {
+    OEEList = await OEE.dashOEE();
+    streamOEE.add(OEEList);
   }
 
   // STREAMCONTROLLER MESIN
@@ -78,6 +86,7 @@ class _dashboardState extends State<dashboard> {
 
   @override
   void initState() {
+    OEEData();
     avaiState();
     QualityData();
     getValidUser();
@@ -85,6 +94,7 @@ class _dashboardState extends State<dashboard> {
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       getStatusM();
       QualityData();
+      OEEData();
     });
     super.initState();
   }
@@ -160,7 +170,7 @@ class _dashboardState extends State<dashboard> {
           ),
         ),
         //DRAWER-------------------------------------------------------------------------------------------------------------------------
-        drawer: drawer(),
+        drawer: drawer(mode: "Dashboard",),
         //LANDSCAPE-------------------------------------------------------------------------------------------------------------------
         //BODY---------------------------------------------------------------------------------------------------------------------------
         body:
@@ -441,67 +451,89 @@ class _dashboardState extends State<dashboard> {
                                           items: QList.map((e) {
                                             //Mesin----------------------------------------------------------
                                             return menuProduction(
-                                                constraints,
-                                                (e.machine_id == 1)
-                                                    ? Color.fromARGB(
-                                                        255, 87, 89, 236)
-                                                    : (e.machine_id == 2)
-                                                        ? Color.fromARGB(255, 58, 97, 203)
-                                                        : (e.machine_id == 3)
-                                                            ? Color.fromARGB(255, 92, 192, 179)
-                                                            : Color.fromARGB(255, 28, 182, 209),
-                                                (e.machine_id == 1)
-                                                    ? Color.fromARGB(
-                                                        255, 18, 2, 240)
-                                                    : (e.machine_id == 2)
-                                                        ? Color.fromARGB(
-                                                            255, 13, 89, 177)
-                                                        : (e.machine_id == 3)
-                                                            ? Color.fromARGB(255, 0, 185, 169)
-                                                            : Color.fromARGB(255, 0, 139, 139),
-                                                "Machine ${e.machine_id}",
-                                                (e.machine_id == 1)
-                                                    ? mym1monitoring
-                                                    : (e.machine_id == 2)
-                                                        ? mym2monitoring
-                                                        : (e.machine_id == 3)
-                                                            ? mym3monitoring
-                                                            : mym4monitoring,
-                                                (e.machine_id == 1 &&
-                                                        stateA1 == 1)
-                                                    ? " Running"
-                                                    : (e.machine_id == 2 &&
-                                                            stateA2 == 1)
-                                                        ? " Running"
-                                                        : (e.machine_id == 3 &&
-                                                                stateA3 == 1)
-                                                            ? " Running"
-                                                            : (e.machine_id == 4 &&
-                                                                    stateA4 == 1)
-                                                                ? " Running"
-                                                                : " Stop/Finish",
-                                                (e.state == 1)
-                                                    ? "Type ${e.tipe}"
-                                                    : "Type -",
-                                                (e.state == 1)
-                                                    ? "Processed Unit : ${e.processed}"
-                                                    : "Processed Unit : -",
-                                                (e.state == 1) ? "Good Processed : ${e.good}" : "Good Processed : -",
-                                                (e.state == 1) ? "Defect : ${e.defect}" : "Defect : -",
-                                                (e.machine_id == 1 &&
-                                                        stateA1 == 1)
-                                                    ? Color.fromARGB(255, 24, 240, 4)
-                                                    : (e.machine_id == 2 &&
-                                                            stateA2 == 1)
-                                                        ? Color.fromARGB(255, 24, 240, 4)
-                                                        : (e.machine_id == 3 &&
-                                                                stateA3 == 1)
-                                                            ? Color.fromARGB(255, 24, 240, 4)
-                                                            : (e.machine_id == 4 &&
-                                                                    stateA4 == 1)
-                                                                ? Color.fromARGB(255, 24, 240, 4)
-                                                                : Color.fromARGB(255, 240, 4, 4),);
-                                                
+                                              constraints,
+                                              (e.machine_id == 1)
+                                                  ? Color.fromARGB(
+                                                      255, 87, 89, 236)
+                                                  : (e.machine_id == 2)
+                                                      ? Color.fromARGB(
+                                                          255, 58, 97, 203)
+                                                      : (e.machine_id == 3)
+                                                          ? Color.fromARGB(
+                                                              255, 92, 192, 179)
+                                                          : Color.fromARGB(255,
+                                                              28, 182, 209),
+                                              (e.machine_id == 1)
+                                                  ? Color.fromARGB(
+                                                      255, 18, 2, 240)
+                                                  : (e.machine_id == 2)
+                                                      ? Color.fromARGB(
+                                                          255, 13, 89, 177)
+                                                      : (e.machine_id == 3)
+                                                          ? Color.fromARGB(
+                                                              255, 0, 185, 169)
+                                                          : Color.fromARGB(
+                                                              255, 0, 139, 139),
+                                              "Machine ${e.machine_id}",
+                                              (e.machine_id == 1)
+                                                  ? mym1monitoring
+                                                  : (e.machine_id == 2)
+                                                      ? mym2monitoring
+                                                      : (e.machine_id == 3)
+                                                          ? mym3monitoring
+                                                          : mym4monitoring,
+                                              (e.machine_id == 1 &&
+                                                      stateA1 == 1)
+                                                  ? " Running"
+                                                  : (e.machine_id == 2 &&
+                                                          stateA2 == 1)
+                                                      ? " Running"
+                                                      : (e.machine_id == 3 &&
+                                                              stateA3 == 1)
+                                                          ? " Running"
+                                                          : (e.machine_id ==
+                                                                      4 &&
+                                                                  stateA4 == 1)
+                                                              ? " Running"
+                                                              : " Stop/Finish",
+                                              (e.state == 1)
+                                                  ? "Type ${e.tipe}"
+                                                  : "Type -",
+                                              (e.state == 1)
+                                                  ? "Processed Unit : ${e.processed}"
+                                                  : "Processed Unit : -",
+                                              (e.state == 1)
+                                                  ? "Good Processed : ${e.good}"
+                                                  : "Good Processed : -",
+                                              (e.state == 1)
+                                                  ? "Defect : ${e.defect}"
+                                                  : "Defect : -",
+                                              (e.machine_id == 1 &&
+                                                      stateA1 == 1)
+                                                  ? Color.fromARGB(
+                                                      255, 24, 240, 4)
+                                                  : (e.machine_id == 2 &&
+                                                          stateA2 == 1)
+                                                      ? Color.fromARGB(
+                                                          255, 24, 240, 4)
+                                                      : (e.machine_id == 3 &&
+                                                              stateA3 == 1)
+                                                          ? Color.fromARGB(
+                                                              255, 24, 240, 4)
+                                                          : (e.machine_id ==
+                                                                      4 &&
+                                                                  stateA4 == 1)
+                                                              ? Color.fromARGB(
+                                                                  255,
+                                                                  24,
+                                                                  240,
+                                                                  4)
+                                                              : Color.fromARGB(
+                                                                  255,
+                                                                  240,
+                                                                  4,
+                                                                  4),
+                                            );
                                           }).toList(),
                                           options: CarouselOptions(
                                               autoPlay: true,
@@ -510,7 +542,18 @@ class _dashboardState extends State<dashboard> {
                                         );
                                       } else if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
-                                        return ShimmerProd(constraints);
+                                        return CarouselSlider(
+                                          items: [
+                                            ShimmerProd(constraints),
+                                            ShimmerProd(constraints),
+                                            ShimmerProd(constraints),
+                                            ShimmerProd(constraints),
+                                          ],
+                                          options: CarouselOptions(
+                                              autoPlay: true,
+                                              enlargeCenterPage: true,
+                                              enlargeFactor: 0.15),
+                                        );
                                       }
                                       return menuProduction(
                                           constraints,
@@ -541,40 +584,50 @@ class _dashboardState extends State<dashboard> {
                             ),
                           ),
                           //OEE---------------------------------------------------------------------------------------------------------------
-                          CarouselSlider(
-                              items: [
-                                //MESIN 1-------------------------------------------
-                                menuOEE(
-                                    blockVertical,
-                                    Color.fromARGB(255, 8, 4, 240),
-                                    "Machine 1",
-                                    0.8,
-                                    "80 %"),
-                                //MESIN 2-------------------------------------------
-                                menuOEE(
-                                    blockVertical,
-                                    Color.fromARGB(255, 58, 97, 203),
-                                    "Machine 2",
-                                    0.8,
-                                    "80 %"),
-                                //MESIN 3-------------------------------------------
-                                menuOEE(
-                                    blockVertical,
-                                    Color.fromARGB(255, 0, 250, 208),
-                                    "Machine 3",
-                                    0.8,
-                                    "80 %"),
-                                //MESIN 4-------------------------------------------
-                                menuOEE(
-                                    blockVertical,
-                                    Color.fromARGB(255, 8, 145, 150),
-                                    "Machine 4",
-                                    0.8,
-                                    "80 %"),
-                              ],
-                              options: CarouselOptions(
-                                autoPlay: true,
-                              )),
+                          StreamBuilder(
+                              stream: streamOEE.stream,
+                              builder: (context, snapshot) {
+                                return CarouselSlider(
+                                    items: OEEList.map((e) {
+                                      if (snapshot.hasData) {
+                                        return menuOEE(
+                                            blockVertical,
+                                            (e.machine_id == 1)
+                                                ? Color.fromARGB(
+                                                    255, 0, 98, 226)
+                                                : (e.machine_id == 2)
+                                                    ? Color.fromARGB(
+                                                        255, 0, 23, 126)
+                                                    : (e.machine_id == 3)
+                                                        ? Color.fromARGB(
+                                                            255, 1, 204, 187)
+                                                        : Color.fromARGB(
+                                                            255, 0, 105, 112),
+                                            "Machine ${e.machine_id}",
+                                            (e.nilaioee <= 1.0)
+                                                ? e.nilaioee.toDouble()
+                                                : 1.0,
+                                            "${(e.nilaioee * 100).toStringAsFixed(2)}%");
+                                      } else if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return CarouselSlider(
+                                            items: [
+                                              shimmerOEE(blockVertical),
+                                              shimmerOEE(blockVertical),
+                                              shimmerOEE(blockVertical),
+                                              shimmerOEE(blockVertical),
+                                            ],
+                                            options: CarouselOptions(
+                                              autoPlay: true,
+                                            ));
+                                      }
+                                      return menuOEE(blockVertical,
+                                          Colors.black, "machine", 0.0, "0.0");
+                                    }).toList(),
+                                    options: CarouselOptions(
+                                      autoPlay: true,
+                                    ));
+                              }),
                           SizedBox(
                             height: blockVertical * 3,
                           )
@@ -637,28 +690,39 @@ class _dashboardState extends State<dashboard> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Colors.grey,
+          baseColor: Color.fromARGB(255, 201, 201, 201),
+          highlightColor: Colors.white,
           child: CircleAvatar(
             radius: blockVertical * 2.8,
-            backgroundColor: Colors.white,
+            backgroundColor: Color.fromARGB(255, 201, 201, 201),
           ),
         ),
         SizedBox(
           height: blockVertical * 0.5,
         ),
         Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Colors.grey,
+          baseColor: Color.fromARGB(255, 201, 201, 201),
+          highlightColor: Colors.white,
           child: Container(
             height: blockVertical * 1.5,
             width: blockHorizontal * 15,
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: Color.fromARGB(255, 201, 201, 201),
                 borderRadius: BorderRadius.circular(blockVertical * 0.5)),
           ),
         )
       ],
+    );
+  }
+
+  Widget shimmerOEE(double blockVertical) {
+    return Shimmer.fromColors(
+      baseColor: Color.fromARGB(255, 201, 201, 201),
+      highlightColor: Colors.white,
+      child: CircleAvatar(
+        radius: blockVertical * 10,
+        backgroundColor: Color.fromARGB(255, 201, 201, 201),
+      ),
     );
   }
 
@@ -668,15 +732,15 @@ class _dashboardState extends State<dashboard> {
     return ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Shimmer.fromColors(
-          baseColor: Colors.white,
-          highlightColor: Colors.grey,
+          baseColor: Color.fromARGB(255, 201, 201, 201),
+          highlightColor: Colors.white,
           child: Container(
             padding: EdgeInsets.symmetric(
                 horizontal: constraints.maxHeight * 0.05,
                 vertical: constraints.maxHeight * 0.05),
             height: constraints.maxHeight * 0.7,
             width: constraints.maxWidth * 0.7,
-            decoration: BoxDecoration(color: Colors.white),
+            decoration: BoxDecoration(color: Color.fromARGB(255, 201, 201, 201),),
           ),
         ));
   }
@@ -794,6 +858,7 @@ class _dashboardState extends State<dashboard> {
   Widget menuOEE(double blockVertical, Color color, String title,
       double percent, String Value) {
     return CircularPercentIndicator(
+      animateFromLastPercent: true,
       progressColor: color,
       circularStrokeCap: CircularStrokeCap.round,
       animation: true,

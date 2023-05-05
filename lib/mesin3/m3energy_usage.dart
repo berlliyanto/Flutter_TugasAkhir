@@ -295,7 +295,7 @@ class _m3energyState extends State<m3energy> {
                       width: blockHorizontal * 23.5,
                       decoration: BoxDecoration(
                           color: (state)
-                              ? Color.fromARGB(255, 3, 218, 14)
+                              ? Color.fromARGB(255, 1, 94, 74)
                               : Color.fromARGB(255, 43, 60, 87),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
@@ -320,7 +320,7 @@ class _m3energyState extends State<m3energy> {
                       decoration: BoxDecoration(
                           color: (state)
                               ? Color.fromARGB(255, 43, 60, 87)
-                              : Color.fromARGB(255, 3, 218, 14),
+                              : Color.fromARGB(255, 1, 94, 74),
                           borderRadius: BorderRadius.only(
                               topRight: Radius.circular(20),
                               bottomRight: Radius.circular(20))),

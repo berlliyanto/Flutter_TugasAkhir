@@ -32,6 +32,7 @@ import 'package:flutter_application_1/mesin4/m4oee.dart';
 import 'package:flutter_application_1/mesin4/m4monitoring.dart';
 import 'package:flutter_application_1/mesin4/m4stock.dart';
 import 'package:flutter_application_1/preventive.dart';
+import 'package:flutter_application_1/preventive_history.dart';
 import 'package:flutter_application_1/report.dart';
 import 'package:flutter_application_1/splashscreen.dart';
 import 'package:flutter_application_1/tambahuser.dart';
@@ -237,6 +238,10 @@ class Routes {
       case myhistoriTB:
       var av = settings.arguments as String;
       return BouncyPageRoute(page: historiTB(av));
+
+      case myhistoriPrev:
+      var aw = settings.arguments as String;
+      return BouncyPageRoute(page: preventiveHistory(aw));
       
       default:
     }

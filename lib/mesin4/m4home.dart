@@ -1,18 +1,56 @@
 // ignore_for_file: must_be_immutable, unused_local_variable
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Services/status_service.dart';
 import 'package:flutter_application_1/drawer.dart';
+import 'package:flutter_application_1/models/status_model.dart';
 import 'package:flutter_application_1/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../constant.dart';
 
-class m4home extends StatelessWidget {
+class m4home extends StatefulWidget {
   static const nameRoute = '/m4home';
+
+  const m4home(String f, {super.key});
+
+  @override
+  State<m4home> createState() => _m4homeState();
+}
+
+class _m4homeState extends State<m4home> {
+   //STREAMCONTROLLER STATUS MESIN
+  StreamController<List> streamStatusM4 = StreamController.broadcast();
+  List<status4Model> status = [];
+  getStatusM4 statusState = getStatusM4();
+  Future<void> getStatus() async {
+    status = await getStatusM4.readStatM4();
+    streamStatusM4.add(status);
+  }
+
+  late Timer timer;
+  int id = 0;
   double sizedheight = 20;
   double blurshadow = 10;
 
-  m4home(String f, {super.key});
+  @override
+  void initState() {
+    getStatus();
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      getStatus();
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (timer.isActive) timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // UNTUK LEBAR TAMPILAN
@@ -74,7 +112,7 @@ class m4home extends StatelessWidget {
           ],
         ),
         //DRAWER-----------------------------------------------------------------------------------
-        drawer: drawer(),
+        drawer: drawer(mode: "Mesin4"),
         //BODY------------------------------------------------------------------------------------
         body: Container(
           height: double.infinity,
@@ -125,13 +163,42 @@ class m4home extends StatelessWidget {
                                     Color.fromARGB(255, 39, 214, 214),
                                     Color.fromARGB(255, 1, 176, 182),
                                   ])),
-                          child: Text(
-                            "Machine 4 - Not Connected",
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontSize: blockVertical * 3,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          child: StreamBuilder<Object>(
+                              stream: streamStatusM4.stream,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: status.map((e) {
+                                      return Text(
+                                        (e.status == 1)
+                                            ? "Machine ${e.machine_id} - Is Active"
+                                            : "Machine ${e.machine_id} - Not Active",
+                                        style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      );
+                                    }).toList(),
+                                  );
+                                } else if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Shimmer.fromColors(
+                                    baseColor: Colors.white,
+                                    highlightColor: Colors.grey,
+                                    child: Text(
+                                      'Loading',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: blockVertical * 2.5,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return Text("error");
+                              }),
                         ),
                       ),
                     ],

@@ -155,9 +155,9 @@ class _m1alarmState extends State<m1alarm> {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "details",
+                            "*If empty no order available",
                             style: TextStyle(
-                                fontSize: blockVertical * 2,
+                                fontSize: blockVertical * 1.5,
                                 fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -177,9 +177,8 @@ class _m1alarmState extends State<m1alarm> {
                                     controller: _controller,
                                     children: ListOrder.map((e) {
                                       int id = e.idorder!;
-                                      if (name == e.to || otoritas == "Admin") {
-                                        if (e.solved == false) {
-                                          return listOrder(
+                                      if(e.solved == false){
+                                        return listOrder(
                                               blockHorizontal,
                                               blockVertical,
                                               "${e.from} (${e.otoritas})",
@@ -187,7 +186,6 @@ class _m1alarmState extends State<m1alarm> {
                                               "${e.keterangan}",
                                               "${e.message}",
                                               id);
-                                        }
                                       }
                                       return Center();
                                     }).toList());
@@ -402,14 +400,24 @@ class _m1alarmState extends State<m1alarm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Id Order : $idorder",
-                style: TextStyle(fontSize: blockVertical * 2),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Color.fromARGB(255, 0, 255, 8),
+                    radius: blockVertical*1.5,
+                    child: Icon(FontAwesomeIcons.rotate, color: Colors.white, size: blockVertical*1.5,),
+                  ),
+                  Text(
+                    " Id Order : $idorder",
+                    style: TextStyle(fontSize: blockVertical * 2),
+                  ),
+                ],
               ),
               (otoritas == "Admin" || otoritas == "User-Maintenance")
                   ? ElevatedButton(
                       onPressed: () {
-                        UpdateData.updateTB(1, idorder, "Solved", true);
+                        UpdateData.updateTB(1, idorder, "Solved", true, "$name");
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -475,7 +483,9 @@ class _m1alarmState extends State<m1alarm> {
               radius: 100,
               borderRadius: BorderRadius.circular(20),
               onTap: () {
-                PostData.trigTB(machine_id, from, otoritas, To, message)
+                if(worker!=null && messageController.text.isNotEmpty){
+                  PostData.sendMessage(1, To, message, from);
+                  PostData.trigTB(machine_id, from, otoritas, To, message)
                     .then((value) {
                   AwesomeDialog(
                           context: context,
@@ -485,6 +495,15 @@ class _m1alarmState extends State<m1alarm> {
                           title: "Success Order")
                       .show();
                 });
+                }else{
+                  AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.error,
+                          btnOkOnPress: () {},
+                          useRootNavigator: true,
+                          title: "Order Can't Be Empty")
+                      .show();
+                }
               },
               child: Center(
                 child: Text(

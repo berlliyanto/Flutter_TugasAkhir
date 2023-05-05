@@ -321,12 +321,14 @@ class _m4paramState extends State<m4param> {
                 (otoritas == "Admin" || otoritas == "User-Operator")
                     ? buttonInput(MediaQueryheight, MediaQuerywidth,
                         blockHorizontal, blockVertical)
-                    : buttonInputDis(MediaQueryheight, MediaQuerywidth, blockHorizontal, blockVertical),
+                    : buttonInputDis(MediaQueryheight, MediaQuerywidth,
+                        blockHorizontal, blockVertical),
                 //Button Reset Data---------------------------------------------------------------------------------------------------
                 (otoritas == "Admin" || otoritas == "User-Operator")
                     ? buttonReset(MediaQueryheight, MediaQuerywidth,
                         blockHorizontal, blockVertical)
-                    : buttonResetDis(MediaQueryheight, MediaQuerywidth, blockHorizontal, blockVertical),
+                    : buttonResetDis(MediaQueryheight, MediaQuerywidth,
+                        blockHorizontal, blockVertical),
               ],
             ),
           ),
@@ -484,7 +486,7 @@ class _m4paramState extends State<m4param> {
                         clearButtonProps: ClearButtonProps(
                           isVisible: true,
                         ),
-                        popupProps: PopupProps.dialog(
+                        popupProps: PopupProps.bottomSheet(
                           constraints:
                               BoxConstraints(maxHeight: blockVertical * 21.5),
                           showSelectedItems: true,
@@ -551,33 +553,45 @@ class _m4paramState extends State<m4param> {
                     cycle.text.isNotEmpty &&
                     oee.text.isNotEmpty &&
                     tipeValue!.isNotEmpty) {
-                  inputParameter
-                      .insertParam4(machine_id, loading.text, cycle.text,
-                          oee.text, tipeValue.toString(), state)
-                      .then(
-                        (value) => {
-                          // ignore: unnecessary_null_comparison
-                          if (value != null)
-                            {
-                              AwesomeDialog(
-                                context: context,
-                                dialogType: DialogType.success,
-                                animType: AnimType.leftSlide,
-                                title: "Success",
-                                desc: "Success Input Parameter",
-                                btnOkOnPress: () {
-                                  Navigator.pushNamed(context, mym4monitoring,
-                                      arguments: "sukses");
-                                },
-                              ).show()
-                            },
-                        },
-                      );
-                  trigQuality.TriggerQuality(4, tipeValue.toString());
-                  trigAvailability.triggerAvai(4, 4);
-                  triggCost.trigCost(4);
-                  trigPerformance.triggerPerformance(4);
-                  trigOEE.triggerOEE(4);
+                  if (int.parse(oee.text) > 100) {
+                    AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.error,
+                            animType: AnimType.leftSlide,
+                            title: "Error",
+                            desc: "OEE value should not be greater than 100% !",
+                            useRootNavigator: true,
+                            autoHide: Duration(seconds: 2))
+                        .show();
+                  } else {
+                    inputParameter
+                        .insertParam4(machine_id, loading.text, cycle.text,
+                            oee.text, tipeValue.toString(), state)
+                        .then(
+                          (value) => {
+                            // ignore: unnecessary_null_comparison
+                            if (value != null)
+                              {
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.success,
+                                  animType: AnimType.leftSlide,
+                                  title: "Success",
+                                  desc: "Success Input Parameter",
+                                  btnOkOnPress: () {
+                                    Navigator.pushNamed(context, mym4monitoring,
+                                        arguments: "sukses");
+                                  },
+                                ).show()
+                              },
+                          },
+                        );
+                    trigQuality.TriggerQuality(4, tipeValue.toString());
+                    trigAvailability.triggerAvai(4, 4);
+                    triggCost.trigCost(4);
+                    trigPerformance.triggerPerformance(4);
+                    trigOEE.triggerOEE(4);
+                  }
                 } else {
                   AwesomeDialog(
                           context: context,

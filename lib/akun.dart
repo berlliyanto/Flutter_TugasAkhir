@@ -129,7 +129,7 @@ class _MyakunState extends State<Myakun> {
                 icon: Icon(FontAwesomeIcons.house)),
           ],
         ),
-      drawer: drawer(),
+      drawer: drawer(mode: "Account"),
       body: Container(
         height: double.infinity,
         width: double.infinity,

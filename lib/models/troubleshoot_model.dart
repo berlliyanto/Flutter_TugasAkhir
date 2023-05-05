@@ -1,9 +1,9 @@
 class getTB{
-  late String? from,otoritas,to,message,keterangan,id;
+  late String? from,otoritas,to,message,keterangan,id,updatedAt,createdAt;
   late bool? solved;
   late int? machine_id,idorder;
 
-  getTB({this.from,this.keterangan,this.machine_id,this.message,this.otoritas,this.solved,this.to,this.idorder,this.id});
+  getTB({this.from,this.keterangan,this.machine_id,this.message,this.otoritas,this.solved,this.to,this.idorder,this.id,this.createdAt,this.updatedAt});
 
   factory getTB.fromJSON(Map<String, dynamic> json){
     return getTB(
@@ -16,6 +16,8 @@ class getTB{
       message: json['message'],
       keterangan: json['keterangan'],
       solved: json['solved'],
+      updatedAt: json['updatedAt'],
+      createdAt: json['createdAt'],
     );
   }
 }

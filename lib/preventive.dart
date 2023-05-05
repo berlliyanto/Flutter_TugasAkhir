@@ -2,17 +2,21 @@
 
 // ignore: depend_on_referenced_packages
 import 'dart:async';
-
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_application_1/Services/lifetime_service.dart';
+import 'package:flutter_application_1/Services/preventive_service.dart';
 import 'package:flutter_application_1/constant.dart';
 import 'package:flutter_application_1/models/lifetime_model.dart';
+import 'package:flutter_application_1/models/preventive_model.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/drawer.dart';
 import 'package:flutter_application_1/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class preventive extends StatefulWidget {
   static const nameRoute = '/preventive';
@@ -24,6 +28,17 @@ class preventive extends StatefulWidget {
 }
 
 class _preventiveState extends State<preventive> {
+  String? name, otoritas;
+  Future<void> getValidUser() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getName = shared.getString("name");
+    var getOtoritas = shared.getString("otoritas");
+    setState(() {
+      name = getName!;
+      otoritas = getOtoritas!;
+    });
+  }
+
   late Timer timer;
   StreamController streamLT = StreamController.broadcast();
   List<lifetimeModel> listLT = [];
@@ -33,15 +48,36 @@ class _preventiveState extends State<preventive> {
     streamLT.add(listLT);
   }
 
-  late MaintenanceDataSource _events;
-  late List<Appointment> _MTCollection;
+  StreamController streamSchedule = StreamController.broadcast();
+  List<preventiveScheduleModel> listSchedule = [];
+  getJadwalPrev getJadwal = getJadwalPrev();
+  Future<void> ScheduleData() async {
+    listSchedule = await getJadwal.getJadwal();
+    streamSchedule.add(listSchedule);
+  }
+
+  String? hariValue, jamValue, menitValue;
   bool state = true;
+  TextEditingController jam = TextEditingController();
+  TextEditingController menit = TextEditingController();
+  final List<String> hari = <String>[
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu",
+    "Minggu",
+  ];
 
   @override
   void initState() {
+    getValidUser();
+    ScheduleData();
     lifetimeData();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       lifetimeData();
+      ScheduleData();
     });
     super.initState();
   }
@@ -100,7 +136,7 @@ class _preventiveState extends State<preventive> {
                 icon: Icon(FontAwesomeIcons.house)),
           ],
         ),
-        drawer: drawer(),
+        drawer: drawer(mode: "Preventive"),
         body: Container(
           height: double.infinity,
           width: double.infinity,
@@ -120,8 +156,11 @@ class _preventiveState extends State<preventive> {
               children: [
                 Container(
                   padding: EdgeInsets.all(blockVertical * 1),
-                  margin: EdgeInsets.fromLTRB(blockHorizontal * 2,
-                      blockVertical * 12, blockHorizontal * 2, blockVertical * 2),
+                  margin: EdgeInsets.fromLTRB(
+                      blockHorizontal * 2,
+                      blockVertical * 12,
+                      blockHorizontal * 2,
+                      blockVertical * 2),
                   width: MediaQuerywidth,
                   height: blockVertical * 20,
                   decoration: BoxDecoration(
@@ -137,74 +176,192 @@ class _preventiveState extends State<preventive> {
                             fontSize: blockVertical * 3,
                             fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: blockVertical*1.5,),
+                      SizedBox(
+                        height: blockVertical * 1.5,
+                      ),
                       StreamBuilder(
-                        stream: streamLT.stream,
-                        builder: (context, snapshot) {
-                          if(snapshot.hasData){
+                          stream: streamLT.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: listLT.map((e) {
+                                      return Lifetime(
+                                          blockVertical,
+                                          blockHorizontal,
+                                          "Machine ${e.machine_id}",
+                                          "${e.timevalue}",
+                                          (e.timevalue! >= 10000)
+                                              ? Colors.green
+                                              : Colors.red);
+                                    }).toList()),
+                              );
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    LifetimeShimmmer(
+                                        blockVertical, blockHorizontal),
+                                    LifetimeShimmmer(
+                                        blockVertical, blockHorizontal),
+                                    LifetimeShimmmer(
+                                        blockVertical, blockHorizontal),
+                                    LifetimeShimmmer(
+                                        blockVertical, blockHorizontal),
+                                  ],
+                                ),
+                              );
+                            }
                             return SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: listLT.map((e) {
-                                  return Lifetime(blockVertical, blockHorizontal, "Machine ${e.machine_id}", "${e.timevalue}",(e.timevalue!>=10000)?Colors.green:Colors.red);
-                                }).toList()
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Lifetime(blockVertical, blockHorizontal,
+                                      "Machine 1", "-", Colors.black),
+                                  Lifetime(blockVertical, blockHorizontal,
+                                      "Machine 2", "-", Colors.black),
+                                  Lifetime(blockVertical, blockHorizontal,
+                                      "Machine 3", "-", Colors.black),
+                                  Lifetime(blockVertical, blockHorizontal,
+                                      "Machine 4", "-", Colors.black),
+                                ],
                               ),
                             );
-                          }else if(snapshot.connectionState==ConnectionState.waiting){
-                            return SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                LifetimeShimmmer(blockVertical, blockHorizontal),
-                                LifetimeShimmmer(blockVertical, blockHorizontal),
-                                LifetimeShimmmer(blockVertical, blockHorizontal),
-                                LifetimeShimmmer(blockVertical, blockHorizontal),
-                              ],
-                            ),
-                          );
-                          }
-                          return SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                               Lifetime(blockVertical, blockHorizontal, "Machine 1", "-",Colors.black),
-                               Lifetime(blockVertical, blockHorizontal, "Machine 2", "-",Colors.black),
-                               Lifetime(blockVertical, blockHorizontal, "Machine 3", "-",Colors.black),
-                               Lifetime(blockVertical, blockHorizontal, "Machine 4", "-",Colors.black),
-                              ],
-                            ),
-                          );
-                        }
-                      ),
+                          }),
                     ],
                   ),
                 ),
-                SfCalendar(
-                  backgroundColor: Colors.white,
-                  view: CalendarView.timelineWorkWeek,
-                  firstDayOfWeek: 1,
-                  timeSlotViewSettings:
-                      TimeSlotViewSettings(startHour: 8, endHour: 17),
+                Container(
+                  padding: EdgeInsets.only(
+                      top: blockVertical * 1,
+                      left: blockVertical * 1,
+                      right: blockVertical * 1),
+                  height: blockVertical * 66,
+                  width: MediaQuerywidth,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(blockVertical * 2),
+                          topRight: Radius.circular(blockVertical * 2))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Maintenance Schedule",
+                        style: TextStyle(
+                            fontSize: blockVertical * 3,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: blockVertical * 1,
+                      ),
+                      SizedBox(
+                        height: blockVertical * 50,
+                        child: StreamBuilder(
+                            stream: streamSchedule.stream,
+                            builder: (context, snapshot) {
+                              return Column(
+                                children: listSchedule.map((e) {
+                                  if (snapshot.hasData) {
+                                    return Schedule(
+                                        blockVertical,
+                                        blockHorizontal,
+                                        "Machine ${e.machine_id}",
+                                        (e.hari == "1")
+                                            ? "Senin, At ${e.jam}.${e.menit} WIB"
+                                            : (e.hari == "2")
+                                                ? "Selasa, At ${e.jam}.${e.menit} WIB"
+                                                : (e.hari == "3")
+                                                    ? "Rabu, At ${e.jam}.${e.menit} WIB"
+                                                    : (e.hari == "4")
+                                                        ? "Kamis, At ${e.jam}.${e.menit} WIB"
+                                                        : (e.hari == "5")
+                                                            ? "Jumat, At ${e.jam}.${e.menit} WIB"
+                                                            : (e.hari == "6")
+                                                                ? "Sabtu, At ${e.jam}.${e.menit} WIB"
+                                                                : "Minggu, At ${e.jam}.${e.menit} WIB",
+                                        e.machine_id!.toInt(),
+                                        "${e.jam}",
+                                        "${e.menit}",
+                                        "${e.hari}");
+                                  } else if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    Center(
+                                      child: Shimmer.fromColors(
+                                        baseColor: Colors.white,
+                                        highlightColor: Colors.grey,
+                                        child: Text(
+                                          'Loading',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: blockVertical * 5,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return Center();}).toList(),
+                              );
+                            }),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, myhistoriPrev,
+                              arguments: "blabla");
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: blockHorizontal * 3,
+                              vertical: blockVertical * 0.5),
+                          margin: EdgeInsets.all(blockVertical * 1),
+                          alignment: Alignment.center,
+                          height: blockVertical * 5,
+                          width: MediaQuerywidth,
+                          decoration: BoxDecoration(
+                            color: Colors.greenAccent,
+                            border: Border.all(color: Colors.green),
+                            borderRadius:
+                                BorderRadius.circular(blockVertical * 1),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "See History Maintenance",
+                                style: TextStyle(
+                                    fontSize: blockVertical * 2.5,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Icon(
+                                Icons.arrow_right,
+                                size: blockVertical * 3,
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 )
               ],
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          String mongodbTimestamp = '2023-03-26T04:45:48.348+00:00';
-          DateTime dateTime = DateTime.parse(mongodbTimestamp);
-
-          var formatter = DateFormat('yyyy-MM-dd');
-          String formattedDate = formatter.format(dateTime);
-
-          print(formattedDate); // Output: 2023-03-26
-        }),
       ),
     );
   }
@@ -212,7 +369,7 @@ class _preventiveState extends State<preventive> {
   Widget Lifetime(double blockVertical, double blockHorizontal, String title,
       String value, Color colors) {
     return Container(
-      margin: EdgeInsets.only(right: blockHorizontal*5),
+      margin: EdgeInsets.only(right: blockHorizontal * 5),
       padding: EdgeInsets.only(
           top: blockVertical * 0.5,
           left: blockVertical * 1,
@@ -220,34 +377,48 @@ class _preventiveState extends State<preventive> {
       height: blockVertical * 12.5,
       width: blockHorizontal * 40,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(blockVertical * 1),
-          color: Color.fromARGB(255, 212, 212, 212).withOpacity(0.3),
-        ),
+        borderRadius: BorderRadius.circular(blockVertical * 1),
+        color: Color.fromARGB(255, 212, 212, 212).withOpacity(0.3),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
-                FontAwesomeIcons.heartPulse,
-                size: blockVertical * 2,
+            FontAwesomeIcons.heartPulse,
+            size: blockVertical * 2,
           ),
           Text(
             title,
             style: TextStyle(
-                fontSize: blockVertical * 2.5, fontWeight: FontWeight.bold,),
+              fontSize: blockVertical * 2.5,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-          SizedBox(height: blockVertical*3,),
-          Text("$value Sec", style: TextStyle(fontSize: blockVertical*2.5, fontWeight: FontWeight.bold,color: colors),)
+          SizedBox(
+            height: blockVertical * 3,
+          ),
+          Text(
+            "$value Sec",
+            style: TextStyle(
+                fontSize: blockVertical * 2.5,
+                fontWeight: FontWeight.bold,
+                color: colors),
+          )
         ],
       ),
     );
   }
-  Widget LifetimeShimmmer(double blockVertical, double blockHorizontal,) {
+
+  Widget LifetimeShimmmer(
+    double blockVertical,
+    double blockHorizontal,
+  ) {
     return Shimmer.fromColors(
       baseColor: Color.fromARGB(255, 211, 211, 211),
       highlightColor: Colors.white,
       child: Container(
-        margin: EdgeInsets.only(right: blockHorizontal*5),
+        margin: EdgeInsets.only(right: blockHorizontal * 5),
         padding: EdgeInsets.only(
             top: blockVertical * 0.5,
             left: blockVertical * 1,
@@ -255,16 +426,157 @@ class _preventiveState extends State<preventive> {
         height: blockVertical * 12.5,
         width: blockHorizontal * 40,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(blockVertical * 1),
-            color: Color.fromARGB(255, 211, 211, 211).withOpacity(0.3),
-          ),
+          borderRadius: BorderRadius.circular(blockVertical * 1),
+          color: Color.fromARGB(255, 211, 211, 211).withOpacity(0.3),
+        ),
       ),
     );
   }
-}
 
-class MaintenanceDataSource extends CalendarDataSource {
-  MaintenanceDataSource(List<Appointment> MTCollection) {
-    appointments = MTCollection;
+  Widget Schedule(
+      double blockVertical,
+      double blockHorizontal,
+      String title,
+      String subtitle,
+      int id,
+      String jamValues,
+      String menitValues,
+      String hariValues) {
+    return Container(
+      margin: EdgeInsets.only(bottom: blockVertical * 1),
+      alignment: Alignment.center,
+      height: blockVertical * 10,
+      decoration: BoxDecoration(
+          color: Colors.blue.withOpacity(0.5),
+          border: Border.all(color: Colors.blueGrey),
+          borderRadius: BorderRadius.circular(blockVertical * 1)),
+      child: ListTile(
+        isThreeLine: true,
+        tileColor: Colors.blue.withOpacity(0.5),
+        leading: Icon(
+          Icons.calendar_month,
+          color: Colors.black87,
+          size: blockVertical * 4,
+        ),
+        title: Text(
+          title,
+          style: TextStyle(fontSize: blockVertical * 2.5),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(fontSize: blockVertical * 2, color: Colors.black87),
+        ),
+        trailing: (otoritas == "Admin" || otoritas == "User-Management")
+            ? IconButton(
+                onPressed: () {
+                  AwesomeDialog(
+                    dialogType: DialogType.noHeader,
+                    context: context,
+                    body: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: blockVertical * 0.1,
+                              horizontal: blockHorizontal * 1),
+                          child: DropdownSearch<String>(
+                            clearButtonProps: ClearButtonProps(
+                              isVisible: true,
+                            ),
+                            popupProps: PopupProps.menu(
+                              constraints: BoxConstraints(
+                                maxHeight: blockVertical * 30,
+                              ),
+                              showSelectedItems: true,
+                            ),
+                            items: hari,
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                border: InputBorder.none,
+                                labelText: "Select Day",
+                                hintText: "Day",
+                              ),
+                            ),
+                            onChanged: (value) {
+                              hariValue = value;
+                            },
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            SizedBox(
+                                height: blockVertical * 4,
+                                width: blockHorizontal * 20,
+                                child: TextField(
+                                  controller: jam,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: blockVertical * 3),
+                                  readOnly: true,
+                                )),
+                            Text(
+                              ":",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: blockVertical * 3),
+                            ),
+                            SizedBox(
+                                height: blockVertical * 4,
+                                width: blockHorizontal * 20,
+                                child: TextField(
+                                  controller: menit,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: blockVertical * 3),
+                                  readOnly: true,
+                                )),
+                          ],
+                        ),
+                        TextButton(
+                            onPressed: () async {
+                              TimeOfDay? pickedTime = await showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                              );
+                              if (pickedTime != null) {
+                                // Mengisi nilai jam dan menit ke dalam TextFormField
+                                jam.text = pickedTime.hour.toString();
+                                menit.text = pickedTime.minute.toString();
+                              }
+                            },
+                            child: Text("Select Time"))
+                      ],
+                    ),
+                    btnOkOnPress: () {
+                      updateJadwalPreventive.updateJadwal(
+                          id.toInt(),
+                          (hariValue == "Senin")
+                              ? "1"
+                              : (hariValue == "Selasa")
+                                  ? "2"
+                                  : (hariValue == "Rabu")
+                                      ? "3"
+                                      : (hariValue == "Kamis")
+                                          ? "4"
+                                          : (hariValue == "Jumat")
+                                              ? "5"
+                                              : (hariValue == "Sabtu")
+                                                  ? "6"
+                                                  : "7",
+                          jam.text.toString(),
+                          menit.text.toString());
+                    },
+                    btnCancelOnPress: () {},
+                    useRootNavigator: true,
+                  ).show();
+                },
+                icon: Icon(
+                  Icons.edit,
+                  size: blockVertical * 4,
+                  color: Colors.black87,
+                ))
+            : SizedBox(
+                width: 1,
+              ),
+      ),
+    );
   }
 }

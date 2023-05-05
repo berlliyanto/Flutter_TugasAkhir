@@ -313,12 +313,14 @@ class _m1paramState extends State<m1param> {
                 (otoritas == "Admin" || otoritas == "User-Operator")
                     ? buttonInput(MediaQueryheight, MediaQuerywidth,
                         blockHorizontal, blockVertical)
-                    : buttonInputDis(MediaQueryheight, MediaQuerywidth, blockHorizontal, blockVertical),
+                    : buttonInputDis(MediaQueryheight, MediaQuerywidth,
+                        blockHorizontal, blockVertical),
                 //Button Reset Data---------------------------------------------------------------------------------------------------
                 (otoritas == "Admin" || otoritas == "User-Operator")
                     ? buttonReset(MediaQueryheight, MediaQuerywidth,
                         blockHorizontal, blockVertical)
-                    : buttonResetDis(MediaQueryheight, MediaQuerywidth, blockHorizontal, blockVertical),
+                    : buttonResetDis(MediaQueryheight, MediaQuerywidth,
+                        blockHorizontal, blockVertical),
               ],
             ),
           ),
@@ -580,12 +582,12 @@ class _m1paramState extends State<m1param> {
                               },
                           },
                         );
+                    trigQuality.TriggerQuality(1, tipeValue.toString());
+                    trigAvailability.triggerAvai(1, 1);
+                    triggCost.trigCost(1);
+                    trigPerformance.triggerPerformance(1);
+                    trigOEE.triggerOEE(1);
                   }
-                  trigQuality.TriggerQuality(1, tipeValue.toString());
-                  trigAvailability.triggerAvai(1, 1);
-                  triggCost.trigCost(1);
-                  trigPerformance.triggerPerformance(1);
-                  trigOEE.triggerOEE(1);
                 } else {
                   AwesomeDialog(
                           context: context,

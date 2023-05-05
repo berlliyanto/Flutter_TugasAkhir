@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constant.dart';
 import 'package:flutter_application_1/routes.dart';
 import 'package:flutter/services.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
-void main()  {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Asia/Jakarta'));
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown

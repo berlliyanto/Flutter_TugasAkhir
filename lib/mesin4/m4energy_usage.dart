@@ -295,7 +295,7 @@ class _m4energyState extends State<m4energy> {
                       width: blockHorizontal * 23.5,
                       decoration: BoxDecoration(
                           color: (state)
-                              ? Color.fromARGB(255, 44, 31, 61)
+                              ? Color.fromARGB(255, 7, 189, 189)
                               : Color.fromARGB(255, 43, 60, 87),
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
@@ -320,7 +320,7 @@ class _m4energyState extends State<m4energy> {
                       decoration: BoxDecoration(
                           color: (state)
                               ? Color.fromARGB(255, 43, 60, 87)
-                              : Color.fromARGB(255, 44, 31, 61),
+                              : Color.fromARGB(255, 7, 189, 189),
                           borderRadius: BorderRadius.only(
                               topRight: Radius.circular(20),
                               bottomRight: Radius.circular(20))),

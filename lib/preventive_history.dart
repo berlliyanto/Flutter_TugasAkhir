@@ -2,49 +2,66 @@ import 'dart:async';
 
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Services/troubleshoot_service.dart';
+import 'package:flutter_application_1/Services/preventive_service.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
 import 'package:flutter_application_1/constant.dart';
-import 'package:flutter_application_1/models/troubleshoot_model.dart';
+import 'package:flutter_application_1/drawer.dart';
+import 'package:flutter_application_1/models/preventive_model.dart';
 import 'package:flutter_application_1/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-class historiTB extends StatefulWidget {
-  const historiTB(String av, {super.key});
+class preventiveHistory extends StatefulWidget {
+  const preventiveHistory(String aw, {super.key});
 
   @override
-  State<historiTB> createState() => _historiTBState();
+  State<preventiveHistory> createState() => _preventiveHistoryState();
 }
 
-class _historiTBState extends State<historiTB> {
+class _preventiveHistoryState extends State<preventiveHistory> {
+  String? name, otoritas;
+  Future<void> getValidUser() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getName = shared.getString("name");
+    var getOtoritas = shared.getString("otoritas");
+    setState(() {
+      name = getName!;
+      otoritas = getOtoritas!;
+    });
+  }
   int m = 1;
   bool sort = true;
   late Timer timer;
-  StreamController streamOrder = StreamController.broadcast();
-  List<getTB> ListOrder = [];
-  GetData orderList = GetData();
-  Future<void> OrderData() async {
-    ListOrder = await orderList.getRecTB(m);
-    streamOrder.add(ListOrder);
+  StreamController streamPrev = StreamController.broadcast();
+  List<preventiveMessageModel> ListPrev = [];
+  getPreventive PrevList = getPreventive();
+  Future<void> PrevData() async {
+    ListPrev = await PrevList.getPrev(m);
+    streamPrev.add(ListPrev);
   }
 
   @override
   void initState() {
-    OrderData();
+    getValidUser();
+    PrevData();
+     timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      PrevData();
+    });
     super.initState();
   }
 
   @override
   void dispose() {
+    if(timer.isActive)timer.cancel();
     super.dispose();
   }
 
   final timeZone = tz.getLocation('Asia/Jakarta');
-
   @override
   Widget build(BuildContext context) {
+    // UNTUK LEBAR TAMPILAN
     final MediaQuerywidth = MediaQuery.of(context).size.width;
     double blockHorizontal = MediaQuerywidth / 100;
 
@@ -52,8 +69,8 @@ class _historiTBState extends State<historiTB> {
     final MediaQueryheight = MediaQuery.of(context).size.height;
     double blockVertical = MediaQueryheight / 100;
     return MaterialApp(
-      onGenerateRoute: Routes.generateRoute,
       debugShowCheckedModeBanner: false,
+      onGenerateRoute: Routes.generateRoute,
       home: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -64,22 +81,14 @@ class _historiTBState extends State<historiTB> {
           toolbarHeight: blockVertical * 6,
           shadowColor: Colors.transparent,
           title: Text(
-            "History Troubleshoot",
+            "History Maintenance",
             style: TextStyle(fontSize: blockVertical * 2.5),
           ),
           centerTitle: true,
           backgroundColor: Color.fromARGB(255, 2, 66, 87).withOpacity(0.5),
           leading: backbutton(context),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, mydashboard,
-                      arguments: 'dari mesin 1');
-                  // ignore: deprecated_member_use
-                },
-                icon: Icon(FontAwesomeIcons.house)),
-          ],
         ),
+        drawer: drawer(),
         body: Container(
           padding: EdgeInsets.only(top: blockVertical * 12),
           height: double.infinity,
@@ -89,8 +98,8 @@ class _historiTBState extends State<historiTB> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color.fromARGB(255, 32, 146, 184),
-                  Color.fromARGB(255, 4, 44, 61),
+                  Color.fromARGB(255, 5, 180, 238),
+                  Color.fromARGB(255, 1, 37, 53),
                 ]),
           ),
           child: Column(
@@ -116,13 +125,13 @@ class _historiTBState extends State<historiTB> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: blockVertical*67.2,
+                      height: blockVertical * 67.2,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: StreamBuilder(
-                              stream: streamOrder.stream,
+                              stream: streamPrev.stream,
                               builder: (context, snapshot) {
                                 return DataTable(
                                   sortColumnIndex: 0,
@@ -148,8 +157,8 @@ class _historiTBState extends State<historiTB> {
                                     bottom: BorderSide(
                                         width: blockVertical * 0.2,
                                         color: Colors.black.withOpacity(0.3)),
-                                    borderRadius:
-                                        BorderRadius.circular(blockVertical * 2),
+                                    borderRadius: BorderRadius.circular(
+                                        blockVertical * 2),
                                     verticalInside: BorderSide(
                                       width: blockVertical * 0.2,
                                       color: Colors.black.withOpacity(0.3),
@@ -189,21 +198,21 @@ class _historiTBState extends State<historiTB> {
                                     )),
                                     DataColumn(
                                         label: Text(
-                                      "Order From",
+                                      "Message",
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: blockVertical * 2),
                                     )),
                                     DataColumn(
                                         label: Text(
-                                      "Order Date",
+                                      "Info",
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: blockVertical * 2),
                                     )),
                                     DataColumn(
                                         label: Text(
-                                      "Done By",
+                                      "Date",
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: blockVertical * 2),
@@ -217,84 +226,80 @@ class _historiTBState extends State<historiTB> {
                                     )),
                                     DataColumn(
                                         label: Text(
-                                      "Message",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: blockVertical * 2),
-                                    )),
-                                    DataColumn(
-                                        label: Text(
-                                      "Status",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: blockVertical * 2),
-                                    )),
-                                    DataColumn(
-                                        label: Text(
                                       "Solved",
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: blockVertical * 2),
                                     )),
+                                    DataColumn(
+                                        label: Text(
+                                      "Action",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: blockVertical * 2),
+                                    )),
                                   ],
-                                  rows: ListOrder.map(
+                                  rows: ListPrev.map(
                                     (e) {
                                       //No
-                                      int index = ListOrder.indexOf(e);
-                                      String Number = (index + 1).toString().padLeft(ListOrder.length.toString().length);
+                                      int index = ListPrev.indexOf(e);
+                                      String Number = (index + 1)
+                                          .toString()
+                                          .padLeft(ListPrev.length
+                                              .toString()
+                                              .length);
                                       //FORMAT TANGGAL ASIA/JAKARTA
-                                      final TScreatedAt = DateTime.parse(e.createdAt!);
-                                      final NowCreatedAt = tz.TZDateTime.from(TScreatedAt, timeZone);
-                                      final TSupdatedAt = DateTime.parse(e.updatedAt!);
-                                      final NowupdatedAt = tz.TZDateTime.from(TSupdatedAt, timeZone);
-                                      final formatter = DateFormat('dd-MM-yyyy hh:mm:ss a');
-                                      final createdAtFix = formatter.format(NowCreatedAt);
-                                      final updatedAtFix = formatter.format(NowupdatedAt);
+                                      final TScreatedAt =
+                                          DateTime.parse(e.createdAt!);
+                                      final NowCreatedAt = tz.TZDateTime.from(
+                                          TScreatedAt, timeZone);
+                                      final TSupdatedAt =
+                                          DateTime.parse(e.updatedAt!);
+                                      final NowupdatedAt = tz.TZDateTime.from(
+                                          TSupdatedAt, timeZone);
+                                      final formatter =
+                                          DateFormat('dd-MM-yyyy hh:mm:ss a');
+                                      final createdAtFix =
+                                          formatter.format(NowCreatedAt);
+                                      final updatedAtFix =
+                                          formatter.format(NowupdatedAt);
                                       return DataRow(cells: [
                                         DataCell(Text(
                                           Number,
-                                          style:
-                                              TextStyle(fontSize: blockVertical * 2),
+                                          style: TextStyle(
+                                              fontSize: blockVertical * 2),
                                         )),
                                         DataCell(Text(
-                                          "${e.idorder}",
-                                          style:
-                                              TextStyle(fontSize: blockVertical * 2),
+                                          "${e.idpreventive}",
+                                          style: TextStyle(
+                                              fontSize: blockVertical * 2),
                                         )),
                                         DataCell(Text(
                                           "${e.machine_id}",
-                                          style:
-                                              TextStyle(fontSize: blockVertical * 2),
-                                        )),
-                                        DataCell(Text(
-                                          "${e.from} (${e.otoritas})",
-                                          style:
-                                              TextStyle(fontSize: blockVertical * 2),
-                                        )),
-                                        DataCell(Text(
-                                          createdAtFix,
-                                          style:
-                                              TextStyle(fontSize: blockVertical * 2),
-                                        )),
-                                        DataCell(Text(
-                                          (e.solved==true)?"${e.to}":"-",
-                                          style:
-                                              TextStyle(fontSize: blockVertical * 2),
-                                        )),
-                                        DataCell(Text(
-                                          (e.solved==true)?updatedAtFix:"-",
-                                          style:
-                                              TextStyle(fontSize: blockVertical * 2),
+                                          style: TextStyle(
+                                              fontSize: blockVertical * 2),
                                         )),
                                         DataCell(Text(
                                           "${e.message}",
-                                          style:
-                                              TextStyle(fontSize: blockVertical * 2),
+                                          style: TextStyle(
+                                              fontSize: blockVertical * 2),
                                         )),
                                         DataCell(Text(
                                           "${e.keterangan}",
-                                          style:
-                                              TextStyle(fontSize: blockVertical * 2),
+                                          style: TextStyle(
+                                              fontSize: blockVertical * 2),
+                                        )),
+                                        DataCell(Text(
+                                          createdAtFix,
+                                          style: TextStyle(
+                                              fontSize: blockVertical * 2),
+                                        )),
+                                        DataCell(Text(
+                                          (e.solved == true)
+                                              ? updatedAtFix
+                                              : "-",
+                                          style: TextStyle(
+                                              fontSize: blockVertical * 2),
                                         )),
                                         DataCell((e.solved == true)
                                             ? Icon(
@@ -305,6 +310,25 @@ class _historiTBState extends State<historiTB> {
                                             : Icon(FontAwesomeIcons.x,
                                                 size: blockVertical * 2,
                                                 color: Colors.red)),
+                                        DataCell((otoritas=="Admin"||otoritas=="User-Maintenance")?(e.solved == false)
+                                            ? ElevatedButton(
+                                                onPressed: () {
+                                                  updatePreventiveMessage.updateMessage(e.machine_id!, e.idpreventive!);
+                                                },
+                                                child: Text(
+                                                  "Solve",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize:
+                                                          blockVertical * 2),
+                                                ))
+                                            : Text(
+                                                "Solved",
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize:
+                                                        blockVertical * 2),
+                                              ):SizedBox(width: 1,)),
                                       ]);
                                     },
                                   ).toList(),
@@ -313,13 +337,18 @@ class _historiTBState extends State<historiTB> {
                         ),
                       ),
                     ),
-                    Divider(thickness: blockVertical*0.1,),
+                    Divider(
+                      thickness: blockVertical * 0.1,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: blockVertical*1.5,
-                        left: blockVertical*1.5
+                          top: blockVertical * 1.5, left: blockVertical * 1.5),
+                      child: Text(
+                        "Machine : $m",
+                        style: TextStyle(
+                            fontSize: blockVertical * 3,
+                            fontWeight: FontWeight.bold),
                       ),
-                      child: Text("Machine : $m", style: TextStyle(fontSize: blockVertical*3, fontWeight: FontWeight.bold),),
                     )
                   ],
                 ),
@@ -328,47 +357,66 @@ class _historiTBState extends State<historiTB> {
           ),
         ),
         floatingActionButton: FabCircularMenu(
-          fabOpenIcon: Icon(Icons.menu,color: Colors.white,),
-          fabCloseIcon: Icon(Icons.close,color: Colors.white,),
-          fabColor: Color.fromARGB(255, 0, 83, 151),
-          ringColor: Color.fromARGB(255, 211, 211, 211).withOpacity(0.1),
-          children: <Widget>[
-            IconButton(icon: Icon(FontAwesomeIcons.one,color: Color.fromARGB(255, 34, 93, 122),), onPressed: ()async {
-              setState(() {
-                m = 1;
-              });
-              await OrderData();
-            }),
-            IconButton(icon: Icon(FontAwesomeIcons.two,color: Color.fromARGB(255, 34, 93, 122)), onPressed: () async{
-              setState(() {
-                m = 2;
-              });
-              await OrderData();
-            }),
-            IconButton(icon: Icon(FontAwesomeIcons.three,color: Color.fromARGB(255, 34, 93, 122)), onPressed: () async{
-              setState(() {
-                m = 3;
-              });
-              await OrderData();
-            }),
-            IconButton(icon: Icon(FontAwesomeIcons.four,color: Color.fromARGB(255, 34, 93, 122)), onPressed: ()async {
-              setState(() {
-                m = 4 ;
-              });
-              await OrderData();
-            })
-          ]
-        ),
-      )
+            fabOpenIcon: Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            fabCloseIcon: Icon(
+              Icons.close,
+              color: Colors.white,
+            ),
+            fabColor: Color.fromARGB(255, 0, 83, 151),
+            ringColor: Color.fromARGB(255, 211, 211, 211).withOpacity(0.1),
+            children: <Widget>[
+              IconButton(
+                  icon: Icon(
+                    FontAwesomeIcons.one,
+                    color: Color.fromARGB(255, 34, 93, 122),
+                  ),
+                  onPressed: () async {
+                    setState(() {
+                      m = 1;
+                    });
+                    await PrevData();
+                  }),
+              IconButton(
+                  icon: Icon(FontAwesomeIcons.two,
+                      color: Color.fromARGB(255, 34, 93, 122)),
+                  onPressed: () async {
+                    setState(() {
+                      m = 2;
+                    });
+                    await PrevData();
+                  }),
+              IconButton(
+                  icon: Icon(FontAwesomeIcons.three,
+                      color: Color.fromARGB(255, 34, 93, 122)),
+                  onPressed: () async {
+                    setState(() {
+                      m = 3;
+                    });
+                    await PrevData();
+                  }),
+              IconButton(
+                  icon: Icon(FontAwesomeIcons.four,
+                      color: Color.fromARGB(255, 34, 93, 122)),
+                  onPressed: () async {
+                    setState(() {
+                      m = 4;
+                    });
+                    await PrevData();
+                  })
+            ]),
+      ),
     );
   }
 
   onSortId(int ColumnIndex, bool ascending) {
     if (ColumnIndex == 0) {
       if (ascending) {
-        ListOrder.sort((a, b) => a.idorder!.compareTo(b.idorder!));
+        ListPrev.sort((a, b) => a.idpreventive!.compareTo(b.idpreventive!));
       } else if (ascending == false) {
-        ListOrder.sort((a, b) => b.idorder!.compareTo(a.idorder!));
+        ListPrev.sort((a, b) => b.idpreventive!.compareTo(a.idpreventive!));
       }
     }
   }

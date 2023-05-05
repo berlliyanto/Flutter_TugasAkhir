@@ -102,7 +102,7 @@ class _reportState extends State<report> {
                 icon: Icon(FontAwesomeIcons.house))
           ],
         ),
-        drawer: drawer(),
+        drawer: drawer(mode: "Report"),
         body: Container(
           padding: EdgeInsets.fromLTRB(blockVertical * 1, blockVertical * 11,
               blockVertical * 1, blockVertical * 0.5),

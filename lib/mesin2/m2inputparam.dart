@@ -267,7 +267,7 @@ class _m2paramState extends State<m2param> {
                                             height: blockVertical * 1,
                                           ),
                                           Text(
-                                            "Tipe Benda",
+                                            "Object Type",
                                             style: TextStyle(
                                                 fontSize: blockVertical * 1.5,
                                                 fontWeight: FontWeight.bold),
@@ -545,6 +545,17 @@ class _m2paramState extends State<m2param> {
                     cycle.text.isNotEmpty &&
                     oee.text.isNotEmpty &&
                     tipeValue!.isNotEmpty) {
+                  if (int.parse(oee.text) > 100) {
+                    AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.error,
+                            animType: AnimType.leftSlide,
+                            title: "Error",
+                            desc: "OEE value should not be greater than 100% !",
+                            useRootNavigator: true,
+                            autoHide: Duration(seconds: 2))
+                        .show();
+                  }else{
                   inputParameter
                       .insertParam2(machine_id, loading.text, cycle.text,
                           oee.text, tipeValue.toString(), state)
@@ -572,6 +583,7 @@ class _m2paramState extends State<m2param> {
                   triggCost.trigCost(2);
                   trigPerformance.triggerPerformance(2);
                   trigOEE.triggerOEE(2);
+                  }
                 } else {
                   AwesomeDialog(
                           context: context,

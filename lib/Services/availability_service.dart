@@ -9,7 +9,7 @@ class getAvailability{
   Future availabilityM(int machine_id)async{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestAvailability?machine_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/latestAvailability?machine_id=$machine_id");
     var response = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -22,7 +22,7 @@ class getAvailability{
   Future getState(int machine_id) async{
      final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestAvailability?machine_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/latestAvailability?machine_id=$machine_id");
     var response = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -38,7 +38,7 @@ class trigAvailability{
   static Future triggerAvai(int machine_id, int state)async{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/trigAvailability");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/trigAvailability");
     var response = await http.post(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -59,7 +59,7 @@ class resetAvailability{
   static Future resetAvai(int machine_id)async{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/resetAvailability");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/resetAvailability");
     var response = await http.put(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'

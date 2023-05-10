@@ -9,7 +9,7 @@ class getOEE{
   Future getResult(int machine_id) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getOEE?machine_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getOEE?machine_id=$machine_id");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -21,7 +21,7 @@ class getOEE{
   Future dashOEE() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getdashOEE");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getdashOEE");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -36,7 +36,7 @@ class OEEHistori{
     Future HistoryOEE(int machine_id) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getOEEHistori?machine_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getOEEHistori?machine_id=$machine_id");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -52,7 +52,7 @@ class trigOEE{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url = Uri.parse(
-        "https://aplikasi-pms-berli.onrender.com/api/trigOEE");
+        "https://berli.aplikasipms.com/api/trigOEE");
     var response = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ class resetOEE{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url = Uri.parse(
-        "https://aplikasi-pms-berli.onrender.com/api/resetOEE");
+        "https://berli.aplikasipms.com/api/resetOEE");
     var response = await http.put(url,
         headers: {
           'Content-Type': 'application/json',

@@ -9,7 +9,7 @@ class trigPerformance {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url = Uri.parse(
-        "https://aplikasi-pms-berli.onrender.com/api/trigPerformance");
+        "https://berli.aplikasipms.com/api/trigPerformance");
     var response = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ class resetPerformance {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url = Uri.parse(
-        "https://aplikasi-pms-berli.onrender.com/api/resetPerformance");
+        "https://berli.aplikasipms.com/api/resetPerformance");
     var response = await http.put(url,
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ class getPerformance{
   Future getPerform(int machine_id) async {
       final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestPerformance?machine_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/latestPerformance?machine_id=$machine_id");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'

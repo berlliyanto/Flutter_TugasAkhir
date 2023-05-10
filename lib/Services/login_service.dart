@@ -13,7 +13,7 @@ class LoginService{
       'Content-Type': 'application/json',
     };
 
-    var url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/login");
+    var url = Uri.parse("https://berli.aplikasipms.com/api/login");
 
     var responseLogin  = await client.post(url,
      headers: requestHeaders, 

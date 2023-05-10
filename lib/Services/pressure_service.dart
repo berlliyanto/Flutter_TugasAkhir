@@ -7,7 +7,7 @@ class getPressureGauge{
    Future getValue() async{
     final shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/pressureGauge");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/pressureGauge");
 
     var response = await http.get(url, headers: <String, String>{'Content-Type': 'application/json','Authorization': 'Basic $getToken'},);
     Iterable it = (json.decode(response.body)as Map<String, dynamic>)["data"];
@@ -18,7 +18,7 @@ class getPressureGauge{
 
 class getPressureChart{
   Future getPressure() async {
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/pressureChart");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/pressureChart");
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     var responseGetAll = await http.get(url,headers: {

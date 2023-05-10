@@ -8,7 +8,7 @@ class updatePreventiveMessage{
   static Future<updatePreventiveMessage> updateMessage(int machine_id,int id) async {
      final SharedPreferences shared = await SharedPreferences.getInstance();
       var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/updatePrevStatus?machine_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/updatePrevStatus?machine_id=$machine_id");
     var response = await http.put(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -29,7 +29,7 @@ class updateJadwalPreventive{
   static Future<updateJadwalPreventive> updateJadwal(int machine_id,String hari,String jam,String menit) async {
      final SharedPreferences shared = await SharedPreferences.getInstance();
       var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/updateJadwalPrev");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/updateJadwalPrev");
     var response = await http.put(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -52,7 +52,7 @@ class getJadwalPrev{
   Future getJadwal() async {
       final SharedPreferences shared = await SharedPreferences.getInstance();
       var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getJadwalPrev");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getJadwalPrev");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -67,7 +67,7 @@ class getPreventive{
   Future getPrev(int machine_id) async {
       final SharedPreferences shared = await SharedPreferences.getInstance();
       var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getPreventive?machine_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getPreventive?machine_id=$machine_id");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'

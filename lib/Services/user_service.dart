@@ -17,7 +17,7 @@ class HttpUserPost {
       String name, String otoritas, String noHp) async {
         final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-        Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/register");
+        Uri url = Uri.parse("https://berli.aplikasipms.com/api/register");
 
     var hasilResponsePost = await http.post(url,
         headers: <String, String>{'Content-Type': 'application/json','Authorization': 'Basic $getToken'},
@@ -51,7 +51,7 @@ class HttpUserGet {
       this.noHp});
 
   static Future<HttpUserGet> connectAPIGet(String id) async {
-    Uri urlpost = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/users/$id");
+    Uri urlpost = Uri.parse("https://berli.aplikasipms.com/api/users/$id");
 
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
@@ -71,7 +71,7 @@ class HttpUserGet {
 }
 //class GET ALL DATA untuk di menu daftar akun--------------------------------------------------------------------------------------------------------------------
 class allUserGet{
-  final url = 'https://aplikasi-pms-berli.onrender.com/api/users';
+  final url = 'https://berli.aplikasipms.com/api/users';
   Future connectAPIGetAll() async{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
@@ -93,7 +93,7 @@ class allUserGet{
   Future getuserMT() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    const url2 = 'https://aplikasi-pms-berli.onrender.com/api/userMT';
+    const url2 = 'https://berli.aplikasipms.com/api/userMT';
     var responseGetAll = await http.get(Uri.parse(url2), headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -124,7 +124,7 @@ class HttpUserPut {
       String name, String otoritas, String noHp) async {
         final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri urlput = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/users/$id");
+    Uri urlput = Uri.parse("https://berli.aplikasipms.com/api/users/$id");
 
     var hasilResponsePut = await http.put(urlput,
         headers: <String, String>{'Content-Type': 'application/json','Authorization': 'Basic $getToken'},
@@ -157,7 +157,7 @@ class HttpUserDelete {
   static Future connectAPIDelete(String id) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri urlDel = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/users/$id");
+    Uri urlDel = Uri.parse("https://berli.aplikasipms.com/api/users/$id");
 
     var hasilResponseDel = await http.delete(urlDel,headers: {
       'Content-Type': 'application/json',

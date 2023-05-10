@@ -10,7 +10,7 @@ class PostData {
       String to, String message) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/trigTB");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/trigTB");
 
     var responsePost = await http.post(
       url,
@@ -34,7 +34,7 @@ class PostData {
   static Future sendMessage(int machine_id,String to, String message,String from) async{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/sendMessageTB?machine_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/sendMessageTB?machine_id=$machine_id");
     var response = await http.post(url,headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Basic $getToken'
@@ -55,7 +55,7 @@ class GetData {
   Future getRecTB(int machine_id) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getTB?machine_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getTB?machine_id=$machine_id");
     var hasilResponseGet = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -71,7 +71,7 @@ class UpdateData{
   static Future<UpdateData> updateTB(int machine_id,int idorder,String keterangan, bool solved, String to) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/updateTB?machine_id=$machine_id&idorder=$idorder");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/updateTB?machine_id=$machine_id&idorder=$idorder");
 
     var responsePost = await http.put(
       url,

@@ -9,7 +9,7 @@ class getOneLT{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url = Uri.parse(
-        "https://aplikasi-pms-berli.onrender.com/api/getOneLT?machine_id=$machine_id");
+        "https://berli.aplikasipms.com/api/getOneLT?machine_id=$machine_id");
     var hasilResponseGet = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -25,7 +25,7 @@ class getAllLT{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url = Uri.parse(
-        "https://aplikasi-pms-berli.onrender.com/api/getAllLT");
+        "https://berli.aplikasipms.com/api/getAllLT");
     var hasilResponseGet = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/additional/editprice.dart';
 import 'package:flutter_application_1/additional/history_trouble.dart';
 import 'package:flutter_application_1/akun.dart';
 import 'package:flutter_application_1/constant.dart';
@@ -242,6 +243,10 @@ class Routes {
       case myhistoriPrev:
       var aw = settings.arguments as String;
       return BouncyPageRoute(page: preventiveHistory(aw));
+
+      case myeditPrice:
+      var av = settings.arguments as String;
+      return BouncyPageRoute(page: editprice(av));
       
       default:
     }

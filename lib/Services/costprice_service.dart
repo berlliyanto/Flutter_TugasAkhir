@@ -8,7 +8,7 @@ class getPrice {
   Future getPriceList() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getPrice");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getPrice");
     var hasilResponseGet = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -25,7 +25,7 @@ class triggCost {
   static Future<triggCost> trigCost(int machine_id) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/trigCost");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/trigCost");
     var hasilResponseGet = await http.post(url,
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ class getLatestCost {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url = Uri.parse(
-        "https://aplikasi-pms-berli.onrender.com/api/getCost?machine_id=$machine_id");
+        "https://berli.aplikasipms.com/api/getCost?machine_id=$machine_id");
     var hasilResponseGet = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -62,7 +62,7 @@ class getDashCost {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url =
-        Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getDashCost");
+        Uri.parse("https://berli.aplikasipms.com/api/getDashCost");
     var hasilResponseGet = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -80,7 +80,7 @@ class getCostHistori {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url = Uri.parse(
-        "https://aplikasi-pms-berli.onrender.com/api/getCostHistori?machine_id=$machine_id");
+        "https://berli.aplikasipms.com/api/getCostHistori?machine_id=$machine_id");
     var hasilResponseGet = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -98,7 +98,7 @@ class resetCost {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url = Uri.parse(
-        "https://aplikasi-pms-berli.onrender.com/api/resetCost?machine_id=$machine_id");
+        "https://berli.aplikasipms.com/api/resetCost?machine_id=$machine_id");
     var hasilResponseGet = await http.put(url, headers: <String, String>{
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -116,7 +116,7 @@ class updateHarga {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     Uri url =
-        Uri.parse("https://aplikasi-pms-berli.onrender.com/api/updatePrice");
+        Uri.parse("https://berli.aplikasipms.com/api/updatePrice");
     var response = await http.put(url,
         headers: {
           'Content-Type': 'application/json',

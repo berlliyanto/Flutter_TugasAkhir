@@ -27,7 +27,7 @@ class inputParameter {
       int state) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/inputParam");
 
     var hasilResponsePost = await http.post(url,
         headers: <String, String>{'Content-Type': 'application/json', 'Authorization': 'Basic $getToken' },
@@ -52,7 +52,7 @@ class inputParameter {
       int state) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/inputParam");
 
     var hasilResponsePost = await http.post(url,
         headers: <String, String>{'Content-Type': 'application/json', 'Authorization': 'Basic $getToken' },
@@ -77,7 +77,7 @@ class inputParameter {
       int state) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/inputParam");
 
     var hasilResponsePost = await http.post(url,
         headers: <String, String>{'Content-Type': 'application/json', 'Authorization': 'Basic $getToken' },
@@ -102,7 +102,7 @@ class inputParameter {
       int state) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputParam");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/inputParam");
 
     var hasilResponsePost = await http.post(url,
         headers: <String, String>{'Content-Type': 'application/json', 'Authorization': 'Basic $getToken' },
@@ -129,7 +129,7 @@ class resetParam {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
         shared.setInt('stateParamM1',state);
-    Uri urlput = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/resetParamM1");
+    Uri urlput = Uri.parse("https://berli.aplikasipms.com/api/resetParamM1");
 
     var hasilResponsePut = await http.put(
       urlput,
@@ -158,7 +158,7 @@ class resetParamM2 {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
         shared.setInt('stateParamM2',state);
-    Uri urlput = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/resetParamM2");
+    Uri urlput = Uri.parse("https://berli.aplikasipms.com/api/resetParamM2");
 
     var hasilResponsePut = await http.put(
       urlput,
@@ -187,7 +187,7 @@ class resetParamM3 {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
         shared.setInt('stateParamM3',state);
-    Uri urlput = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/resetParamM3");
+    Uri urlput = Uri.parse("https://berli.aplikasipms.com/api/resetParamM3");
 
     var hasilResponsePut = await http.put(
       urlput,
@@ -215,7 +215,7 @@ class resetParamM4 {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
         shared.setInt('stateParamM4',state);
-    Uri urlput = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/resetParamM4");
+    Uri urlput = Uri.parse("https://berli.aplikasipms.com/api/resetParamM4");
 
     var hasilResponsePut = await http.put(
       urlput,
@@ -236,7 +236,7 @@ class resetParamM4 {
 
 //Report
 class reportParam {
-  Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/reportParam");
+  Uri url = Uri.parse("https://berli.aplikasipms.com/api/reportParam");
   Future getParam() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
@@ -253,7 +253,7 @@ class reportParam {
 //Histori
 class HistoriParam {
   Future getParam(int machine_id) async {
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getParamHistori?machine_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getParamHistori?machine_id=$machine_id");
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     var hasilResponseGet = await http.get(url,headers: {
@@ -268,7 +268,7 @@ class HistoriParam {
 
 //READ LATEST INPUT PARAMETER M1
 class readLatestParamM1 {
-  Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM1");
+  Uri url = Uri.parse("https://berli.aplikasipms.com/api/latestParamM1");
   Future getParamM1() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
@@ -297,7 +297,7 @@ class readLatestParamM1 {
 
 //READ LATEST INPUT PARAMETER M2
 class readLatestParamM2 {
-  Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM2");
+  Uri url = Uri.parse("https://berli.aplikasipms.com/api/latestParamM2");
   Future getParamM2() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
@@ -326,7 +326,7 @@ class readLatestParamM2 {
 
 //READ LATEST INPUT PARAMETER M3
 class readLatestParamM3 {
-      Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM3");
+      Uri url = Uri.parse("https://berli.aplikasipms.com/api/latestParamM3");
   Future getParamM3() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
@@ -355,7 +355,7 @@ class readLatestParamM3 {
 
 //READ LATEST INPUT PARAMETER M2
 class readLatestParamM4 {
-  Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/latestParamM4");
+  Uri url = Uri.parse("https://berli.aplikasipms.com/api/latestParamM4");
   Future getParamM4() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");

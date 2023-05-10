@@ -13,7 +13,7 @@ class getStatus{
   static Future readStat() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStatus");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getStatus");
 
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ class getStatusM1{
   static Future readStatM1() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStatusM1");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getStatusM1");
 
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ class getStatusM2{
   static Future readStatM2() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStatusM2");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getStatusM2");
 
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ class getStatusM3{
   static Future readStatM3() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStatusM3");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getStatusM3");
 
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ class getStatusM4{
   static Future readStatM4() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStatusM4");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getStatusM4");
 
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',

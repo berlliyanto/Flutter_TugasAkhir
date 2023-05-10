@@ -9,7 +9,7 @@ class readStock{
     Future getStock(int machine_id) async {
       final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getStock?machine_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getStock?machine_id=$machine_id");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -23,7 +23,7 @@ class readStock{
     Future getallStock() async {
       final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/allStock");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/allStock");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -45,7 +45,7 @@ class addStock{
   static Future<addStock> putStock(int A, int B, int C,int machine_id) async{
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/addStock?m_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/addStock?m_id=$machine_id");
 
     var hasilResponsePut = await http.put(url,headers: {
       'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ class addriwayatStock {
   static Future<addriwayatStock> connectAPIPost(int machine_id,String tipe, int jumlah) async {
         final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-        Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/inputStock");
+        Uri url = Uri.parse("https://berli.aplikasipms.com/api/inputStock");
 
     var hasilResponsePost = await http.post(url,
         headers: <String, String>{'Content-Type': 'application/json','Authorization': 'Basic $getToken'},
@@ -107,7 +107,7 @@ class getriwayat{
     Future gethistori(int m_id) async {
       final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/historiStock?m_id=$m_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/historiStock?m_id=$m_id");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'

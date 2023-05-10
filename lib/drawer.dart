@@ -147,7 +147,7 @@ class _drawerState extends State<drawer> {
                     size: blockVertical * 3,
                   ),
                   children: [
-                    //Mesin 1
+                    //Mesin 1 
                     ListTile(
                       tileColor: (widget.mode == "Mesin1")
                           ? Colors.grey[200]
@@ -365,8 +365,8 @@ class _drawerState extends State<drawer> {
                           shared.remove("name");
                           shared.remove("otoritas");
                           // ignore: use_build_context_synchronously
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, mylogin, (route) => false,
+                          Navigator.pushReplacementNamed(
+                              context, mylogin,
                               arguments: "from drawer");
                         }).show();
                   },
@@ -669,8 +669,8 @@ class _drawerState extends State<drawer> {
                           shared.remove("name");
                           shared.remove("otoritas");
                           // ignore: use_build_context_synchronously
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, mylogin, (route) => false,
+                          Navigator.pushReplacementNamed(
+                              context, mylogin,
                               arguments: "from drawer");
                         }).show();
                   },

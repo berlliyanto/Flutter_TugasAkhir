@@ -4,7 +4,7 @@ import 'package:flutter_application_1/models/energy_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Energy {
-  final url = 'https://aplikasi-pms-berli.onrender.com/api/latestEnergy';
+  final url = 'https://berli.aplikasipms.com/api/latestEnergy';
 
   Future getEnergy() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
@@ -28,7 +28,7 @@ class Energy {
 }
 
 class chartperEnergy {
-  final url = 'https://aplikasi-pms-berli.onrender.com/api/grafikEnergy';
+  final url = 'https://berli.aplikasipms.com/api/grafikEnergy';
 
   //VOLTAGE
   Future getVolt() async {

@@ -12,7 +12,7 @@ class trigQuality {
 
   static Future<trigQuality> TriggerQuality(int machine_id, String tipe) async {
     Uri url =
-        Uri.parse('https://aplikasi-pms-berli.onrender.com/api/trigQuality');
+        Uri.parse('https://berli.aplikasipms.com/api/trigQuality');
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
 
@@ -44,7 +44,7 @@ class getQuality{
   Future getQualityM(int machine_id, String tipe) async {
       final SharedPreferences shared = await SharedPreferences.getInstance();
       var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getQualityData?m_id=$machine_id&tipe=$tipe");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getQualityData?m_id=$machine_id&tipe=$tipe");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -59,7 +59,7 @@ class dashQualityy{
   Future dashQualityM() async {
       final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/dashboardQuality");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/dashboardQuality");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -74,7 +74,7 @@ class recordQuality{
   Future getrecQuality(int machine_id)async{
     final SharedPreferences shared = await SharedPreferences.getInstance();
         var getToken = shared.getString("token");
-    Uri url = Uri.parse("https://aplikasi-pms-berli.onrender.com/api/getRecQuality?m_id=$machine_id");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getRecQuality?m_id=$machine_id");
     var hasilResponseGet = await http.get(url,headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -92,7 +92,7 @@ class inputDefect{
 
   static Future<inputDefect> defectQuality(int defect, int machine_id, String tipe) async {
     Uri url =
-        Uri.parse('https://aplikasi-pms-berli.onrender.com/api/defect?m_id=$machine_id&tipe=$tipe');
+        Uri.parse('https://berli.aplikasipms.com/api/defect?m_id=$machine_id&tipe=$tipe');
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
 
@@ -121,7 +121,7 @@ class resetQuality{
   resetQuality({this.machine_id});
   static Future<resetQuality> reset(int machine_id) async {
     Uri url =
-        Uri.parse('https://aplikasi-pms-berli.onrender.com/api/resetQuality?m_id=$machine_id');
+        Uri.parse('https://berli.aplikasipms.com/api/resetQuality?m_id=$machine_id');
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
     var resetResponse = await http.put(

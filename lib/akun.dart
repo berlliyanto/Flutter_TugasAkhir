@@ -489,7 +489,7 @@ class _MyakunState extends State<Myakun> {
     // buat file kosong di directory
     final dir = await getApplicationDocumentsDirectory();
     final file = File('${dir.path}/Daftar_User.pdf');
-
+    print(dir);
     // timpa file kosong dengan file pdf
     await file.writeAsBytes(bytes);
 

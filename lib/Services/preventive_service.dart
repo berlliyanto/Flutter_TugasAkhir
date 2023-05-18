@@ -76,4 +76,6 @@ class getPreventive{
         List<preventiveMessageModel> prevMessage = it.map((e) =>  preventiveMessageModel.fromJSON(e)).toList();
         return prevMessage;
   }
+
+  map(List<String> Function(dynamic e) param0) {}
 }

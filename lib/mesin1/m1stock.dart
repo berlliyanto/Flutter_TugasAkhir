@@ -163,7 +163,7 @@ class _m1stockState extends State<m1stock> {
                             fontSize: 26,
                             fontWeight: FontWeight.bold),
                       ),
-                      (otoritas=="Admin"||otoritas=="User-Management")?ButtonaddStock(blockVertical):ButtonaddStockDis(blockVertical),
+                      (otoritas=="Admin"||otoritas=="User-Production")?ButtonaddStock(blockVertical):ButtonaddStockDis(blockVertical),
                     ],
                   ),
                 ),

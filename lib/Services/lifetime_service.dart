@@ -4,7 +4,7 @@ import 'package:flutter_application_1/models/lifetime_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class getOneLT{
+class getOneLT {
   Future getOne(int machine_id) async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
@@ -14,18 +14,18 @@ class getOneLT{
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
     });
-    final data = (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
+    final data =
+        (json.decode(hasilResponseGet.body) as Map<String, dynamic>)["data"];
     final int LT = data['timevalue'];
     return LT;
   }
 }
 
-class getAllLT{
+class getAllLT {
   Future getAll() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
     var getToken = shared.getString("token");
-    Uri url = Uri.parse(
-        "https://berli.aplikasipms.com/api/getAllLT");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getAllLT");
     var hasilResponseGet = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Basic $getToken'
@@ -35,5 +35,30 @@ class getAllLT{
     List<lifetimeModel> LTList =
         it.map((e) => lifetimeModel.fromJSON(e)).toList();
     return LTList;
+  }
+}
+
+class updateLT {
+  static Future<updateLT> updateUmur(int machine_id, int timevalue) async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getToken = shared.getString("token");
+    Uri url = Uri.parse(
+        "https://berli.aplikasipms.com/api/updateLT?machine_id=$machine_id");
+    var responseUpdate = await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic $getToken'
+      },
+      body: jsonEncode(
+        {
+          "timevalue": timevalue,
+        },
+      ),
+    );
+    if(responseUpdate.statusCode==200){
+      print(200);
+    }
+    return updateLT();
   }
 }

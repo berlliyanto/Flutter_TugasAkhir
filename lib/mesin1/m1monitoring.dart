@@ -328,7 +328,7 @@ class _m1monitoringState extends State<m1monitoring> {
                                     blockHorizontal,
                                     blockVertical,
                                     "Life Time",
-                                    "$timevalue Sec",
+                                    "${(timevalue!/60).toStringAsFixed(2)} Min",
                                     FontAwesomeIcons.heartPulse)
                               ],
                             ),
@@ -762,7 +762,7 @@ class _m1monitoringState extends State<m1monitoring> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                "*If there is no defect, please enter a value 0",
+                                "*If there is no defect, please enter a value 0 or skip",
                                 style: TextStyle(fontSize: blockVertical * 1.3),
                               ),
                             ],

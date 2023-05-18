@@ -28,7 +28,9 @@ class PostData {
         "state": 1
       }),
     );
-    var data = (json.decode(responsePost.body) as Map<String, dynamic>)['data'];
+    if(responsePost.statusCode==200){
+      print(200);
+    }
     return PostData();
   }
   static Future sendMessage(int machine_id,String to, String message,String from) async{
@@ -85,7 +87,9 @@ class UpdateData{
         "solved": solved,
       }),
     );
-    var data = (json.decode(responsePost.body) as Map<String, dynamic>)['data'];
+    if(responsePost.statusCode==200){
+      print(200);
+    }
     return UpdateData();
   }
 }

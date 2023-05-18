@@ -24,7 +24,6 @@ class _myCalendarState extends State<myCalendar> {
     final List<Maintenance> preventiveData = <Maintenance>[];
     final DateTime today = DateTime.now();
     final DateTime startTime = DateTime(today.year,today.month,today.day,9,0,0);
-    final DateTime endTime = startTime.add(const Duration(hours: 2));
     preventiveData.add(Maintenance(startTime, "Maintenance", Color.fromARGB(255, 15, 134, 4), false));
     return preventiveData;
   }

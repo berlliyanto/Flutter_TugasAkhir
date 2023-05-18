@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/preventive_service.dart';
+import 'package:flutter_application_1/additional/report_maintenance.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
-import 'package:flutter_application_1/constant.dart';
 import 'package:flutter_application_1/drawer.dart';
 import 'package:flutter_application_1/models/preventive_model.dart';
 import 'package:flutter_application_1/routes.dart';
@@ -63,7 +63,6 @@ class _preventiveHistoryState extends State<preventiveHistory> {
   Widget build(BuildContext context) {
     // UNTUK LEBAR TAMPILAN
     final MediaQuerywidth = MediaQuery.of(context).size.width;
-    double blockHorizontal = MediaQuerywidth / 100;
 
     // UNTUK TINGGI TAMPILAN
     final MediaQueryheight = MediaQuery.of(context).size.height;
@@ -87,6 +86,19 @@ class _preventiveHistoryState extends State<preventiveHistory> {
           centerTitle: true,
           backgroundColor: Color.fromARGB(255, 2, 66, 87).withOpacity(0.5),
           leading: backbutton(context),
+          actions: [
+            IconButton(onPressed: (){
+              if(m==1){
+                    reportMaintenance(mid: 1).Trouble();
+                  }else if(m==2){
+                    reportMaintenance(mid:2).Trouble();
+                  }else if(m==3){
+                    reportMaintenance(mid:3).Trouble();
+                  }else{
+                    reportMaintenance(mid: 4).Trouble();
+                  }
+            }, icon: Icon(Icons.picture_as_pdf, color: Colors.white,))
+          ],
         ),
         drawer: drawer(),
         body: Container(
@@ -107,15 +119,15 @@ class _preventiveHistoryState extends State<preventiveHistory> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "History",
+                "History Scheduled Maintenance",
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: blockVertical * 4,
+                    fontSize: blockVertical * 2.5,
                     fontWeight: FontWeight.bold),
               ),
               Container(
                 margin: EdgeInsets.only(top: blockVertical * 3),
-                height: blockVertical * 80,
+                height: blockVertical * 82,
                 width: MediaQuerywidth,
                 decoration: BoxDecoration(
                   color: Colors.white,

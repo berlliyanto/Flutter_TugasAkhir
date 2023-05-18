@@ -4,13 +4,11 @@
 import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_application_1/Services/lifetime_service.dart';
 import 'package:flutter_application_1/Services/preventive_service.dart';
 import 'package:flutter_application_1/constant.dart';
 import 'package:flutter_application_1/models/lifetime_model.dart';
 import 'package:flutter_application_1/models/preventive_model.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/drawer.dart';
 import 'package:flutter_application_1/routes.dart';
@@ -28,6 +26,7 @@ class preventive extends StatefulWidget {
 }
 
 class _preventiveState extends State<preventive> {
+  TextEditingController umur = TextEditingController();
   String? name, otoritas;
   Future<void> getValidUser() async {
     final SharedPreferences shared = await SharedPreferences.getInstance();
@@ -195,10 +194,11 @@ class _preventiveState extends State<preventive> {
                                           blockVertical,
                                           blockHorizontal,
                                           "Machine ${e.machine_id}",
-                                          "${e.timevalue}",
-                                          (e.timevalue! >= 10000)
+                                          (e.timevalue!/60).toStringAsFixed(2),
+                                          (e.timevalue! >= 3600)
                                               ? Colors.green
-                                              : Colors.red);
+                                              : Colors.red,
+                                          e.machine_id!);
                                     }).toList()),
                               );
                             } else if (snapshot.connectionState ==
@@ -230,13 +230,13 @@ class _preventiveState extends State<preventive> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Lifetime(blockVertical, blockHorizontal,
-                                      "Machine 1", "-", Colors.black),
+                                      "Machine 1", "-", Colors.black, 1),
                                   Lifetime(blockVertical, blockHorizontal,
-                                      "Machine 2", "-", Colors.black),
+                                      "Machine 2", "-", Colors.black, 2),
                                   Lifetime(blockVertical, blockHorizontal,
-                                      "Machine 3", "-", Colors.black),
+                                      "Machine 3", "-", Colors.black, 3),
                                   Lifetime(blockVertical, blockHorizontal,
-                                      "Machine 4", "-", Colors.black),
+                                      "Machine 4", "-", Colors.black, 4),
                                 ],
                               ),
                             );
@@ -315,7 +315,8 @@ class _preventiveState extends State<preventive> {
                                       ),
                                     );
                                   }
-                                  return Center();}).toList(),
+                                  return Center();
+                                }).toList(),
                               );
                             }),
                       ),
@@ -367,7 +368,7 @@ class _preventiveState extends State<preventive> {
   }
 
   Widget Lifetime(double blockVertical, double blockHorizontal, String title,
-      String value, Color colors) {
+      String value, Color colors, int machine_id) {
     return Container(
       margin: EdgeInsets.only(right: blockHorizontal * 5),
       padding: EdgeInsets.only(
@@ -384,9 +385,47 @@ class _preventiveState extends State<preventive> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
-            FontAwesomeIcons.heartPulse,
-            size: blockVertical * 2,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                onTap: (){
+                  AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.noHeader,
+                      useRootNavigator: true,
+                      body: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Increase Lifetime Machine $machine_id",
+                            style: TextStyle(
+                                fontSize: blockVertical * 2.5,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: blockVertical * 1.5,
+                          ),
+                          TextField(
+                            controller: umur,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                                hintText: "Increase Lifetime (Second)"),
+                          ),
+                        ],
+                      ),
+                      btnOkText: "Add",
+                      btnOkIcon: FontAwesomeIcons.plus,
+                      btnOkOnPress: () {
+                        updateLT.updateUmur(machine_id, int.parse(umur.text));
+                      },
+                      btnCancelIcon: FontAwesomeIcons.ban,
+                      btnCancelOnPress: () {})
+                  .show();
+                },
+                child: Icon(Icons.add, size: blockVertical*2.5,),
+              )
+            ],
           ),
           Text(
             title,
@@ -396,10 +435,10 @@ class _preventiveState extends State<preventive> {
             ),
           ),
           SizedBox(
-            height: blockVertical * 3,
+            height: blockVertical * 2,
           ),
           Text(
-            "$value Sec",
+            "$value Min",
             style: TextStyle(
                 fontSize: blockVertical * 2.5,
                 fontWeight: FontWeight.bold,

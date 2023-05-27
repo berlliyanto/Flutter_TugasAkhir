@@ -388,7 +388,7 @@ class _preventiveState extends State<preventive> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              GestureDetector(
+              (otoritas=="Admin"||otoritas=="User-Maintenance")?GestureDetector(
                 onTap: (){
                   AwesomeDialog(
                       context: context,
@@ -410,21 +410,21 @@ class _preventiveState extends State<preventive> {
                             controller: umur,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                                hintText: "Increase Lifetime (Second)"),
+                                hintText: "Increase Lifetime (Minute)"),
                           ),
                         ],
                       ),
                       btnOkText: "Add",
                       btnOkIcon: FontAwesomeIcons.plus,
                       btnOkOnPress: () {
-                        updateLT.updateUmur(machine_id, int.parse(umur.text));
+                        updateLT.updateUmur(machine_id, (int.parse(umur.text)*60));
                       },
                       btnCancelIcon: FontAwesomeIcons.ban,
                       btnCancelOnPress: () {})
                   .show();
                 },
                 child: Icon(Icons.add, size: blockVertical*2.5,),
-              )
+              ): SizedBox()
             ],
           ),
           Text(

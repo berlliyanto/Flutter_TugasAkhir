@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter_application_1/Services/availability_service.dart';
 import 'package:flutter_application_1/Services/oee_service.dart';
+import 'package:flutter_application_1/Services/plant_status.dart';
 import 'package:flutter_application_1/models/oee_model.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -83,9 +84,18 @@ class _dashboardState extends State<dashboard> {
     status = await getStatus.readStat();
     streamStatus.add(status);
   }
+bool? statusPlant;
+  Future<void> plantState()async {
+    plantStatus().statusPlant().then((value) {
+      setState(() {
+        statusPlant = value;
+      });
+    });
+  }
 
   @override
   void initState() {
+    plantState();
     OEEData();
     avaiState();
     QualityData();
@@ -94,6 +104,7 @@ class _dashboardState extends State<dashboard> {
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       getStatusM();
       QualityData();
+       plantState();
       OEEData();
     });
     super.initState();
@@ -208,6 +219,7 @@ class _dashboardState extends State<dashboard> {
                 scrollDirection: Axis.vertical,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //LOGIN DATA---------------------------------------------------------------------------------------------------------
                     Padding(
@@ -269,6 +281,18 @@ class _dashboardState extends State<dashboard> {
                       ),
                     ),
                     //STATUS MESIN--------------------------------------------------------------------------------------------------------------
+                    Container(
+                      margin: EdgeInsets.only(left: blockHorizontal*3,right: blockHorizontal*3, bottom: blockVertical*1 ),
+                      height: blockVertical*4,
+                      width: MediaQuerywidth,
+                      padding: EdgeInsets.all(blockVertical*1),
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        color: (statusPlant==true)?Colors.green:Colors.red,
+                        borderRadius: BorderRadius.circular(blockVertical*1)
+                      ),
+                      child: Text("Plant Status : ${(statusPlant==true)?'Connected':'Not-Connected'}", style: TextStyle(color: Colors.white,fontSize: blockVertical*2, fontWeight: FontWeight.bold),)
+                    ),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: blockHorizontal * 3),
@@ -313,11 +337,11 @@ class _dashboardState extends State<dashboard> {
                                               CircleAvatar(
                                                   radius: blockVertical * 2.8,
                                                   backgroundColor:
-                                                      (e.status == 1)
+                                                      (e.status == 1 && statusPlant == true)
                                                           ? Colors.green
                                                           : Colors.red,
                                                   child: Icon(
-                                                    (e.status == 1)
+                                                    (e.status == 1 && statusPlant == true)
                                                         ? FontAwesomeIcons.check
                                                         : FontAwesomeIcons.x,
                                                     color: Colors.white,

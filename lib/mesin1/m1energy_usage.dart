@@ -143,7 +143,7 @@ class _m1energyState extends State<m1energy> {
                                                   constraints,
                                                   FontAwesomeIcons.carBattery,
                                                   "Energy",
-                                                  "${e.energy} Wh")
+                                                  "${e.energy} KWh")
                                             ],
                                           ),
                                           SizedBox(
@@ -241,7 +241,7 @@ class _m1energyState extends State<m1energy> {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("ENERGY (Wh)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
+                                Text("ENERGY (KWh)", style: TextStyle(fontSize: blockVertical*3.5, fontWeight: FontWeight.bold),),
                                 chartenergy(),
                               ],
                             ),

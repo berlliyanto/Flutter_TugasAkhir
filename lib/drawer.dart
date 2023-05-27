@@ -52,22 +52,23 @@ class _drawerState extends State<drawer> {
               children: [
                 //HEADER DRAWER----------------------------------------------------------------------------------------------------------------
                 Container(
-                    width: double.infinity,
-                    height: blockVertical * 25,
-                    padding: EdgeInsets.only(top: blockVertical * 5.5),
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 3, 131, 167),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black,
-                            offset: Offset(-1, 2),
-                            blurRadius: 2,
-                          )
-                        ],
-                        image: DecorationImage(
-                            image: AssetImage("images/asset3.png"),
-                            fit: BoxFit.cover)),
-                    child: Column(children: [
+                  width: double.infinity,
+                  height: blockVertical * 25,
+                  padding: EdgeInsets.only(top: blockVertical * 5.5),
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 3, 131, 167),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(-1, 2),
+                          blurRadius: 2,
+                        )
+                      ],
+                      image: DecorationImage(
+                          image: AssetImage("images/asset3.png"),
+                          fit: BoxFit.cover)),
+                  child: Column(
+                    children: [
                       Container(
                         margin: EdgeInsets.only(bottom: blockVertical * 1),
                         height: blockVertical * 10,
@@ -100,7 +101,9 @@ class _drawerState extends State<drawer> {
                             fontSize: blockVertical * 1.5,
                             fontWeight: FontWeight.bold),
                       ),
-                    ])),
+                    ],
+                  ),
+                ),
                 // LIST DRAWER----------------------------------------------------------------------------------------------------------------
                 //Dashboard
                 ListTile(
@@ -131,7 +134,12 @@ class _drawerState extends State<drawer> {
                   },
                 ),
                 ExpansionTile(
-                  initiallyExpanded: (widget.mode=="Mesin1"||widget.mode=="Mesin2"||widget.mode=="Mesin3"||widget.mode=="Mesin4")?true:false,
+                  initiallyExpanded: (widget.mode == "Mesin1" ||
+                          widget.mode == "Mesin2" ||
+                          widget.mode == "Mesin3" ||
+                          widget.mode == "Mesin4")
+                      ? true
+                      : false,
                   maintainState: true,
                   tilePadding: EdgeInsets.only(
                       left: blockHorizontal * 15,
@@ -147,7 +155,7 @@ class _drawerState extends State<drawer> {
                     size: blockVertical * 3,
                   ),
                   children: [
-                    //Mesin 1 
+                    //Mesin 1
                     ListTile(
                       tileColor: (widget.mode == "Mesin1")
                           ? Colors.grey[200]
@@ -365,8 +373,7 @@ class _drawerState extends State<drawer> {
                           shared.remove("name");
                           shared.remove("otoritas");
                           // ignore: use_build_context_synchronously
-                          Navigator.pushReplacementNamed(
-                              context, mylogin,
+                          Navigator.pushReplacementNamed(context, mylogin,
                               arguments: "from drawer");
                         }).show();
                   },
@@ -469,7 +476,12 @@ class _drawerState extends State<drawer> {
                   },
                 ),
                 ExpansionTile(
-                  initiallyExpanded: (widget.mode=="Mesin1"||widget.mode=="Mesin2"||widget.mode=="Mesin3"||widget.mode=="Mesin4")?true:false,
+                  initiallyExpanded: (widget.mode == "Mesin1" ||
+                          widget.mode == "Mesin2" ||
+                          widget.mode == "Mesin3" ||
+                          widget.mode == "Mesin4")
+                      ? true
+                      : false,
                   backgroundColor: Colors.transparent,
                   maintainState: true,
                   tilePadding: EdgeInsets.only(
@@ -669,8 +681,7 @@ class _drawerState extends State<drawer> {
                           shared.remove("name");
                           shared.remove("otoritas");
                           // ignore: use_build_context_synchronously
-                          Navigator.pushReplacementNamed(
-                              context, mylogin,
+                          Navigator.pushReplacementNamed(context, mylogin,
                               arguments: "from drawer");
                         }).show();
                   },

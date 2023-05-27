@@ -910,6 +910,9 @@ class _ProductionPDFState extends State<ProductionPDF> {
                             )),
                           ],
                           rows: stockProcessed.map((e) {
+                            int index = stockProcessed.indexOf(e);
+                            String Number = (index + 1).toString().padLeft(
+                                stockProcessed.length.toString().length);
                             var date =
                                 DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                                     .parse(e.createdAt!)
@@ -918,7 +921,7 @@ class _ProductionPDFState extends State<ProductionPDF> {
                                     .split(' ')[0];
                             return DataRow(cells: [
                               DataCell(Text(
-                                "${i++}",
+                                Number,
                                 style: TextStyle(fontSize: blockVertical * 2),
                               )),
                               DataCell(Text(
@@ -1081,6 +1084,9 @@ class _StockPDFState extends State<StockPDF> {
                             )),
                           ],
                           rows: riwayatStockList.map((e) {
+                            int index = riwayatStockList.indexOf(e);
+                            String Number = (index + 1).toString().padLeft(
+                                riwayatStockList.length.toString().length);
                             var date =
                                 DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                                     .parse(e.createdAt!)
@@ -1089,7 +1095,7 @@ class _StockPDFState extends State<StockPDF> {
                                     .split(' ')[0];
                             return DataRow(cells: [
                               DataCell(Text(
-                                "${i++}",
+                                Number,
                                 style: TextStyle(fontSize: blockVertical * 2),
                               )),
                               DataCell(Text(
@@ -1258,6 +1264,10 @@ class _CostPDFState extends State<CostPDF> {
                             )),
                           ],
                           rows: listCostH.map((e) {
+                            int index = listCostH.indexOf(e);
+                            String Number = (index + 1)
+                                .toString()
+                                .padLeft(listCostH.length.toString().length);
                             var date =
                                 DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                                     .parse(e.updatedAt!)
@@ -1267,7 +1277,7 @@ class _CostPDFState extends State<CostPDF> {
 
                             return DataRow(cells: [
                               DataCell(Text(
-                                "${i++}",
+                                Number,
                                 style: TextStyle(fontSize: blockVertical * 2),
                               )),
                               DataCell(Text(
@@ -1444,6 +1454,10 @@ class _ParameterPDFState extends State<ParameterPDF> {
                             )),
                           ],
                           rows: listParamH.map((e) {
+                            int index = listParamH.indexOf(e);
+                            String Number = (index + 1)
+                                .toString()
+                                .padLeft(listParamH.length.toString().length);
                             var date =
                                 DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                                     .parse(e.updatedAt!)
@@ -1630,6 +1644,10 @@ class _OEEPDFState extends State<OEEPDF> {
                             )),
                           ],
                           rows: listOEEH.map((e) {
+                            int index = listOEEH.indexOf(e);
+                            String Number = (index + 1)
+                                .toString()
+                                .padLeft(listOEEH.length.toString().length);
                             var date =
                                 DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                                     .parse(e.updatedAt!)
@@ -1639,7 +1657,7 @@ class _OEEPDFState extends State<OEEPDF> {
 
                             return DataRow(cells: [
                               DataCell(Text(
-                                "${i++}",
+                                Number,
                                 style: TextStyle(fontSize: blockVertical * 2),
                               )),
                               DataCell(Text(

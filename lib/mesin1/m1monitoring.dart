@@ -59,7 +59,8 @@ class _m1monitoringState extends State<m1monitoring> {
     });
   }
   late Timer timer;
-  int? state,timevalue;
+  int? state;
+  int timevalue = 0;
   String? tipe;
   TextEditingController jumlah = TextEditingController();
 
@@ -328,7 +329,7 @@ class _m1monitoringState extends State<m1monitoring> {
                                     blockHorizontal,
                                     blockVertical,
                                     "Life Time",
-                                    "${(timevalue!/60).toStringAsFixed(2)} Min",
+                                    "${(timevalue/60).toStringAsFixed(2)} Min",
                                     FontAwesomeIcons.heartPulse)
                               ],
                             ),
@@ -593,7 +594,7 @@ class _m1monitoringState extends State<m1monitoring> {
                                   horizontal: blockHorizontal * 5,
                                   vertical: blockVertical * 2),
                               child:
-                                  (otoritas=="Admin"||otoritas=="User-Production")?buttonDefect(blockHorizontal, blockVertical):buttonDefectDis(blockHorizontal,blockVertical),
+                                  (otoritas=="Admin"||otoritas=="User-QC")?buttonDefect(blockHorizontal, blockVertical):buttonDefectDis(blockHorizontal,blockVertical),
                             ),
                           ],
                         ),

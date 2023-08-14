@@ -300,7 +300,7 @@ class _m1alarmState extends State<m1alarm> {
                       SizedBox(
                         height: blockVertical * 1,
                       ),
-                      (otoritas != "User-Maintenance")
+                      (otoritas != "User-Maintenance" || otoritas != "User-Management")
                           ? buttonInput(
                               MediaQueryheight,
                               MediaQuerywidth,

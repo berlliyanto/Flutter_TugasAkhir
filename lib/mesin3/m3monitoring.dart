@@ -596,7 +596,7 @@ class _m3monitoringState extends State<m3monitoring> {
                                   horizontal: blockHorizontal * 5,
                                   vertical: blockVertical * 2),
                               child:
-                                  (otoritas=="Admin"||otoritas=="User-Production")?buttonDefect(blockHorizontal, blockVertical):buttonDefectDis(blockHorizontal, blockVertical),
+                                  (otoritas=="Admin"||otoritas=="User-QC")?buttonDefect(blockHorizontal, blockVertical):buttonDefectDis(blockHorizontal, blockVertical),
                             ),
                           ],
                         ),

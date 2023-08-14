@@ -6,6 +6,7 @@ import 'package:flutter_application_1/models/costprice_model.dart';
 import 'package:flutter_application_1/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Services/costprice_service.dart';
 
@@ -31,9 +32,20 @@ class _m1pricelistState extends State<m1pricelist> {
     priceList = await getPriceLIST.getPriceList();
     streamPrice.add(priceList);
   }
+  String? name, otoritas;
+  Future<void> getValidUser() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getName = shared.getString("name");
+    var getOtoritas = shared.getString("otoritas");
+    setState(() {
+      name = getName!;
+      otoritas = getOtoritas!;
+    });
+  }
 
   @override
   void initState() {
+    getValidUser();
     priceData();
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       priceData();
@@ -100,7 +112,7 @@ class _m1pricelistState extends State<m1pricelist> {
                                           fontSize: constraints.maxHeight * 0.1,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    IconButton(
+                                    (otoritas=="Admin" || otoritas=="User-Management")?IconButton(
                                       onPressed: () {
                                         AwesomeDialog(
                                                     context: context,
@@ -143,7 +155,7 @@ class _m1pricelistState extends State<m1pricelist> {
                                         size: constraints.maxHeight * 0.1,
                                         color: Color.fromARGB(255, 65, 60, 60),
                                       ),
-                                    )
+                                    ): const SizedBox()
                                   ],
                                 ),
                                 Divider(

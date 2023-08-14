@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Services/preventive_service.dart';
 import 'package:flutter_application_1/back_button_pop.dart';
 import 'package:flutter_application_1/constant.dart';
 import 'package:flutter_application_1/models/param_model.dart';
@@ -62,11 +63,38 @@ class _m2paramState extends State<m2param> {
     "C",
   ];
   late String? tipeValue;
+   int jam = 0;
+  int hari = 0;
+  int menit = 0;
+  int currentDay = DateTime.now().weekday;
+  int currentHour = DateTime.now().hour;
+  int currentMinute = DateTime.now().minute;
 
   @override
   void initState() {
     getValidUser();
     latestParam();
+    getJadwalPrev().getSingleJadwal().then((value) {
+      var jamValue = value[1]['jam'];
+      var hariValue = value[1]['hari'];
+      var menitValue = value[1]['menit'];
+      setState(() {
+        jam = int.parse(jamValue);
+        hari = int.parse(hariValue);
+        menit = int.parse(menitValue);
+      });
+      print(hari);
+      print(currentDay);
+      if (currentDay == hari && currentHour >= jam && currentHour <= jam + 2) {
+        AwesomeDialog(context: context,
+        dialogType: DialogType.info,
+        title: "Sedang Perawatan",
+        desc: "Mesin 2 sedang dilakukan perawatan, estimasi parawatan sampai jam ${jam + 2}.$menit WIB",
+        btnOkOnPress: (){},
+        useRootNavigator: true
+        ).show();
+      }
+    });
     timer = Timer.periodic(Duration(seconds: 5), (timer) {
       latestParam();
     });
@@ -311,15 +339,24 @@ class _m2paramState extends State<m2param> {
                   context,
                 ),
                 //BUTTON INPUT----------------------------------------------------------------------------------------
-                (otoritas == "Admin" || otoritas == "User-Operator")
-                    ? buttonInput(MediaQueryheight, MediaQuerywidth,
+                (currentDay == hari &&
+                        currentHour >= jam &&
+                        currentHour <= jam + 2)
+                    ? buttonInputDis(MediaQueryheight, MediaQuerywidth,
                         blockHorizontal, blockVertical)
-                    : buttonInputDis(MediaQueryheight, MediaQuerywidth, blockHorizontal, blockVertical),
+                    : (otoritas == "Admin" || otoritas == "User-Operator")
+                        ? buttonInput(MediaQueryheight, MediaQuerywidth,
+                            blockHorizontal, blockVertical)
+                        : buttonInputDis(MediaQueryheight, MediaQuerywidth,
+                            blockHorizontal, blockVertical),
                 //Button Reset Data---------------------------------------------------------------------------------------------------
-                (otoritas == "Admin" || otoritas == "User-Operator")
-                    ? buttonReset(MediaQueryheight, MediaQuerywidth,
-                        blockHorizontal, blockVertical)
-                    : buttonResetDis(MediaQueryheight, MediaQuerywidth, blockHorizontal, blockVertical),
+                (currentDay == hari &&
+                        currentHour >= jam &&
+                        currentHour <= jam + 2)
+                    ? buttonResetDis(MediaQueryheight, MediaQuerywidth, blockHorizontal, blockVertical)
+                    : (otoritas == "Admin" || otoritas == "User-Operator")
+                        ? buttonReset(MediaQueryheight, MediaQuerywidth, blockHorizontal, blockVertical)
+                        : buttonResetDis(MediaQueryheight, MediaQuerywidth, blockHorizontal, blockVertical)
               ],
             ),
           ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/troubleshoot_service.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_application_1/models/troubleshoot_model.dart';
 import 'package:flutter_application_1/routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class historiTB extends StatefulWidget {
@@ -30,8 +32,20 @@ class _historiTBState extends State<historiTB> {
     streamOrder.add(ListOrder);
   }
 
+  String? name, otoritas;
+  Future<void> getValidUser() async {
+    final SharedPreferences shared = await SharedPreferences.getInstance();
+    var getName = shared.getString("name");
+    var getOtoritas = shared.getString("otoritas");
+    setState(() {
+      name = getName!;
+      otoritas = getOtoritas!;
+    });
+  }
+
   @override
   void initState() {
+    getValidUser();
     OrderData();
     super.initState();
   }
@@ -74,17 +88,30 @@ class _historiTBState extends State<historiTB> {
             actions: [
               IconButton(
                 onPressed: () {
-                  if(m==1){
-                    reportTrouble(mid: 1).Trouble();
-                  }else if(m==2){
-                    reportTrouble(mid:2).Trouble();
-                  }else if(m==3){
-                    reportTrouble(mid:3).Trouble();
-                  }else{
-                    reportTrouble(mid: 4).Trouble();
+                  if (otoritas == "User-Management" || otoritas == "Admin") {
+                    if (m == 1) {
+                      reportTrouble(mid: 1).Trouble();
+                    } else if (m == 2) {
+                      reportTrouble(mid: 2).Trouble();
+                    } else if (m == 3) {
+                      reportTrouble(mid: 3).Trouble();
+                    } else {
+                      reportTrouble(mid: 4).Trouble();
+                    }
+                  } else {
+                    AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.error,
+                            title: "You have no access to perform this action",
+                            useRootNavigator: true,
+                            autoHide: Duration(milliseconds: 1500))
+                        .show();
                   }
                 },
-                icon: Icon(Icons.picture_as_pdf, color: Colors.white,),
+                icon: Icon(
+                  Icons.picture_as_pdf,
+                  color: Colors.white,
+                ),
               )
             ],
           ),

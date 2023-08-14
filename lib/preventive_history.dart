@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Services/preventive_service.dart';
@@ -31,6 +32,7 @@ class _preventiveHistoryState extends State<preventiveHistory> {
       otoritas = getOtoritas!;
     });
   }
+
   int m = 1;
   bool sort = true;
   late Timer timer;
@@ -46,7 +48,7 @@ class _preventiveHistoryState extends State<preventiveHistory> {
   void initState() {
     getValidUser();
     PrevData();
-     timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
       PrevData();
     });
     super.initState();
@@ -54,7 +56,7 @@ class _preventiveHistoryState extends State<preventiveHistory> {
 
   @override
   void dispose() {
-    if(timer.isActive)timer.cancel();
+    if (timer.isActive) timer.cancel();
     super.dispose();
   }
 
@@ -87,17 +89,33 @@ class _preventiveHistoryState extends State<preventiveHistory> {
           backgroundColor: Color.fromARGB(255, 2, 66, 87).withOpacity(0.5),
           leading: backbutton(context),
           actions: [
-            IconButton(onPressed: (){
-              if(m==1){
-                    reportMaintenance(mid: 1).Trouble();
-                  }else if(m==2){
-                    reportMaintenance(mid:2).Trouble();
-                  }else if(m==3){
-                    reportMaintenance(mid:3).Trouble();
-                  }else{
-                    reportMaintenance(mid: 4).Trouble();
+            IconButton(
+                onPressed: () {
+                  if (otoritas == "User-Management" ||otoritas=="Admin") {
+                    if (m == 1) {
+                      reportMaintenance(mid: 1).Trouble();
+                    } else if (m == 2) {
+                      reportMaintenance(mid: 2).Trouble();
+                    } else if (m == 3) {
+                      reportMaintenance(mid: 3).Trouble();
+                    } else {
+                      reportMaintenance(mid: 4).Trouble();
+                    }
+                    
+                  } else {
+                    AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.error,
+                            title: "You have no access to perform this action",
+                            useRootNavigator: true,
+                            autoHide: Duration(milliseconds: 1500))
+                        .show();
                   }
-            }, icon: Icon(Icons.picture_as_pdf, color: Colors.white,))
+                },
+                icon: Icon(
+                  Icons.picture_as_pdf,
+                  color: Colors.white,
+                ))
           ],
         ),
         drawer: drawer(),
@@ -322,25 +340,34 @@ class _preventiveHistoryState extends State<preventiveHistory> {
                                             : Icon(FontAwesomeIcons.x,
                                                 size: blockVertical * 2,
                                                 color: Colors.red)),
-                                        DataCell((otoritas=="Admin"||otoritas=="User-Maintenance")?(e.solved == false)
-                                            ? ElevatedButton(
-                                                onPressed: () {
-                                                  updatePreventiveMessage.updateMessage(e.machine_id!, e.idpreventive!);
-                                                },
-                                                child: Text(
-                                                  "Solve",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize:
-                                                          blockVertical * 2),
-                                                ))
-                                            : Text(
-                                                "Solved",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize:
-                                                        blockVertical * 2),
-                                              ):SizedBox(width: 1,)),
+                                        DataCell((otoritas == "Admin" ||
+                                                otoritas == "User-Maintenance")
+                                            ? (e.solved == false)
+                                                ? ElevatedButton(
+                                                    onPressed: () {
+                                                      updatePreventiveMessage
+                                                          .updateMessage(
+                                                              e.machine_id!,
+                                                              e.idpreventive!);
+                                                    },
+                                                    child: Text(
+                                                      "Solve",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize:
+                                                              blockVertical *
+                                                                  2),
+                                                    ))
+                                                : Text(
+                                                    "Solved",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize:
+                                                            blockVertical * 2),
+                                                  )
+                                            : SizedBox(
+                                                width: 1,
+                                              )),
                                       ]);
                                     },
                                   ).toList(),

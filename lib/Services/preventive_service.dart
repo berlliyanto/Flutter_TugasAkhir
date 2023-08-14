@@ -61,6 +61,18 @@ class getJadwalPrev{
         List<preventiveScheduleModel> prevSchedule = it.map((e) =>  preventiveScheduleModel.fromJSON(e)).toList();
         return prevSchedule;
   }
+
+  Future getSingleJadwal()async{
+     final SharedPreferences shared = await SharedPreferences.getInstance();
+      var getToken = shared.getString("token");
+    Uri url = Uri.parse("https://berli.aplikasipms.com/api/getJadwalPrev");
+    var hasilResponseGet = await http.get(url,headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic $getToken'
+    });
+    var hasilResponse = json.decode(hasilResponseGet.body)['data'];
+    return hasilResponse;
+  }
 }
 
 class getPreventive{
@@ -76,6 +88,4 @@ class getPreventive{
         List<preventiveMessageModel> prevMessage = it.map((e) =>  preventiveMessageModel.fromJSON(e)).toList();
         return prevMessage;
   }
-
-  map(List<String> Function(dynamic e) param0) {}
 }

@@ -276,24 +276,25 @@ class _preventiveState extends State<preventive> {
                             builder: (context, snapshot) {
                               return Column(
                                 children: listSchedule.map((e) {
+                                  
                                   if (snapshot.hasData) {
                                     return Schedule(
                                         blockVertical,
                                         blockHorizontal,
                                         "Machine ${e.machine_id}",
                                         (e.hari == "1")
-                                            ? "Senin, At ${e.jam}.${e.menit} WIB"
+                                            ? "Monday, At ${e.jam}.${e.menit} WIB"
                                             : (e.hari == "2")
-                                                ? "Selasa, At ${e.jam}.${e.menit} WIB"
+                                                ? "Tuesday, At ${e.jam}.${e.menit} WIB"
                                                 : (e.hari == "3")
-                                                    ? "Rabu, At ${e.jam}.${e.menit} WIB"
+                                                    ? "Wednesday, At ${e.jam}.${e.menit} WIB"
                                                     : (e.hari == "4")
-                                                        ? "Kamis, At ${e.jam}.${e.menit} WIB"
+                                                        ? "Thursday, At ${e.jam}.${e.menit} WIB"
                                                         : (e.hari == "5")
-                                                            ? "Jumat, At ${e.jam}.${e.menit} WIB"
+                                                            ? "Friday, At ${e.jam}.${e.menit} WIB"
                                                             : (e.hari == "6")
-                                                                ? "Sabtu, At ${e.jam}.${e.menit} WIB"
-                                                                : "Minggu, At ${e.jam}.${e.menit} WIB",
+                                                                ? "Saturday, At ${e.jam}.${e.menit} WIB"
+                                                                : "Sunday, At ${e.jam}.${e.menit} WIB",
                                         e.machine_id!.toInt(),
                                         "${e.jam}",
                                         "${e.menit}",
@@ -505,7 +506,7 @@ class _preventiveState extends State<preventive> {
           subtitle,
           style: TextStyle(fontSize: blockVertical * 2, color: Colors.black87),
         ),
-        trailing: (otoritas == "Admin" || otoritas == "User-Management")
+        trailing: (otoritas == "Admin" || otoritas == "User-Maintenance")
             ? IconButton(
                 onPressed: () {
                   AwesomeDialog(
